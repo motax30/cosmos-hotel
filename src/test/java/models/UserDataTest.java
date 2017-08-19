@@ -2,23 +2,22 @@ package models;
 
 import org.junit.Test;
 
-import com.db4o.Db4oEmbedded;
-
-import settings.DatabaseTest;
+import settings.DatabaseServerTest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+
 import org.junit.After;
 
-public class UserDataTest extends DatabaseTest {
-	UserData userData = new UserData(Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), "database-test/users.data"));
+public class UserDataTest {
+	UserData userData = new UserData(DatabaseServerTest.getServer().openClient());
 	
-	@After
-    public void afterTest() {
-        userData.getUsersData().close();
+	@After public void deleteDatabase() {
+        new File("database/main-test.odb").delete();
     }
 	
-    @Test public void testAddUser() {
+    @Test public void testUserAdd() {
         User user = new User();
         user.setFirstName("Roberto");
         user.setLastName("das Torres");
@@ -35,11 +34,17 @@ public class UserDataTest extends DatabaseTest {
         user.setEmail("joao@inverno.com.br");
         user.setUserName("joaodasneves");
         user.setPassword("neves12345");
-        assertFalse("the userName should not exist", userData.userExists(user.getUserName()));
+        assertFalse("the userName should not be found", userData.userExists(user.getUserName()));
     }
     
-    @Test public void testLogin() {
-
-	    assertTrue("this userName should login", userData.userLogin("roberto-das-torres", "rob123456"));
+    @Test public void testUserLogin() {
+    		User user = new User();
+        user.setFirstName("João");
+        user.setLastName("das Neves");
+        user.setEmail("joao@inverno.com.br");
+        user.setUserName("joaologin");
+        user.setPassword("neves");
+        userData.userAdd(user);
+	    assertTrue("this userName and password should be able to login", userData.userLogin("joaologin", "neves"));
 	}
 }

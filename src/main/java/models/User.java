@@ -4,7 +4,7 @@ public class User {
 	// Login Information
 	private String userName;
 	private String email;
-	private String password;
+	private transient String password;
 	
 	// User Information
 	private String firstName;

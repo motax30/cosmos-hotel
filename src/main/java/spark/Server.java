@@ -1,8 +1,11 @@
 package spark;
 
-import static spark.Spark.*;
+import static spark.Spark.before;
+import static spark.Spark.port;
 
-import controllers.*;
+import controllers.IndexController;
+import controllers.LoginController;
+import controllers.UserController;
 
 public class Server {
 
@@ -23,11 +26,15 @@ public class Server {
         // Filter
         before((req, res) -> {
             String path = req.pathInfo();
-            if (path.endsWith("/"))
-                res.redirect(path.substring(0, path.length() - 1));
+            
+            if (!path.endsWith("/"))
+                res.redirect(path + "/");
         });
         
         	// Controllers (routes)
+        new IndexController();
         new UserController();
+        new LoginController();
+		
 	}
 }
