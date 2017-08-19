@@ -25,7 +25,7 @@ public class UserDataTest extends DatabaseTest {
         user.setEmail("roberto@torres.com.br");
         user.setUserName("roberto-das-torres");
         user.setPassword("rob123456");
-        assertTrue("the userName should be created", userData.addUser(user));
+        assertTrue("the userName should be created", userData.userAdd(user));
     }
     
     @Test public void testUserNotExists() {
@@ -37,4 +37,9 @@ public class UserDataTest extends DatabaseTest {
         user.setPassword("neves12345");
         assertFalse("the userName should not exist", userData.userExists(user.getUserName()));
     }
+    
+    @Test public void testLogin() {
+
+	    assertTrue("this userName should login", userData.userLogin("roberto-das-torres", "rob123456"));
+	}
 }
