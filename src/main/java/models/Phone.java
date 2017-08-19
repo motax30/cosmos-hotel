@@ -1,13 +1,22 @@
 package models;
 
+import models.enumerates.PhoneType;
+import models.enumerates.UserType;
+
 public class Phone {
-	private Enum type;
+	private Enum<PhoneType> type;
 	private int number;
+	private User user;
+	private UserType userType;
 	
-	public Enum getType() {
+	public Phone() {
+		super();
+	}
+	
+	public Enum<PhoneType> getType() {
 		return type;
 	}
-	public void setType(Enum type) {
+	public void setType(Enum<PhoneType> type) {
 		this.type = type;
 	}
 	public int getNumber() {
@@ -16,14 +25,30 @@ public class Phone {
 	public void setNumber(int number) {
 		this.number = number;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public UserType getUserType() {
+		return userType;
+	}
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + number;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -40,7 +65,13 @@ public class Phone {
 				return false;
 		} else if (!type.equals(other.type))
 			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		if (userType != other.userType)
+			return false;
 		return true;
 	}
-	
 }

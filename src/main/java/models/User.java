@@ -1,10 +1,13 @@
 package models;
 
+import models.enumerates.UserType;
+
 public class User {
 	// Login Information
 	private String userName;
 	private String email;
 	private transient String password;
+	private UserType userType;
 	
 	// User Information
 	private String firstName;
@@ -57,5 +60,12 @@ public class User {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
 }
