@@ -3,7 +3,7 @@ package settings;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
 
-import models.User;
+import models.entities.User;
 
 public class DatabaseConfiguration {
 	

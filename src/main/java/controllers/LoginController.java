@@ -2,7 +2,7 @@ package controllers;
 
 import static spark.Spark.*;
 
-import models.UserData;
+import models.entities.data.UserData;
 
 public class LoginController {
 	public LoginController() {

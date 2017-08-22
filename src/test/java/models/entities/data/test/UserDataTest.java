@@ -1,7 +1,9 @@
-package models;
+package models.entities.data.test;
 
 import org.junit.Test;
 
+import models.entities.User;
+import models.entities.data.UserData;
 import settings.DatabaseServerTest;
 
 import static org.junit.Assert.*;

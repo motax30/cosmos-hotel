@@ -5,8 +5,8 @@ import static spark.Spark.get;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import models.User;
-import models.UserData;
+import models.entities.User;
+import models.entities.data.UserData;
 
 public class UserController {
 	public UserController() {
