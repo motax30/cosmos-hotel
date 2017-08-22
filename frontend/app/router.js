@@ -7,6 +7,12 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+	this.route('auth', { path: '/' });
+
+	this.route('app', { path: '/app' }, function() {
+		this.route('dashboard');
+	});
+	
 });
 
 export default Router;

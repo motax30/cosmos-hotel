@@ -1,0 +1,45 @@
+<div class="app flex-row align-items-center auth-background">
+	<div class="container">
+        <div class="row justify-content-center">
+            <img src="/assets/images/utils/cosmos-hotel-logo-white.png" class="auth-logo" />
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card-group mb-0">
+                    <div class="card p-4">
+                        <div class="card-body">
+                          <form {{action 'authenticate' on='submit'}}>
+                            <p class="text-muted">Digite seus dados de acesso abaixo.</p>
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="icon-user"></i>
+                                </span>
+                                {{input id='identification' class="form-control" placeholder='Usuário' value=identification}}
+                            </div>
+                            <div class="input-group mb-4">
+                                <span class="input-group-addon"><i class="icon-lock"></i>
+                                </span>
+                                {{input id='password' class="form-control" placeholder='Senha' type='password' value=password}}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary px-4">Login</button>
+                                </div>
+                            </div>
+                            
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+      {{#if messageError}}
+         <div class="row justify-content-center">
+          <div class="alert alert-danger" role="alert">
+              <strong>Oh não!</strong> {{messageError}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+</div>

@@ -25,11 +25,11 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+//     ENV.APP.LOG_RESOLVER = true;
+//     ENV.APP.LOG_ACTIVE_GENERATION = true;
+//     ENV.APP.LOG_TRANSITIONS = true;
+//     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+//     ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
 
   if (environment === 'test') {
@@ -46,6 +46,17 @@ module.exports = function(environment) {
   if (environment === 'production') {
 
   }
+
+  ENV['simple-auth'] = {
+	  authorizer: 'authorizer:token',
+	  crossOriginWhitelist: ['http://localhost:3000']
+  };
+  ENV['ember-simple-auth-token'] = {
+	  serverTokenEndpoint: 'http://localhost:3000/api/auth/',
+	  refreshAccessTokens: true,
+	  refreshLeeway: 300, // Refresh the token 5 minutes (300s) before it expires.
+	  serverTokenRefreshEndpoint: 'http://localhost:3000/auth/token-refresh/'
+  };
 
   return ENV;
 };

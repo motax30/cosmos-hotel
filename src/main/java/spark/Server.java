@@ -2,6 +2,7 @@ package spark;
 
 import static spark.Spark.before;
 import static spark.Spark.port;
+import static spark.Spark.path;
 
 import controllers.IndexController;
 import controllers.LoginController;
@@ -31,10 +32,22 @@ public class Server {
                 res.redirect(path + "/");
         });
         
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Request-Method", "GET,PUT,POST,DELETE,OPTIONS");
+            response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+            response.header("Access-Control-Allow-Credentials", "true");
+            // Note: this may or may not be necessary in your particular application
+            response.type("application/json");
+        });
+        
         	// Controllers (routes)
-        new IndexController();
-        new UserController();
-        new LoginController();
+        path("/api", () -> {
+        		new IndexController();
+            new UserController();
+            new LoginController();
+        });
 		
 	}
+	
 }

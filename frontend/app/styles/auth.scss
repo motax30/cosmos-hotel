@@ -1,0 +1,20 @@
+.auth-background {
+	background-image: url(/assets/images/auth/cosmos-background.jpg);
+	background-size: cover;
+}
+
+.auth-logo {
+	width: 70%;
+	margin-bottom: 20px;
+	
+	background-color: rgba(0, 0, 0, 0.31);
+	border-radius: 10px;
+	padding: 5px 0;
+}
+
+@include media-breakpoint-up(md) { 
+	.auth-logo {
+		width: 40%;
+	}
+}
+
