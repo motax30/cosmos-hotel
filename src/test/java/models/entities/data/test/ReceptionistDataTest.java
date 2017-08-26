@@ -19,7 +19,7 @@ public class ReceptionistDataTest {
         new File("database/main-test.odb").delete();
     }
 	
-    @Test public void testreceptionistAdd() {
+    @Test public void testReceptionistAdd() {
         Receptionist receptionist = new Receptionist();
         receptionist.setFirstName("Roberto");
         receptionist.setLastName("das Torres");
@@ -29,7 +29,7 @@ public class ReceptionistDataTest {
         assertTrue("the receptionistName should be created", receptionistData.receptionistAdd(receptionist));
     }
     
-    @Test public void testreceptionistNotExists() {
+    @Test public void testReceptionistNotExists() {
         Receptionist receptionist = new Receptionist();
         receptionist.setFirstName("João");
         receptionist.setLastName("das Neves");
@@ -39,7 +39,7 @@ public class ReceptionistDataTest {
         assertFalse("the receptionistName should not be found", receptionistData.receptionistExists(receptionist.getUserName()));
     }
     
-    @Test public void testreceptionistLogin() {
+    @Test public void testReceptionistLogin() {
     		Receptionist receptionist = new Receptionist();
         receptionist.setFirstName("João");
         receptionist.setLastName("das Neves");
