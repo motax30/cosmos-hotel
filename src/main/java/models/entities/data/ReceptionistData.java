@@ -5,21 +5,20 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-import models.entities.User;
+import models.entities.Receptionist;
 import settings.DatabaseServer;
 
-
-public class UserData {
+public class ReceptionistData {
 	ObjectContainer usersData;
 	
 	/*
 	 * Constructors	
 	 */
-	public UserData() {
+	public ReceptionistData() {
 		usersData = DatabaseServer.getServer().openClient();
 	}
 	
-	public UserData(ObjectContainer usersData) {
+	public ReceptionistData(ObjectContainer usersData) {
 		super();
 		this.usersData = usersData;
 	}
@@ -37,8 +36,8 @@ public class UserData {
 	/*
 	 * Public Methods
 	 */
-	public boolean userAdd(User user) {
-		if (!userExists(user.getUserName())) {
+	public boolean receptionistAdd(Receptionist user) {
+		if (!receptionistExists(user.getUserName())) {
 			usersData.store(user);
 			usersData.commit();
 			return true;
@@ -46,30 +45,31 @@ public class UserData {
 		return false;
 	}
 	
-	public boolean userExists(String userName) {
-		return this.getUserByUserName(userName) == null ? false : true;
+	public boolean receptionistExists(String userName) {
+		return this.getReceptionistByUserName(userName) == null ? false : true;
 	}
 	
-	public User getUserByUserName(String userName) {
+	public Receptionist getReceptionistByUserName(String userName) {
 		Query query = usersData.query();
-		query.constrain(User.class);
+		query.constrain(Receptionist.class);
 		query.descend("userName").constrain(userName).equal();
-		ObjectSet<User> result = query.execute();
+		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
 	
-	public boolean userLogin(String userName, String password) {
+	public boolean receptionistLogin(String userName, String password) {
 		Query query = usersData.query();
+		query.constrain(Receptionist.class);
 		Constraint constrain = query.descend("userName").constrain(userName);
 		query.descend("password").constrain(password).and(constrain);
 		
-		ObjectSet<User> result = query.execute();
+		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext();
 	}
 	
-	public ObjectSet<User> getUsers() {
+	public ObjectSet<Receptionist> getReceptionists() {
 		Query query = usersData.query();
-		query.constrain(User.class);
+		query.constrain(Receptionist.class);
 		return query.execute();
 	}
 }

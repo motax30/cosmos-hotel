@@ -3,7 +3,7 @@ package settings;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
 
-import models.entities.User;
+import models.entities.Receptionist;
 
 public class DatabaseConfiguration {
 	
@@ -11,7 +11,7 @@ public class DatabaseConfiguration {
 	 
 	public DatabaseConfiguration() {
 		configuration= Db4oClientServer.newServerConfiguration();
-		configuration.common().objectClass(User.class).objectField("userName").indexed(true);
+		configuration.common().objectClass(Receptionist.class).objectField("userName").indexed(true);
 	}
 	
 	public ServerConfiguration getConfiguration() {

@@ -2,11 +2,11 @@ package models.entities;
 
 import models.enumerates.UserType;
 
-public class User {
+public class Receptionist {
 	// Login Information
 	private String userName;
 	private String email;
-	private transient String password;
+	private String password;
 	private UserType userType;
 	
 	// User Information
@@ -16,9 +16,9 @@ public class User {
 	/* 
 	 * Constructors
 	 */
-	public User() {}
+	public Receptionist() {}
 	
-	public User(String userName) {
+	public Receptionist(String userName) {
 		super();
 		this.userName = userName;
 	}

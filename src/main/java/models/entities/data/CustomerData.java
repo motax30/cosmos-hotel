@@ -5,7 +5,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
 import models.entities.Customer;
-import models.entities.User;
+import models.entities.Receptionist;
 import settings.DatabaseServer;
 
 public class CustomerData {
@@ -56,7 +56,7 @@ public class CustomerData {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
 		query.descend("name").constrain(customerName).equal();
-		ObjectSet<User> result = query.execute();
+		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext()?result.next():null;
 	}
 	

@@ -6,7 +6,7 @@ import models.enumerates.UserType;
 public class Phone {
 	private Enum<PhoneType> type;
 	private int number;
-	private User user;
+	private Receptionist user;
 	private UserType userType;
 	
 	public Phone() {
@@ -25,10 +25,10 @@ public class Phone {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	public User getUser() {
+	public Receptionist getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Receptionist user) {
 		this.user = user;
 	}
 	public UserType getUserType() {

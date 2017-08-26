@@ -6,7 +6,7 @@ import static spark.Spark.path;
 
 import controllers.IndexController;
 import controllers.LoginController;
-import controllers.UserController;
+import controllers.ReceptionistController;
 
 public class Server {
 
@@ -44,7 +44,7 @@ public class Server {
         	// Controllers (routes)
         path("/api", () -> {
         		new IndexController();
-            new UserController();
+            new ReceptionistController();
             new LoginController();
         });
 		
