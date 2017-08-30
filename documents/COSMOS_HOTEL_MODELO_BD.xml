@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MER>
 	<Informacoes>
-		<Posicao Left="253" Top="120"/>
-		<TotalItens Valor="196"/>
+		<Posicao Left="0" Top="0"/>
+		<TotalItens Valor="192"/>
 		<Tipo Valor="CONCEITUAL"/>
 		<Versao Valor="2.0.0"/>
 		<Autor Valor=""/>
@@ -445,7 +445,7 @@
       <AutoRelacoes AutoRelacionado="0"/>
       <Especializacoes ehEsp="0"/>
     </Entidade>
-    <Entidade nome="ACOMODACAO" id="64">
+    <Entidade nome="ACOMODATION" id="64">
       <Left Valor="769"/>
       <Top Valor="267"/>
       <Width Valor="102"/>
@@ -478,38 +478,6 @@
           <Ligacoes>
             <Ligacao Destino_ID="64">
               <MostraCardinalidade Valor="0" Card_id="70"/>
-              <Cardinalidades Cardinalidade="4"/>
-              <Orientacao Valor="0"/>
-              <Fraca Valor="0"/>
-            </Ligacao>
-          </Ligacoes>
-        </Atributo>
-        <Atributo nome="tipo" id="71">
-          <Left Valor="906"/>
-          <Top Valor="311"/>
-          <Width Valor="49"/>
-          <Height Valor="16"/>
-          <Fonte default="-1"/>
-          <Atributos/>
-          <AtributosOcultos/>
-          <Dicionario></Dicionario>
-          <Nula Valor="0"/>
-          <Observacao></Observacao>
-          <Futuro></Futuro>
-          <Anexos/>
-          <MaxCard Valor="1"/>
-          <MinCard Valor="1"/>
-          <Composto Valor="0"/>
-          <Identificador Valor="0"/>
-          <Tipo Valor="Texto(1)"/>
-          <Multivalorado Valor="0"/>
-          <Orientacao Valor="3"/>
-          <TamAuto Valor="-1"/>
-          <Desvio Valor="10"/>
-          <BarraID Valor="72"/>
-          <Ligacoes>
-            <Ligacao Destino_ID="64">
-              <MostraCardinalidade Valor="0" Card_id="73"/>
               <Cardinalidades Cardinalidade="4"/>
               <Orientacao Valor="0"/>
               <Fraca Valor="0"/>
@@ -564,7 +532,7 @@
           <MaxCard Valor="1"/>
           <MinCard Valor="1"/>
           <Composto Valor="0"/>
-          <Identificador Valor="-1"/>
+          <Identificador Valor="0"/>
           <Tipo Valor="Texto(1)"/>
           <Multivalorado Valor="0"/>
           <Orientacao Valor="3"/>
