@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <MER>
 	<Informacoes>
-		<Posicao Left="0" Top="0"/>
-		<TotalItens Valor="192"/>
+		<Posicao Left="253" Top="120"/>
+		<TotalItens Valor="196"/>
 		<Tipo Valor="CONCEITUAL"/>
 		<Versao Valor="2.0.0"/>
 		<Autor Valor=""/>
@@ -180,8 +180,8 @@
       <Fonte default="-1"/>
       <Atributos>
         <Atributo nome="id" id="10">
-          <Left Valor="670"/>
-          <Top Valor="173"/>
+          <Left Valor="678"/>
+          <Top Valor="150"/>
           <Width Valor="37"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -212,8 +212,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="date_of_birthday" id="13">
-          <Left Valor="670"/>
-          <Top Valor="246"/>
+          <Left Valor="678"/>
+          <Top Valor="241"/>
           <Width Valor="126"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -244,8 +244,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="name" id="16">
-          <Left Valor="670"/>
-          <Top Valor="186"/>
+          <Left Valor="678"/>
+          <Top Valor="176"/>
           <Width Valor="59"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -276,8 +276,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="phone_numbers" id="22">
-          <Left Valor="670"/>
-          <Top Valor="198"/>
+          <Left Valor="678"/>
+          <Top Valor="191"/>
           <Width Valor="119"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -308,8 +308,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="notes" id="19">
-          <Left Valor="670"/>
-          <Top Valor="234"/>
+          <Left Valor="678"/>
+          <Top Valor="231"/>
           <Width Valor="59"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -340,8 +340,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="classification" id="135">
-          <Left Valor="670"/>
-          <Top Valor="222"/>
+          <Left Valor="678"/>
+          <Top Valor="221"/>
           <Width Valor="100"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -372,8 +372,8 @@
           </Ligacoes>
         </Atributo>
         <Atributo nome="adderess_id" id="138">
-          <Left Valor="670"/>
-          <Top Valor="210"/>
+          <Left Valor="678"/>
+          <Top Valor="211"/>
           <Width Valor="96"/>
           <Height Valor="16"/>
           <Fonte default="-1"/>
@@ -397,6 +397,38 @@
           <Ligacoes>
             <Ligacao Destino_ID="9">
               <MostraCardinalidade Valor="0" Card_id="140"/>
+              <Cardinalidades Cardinalidade="4"/>
+              <Orientacao Valor="0"/>
+              <Fraca Valor="0"/>
+            </Ligacao>
+          </Ligacoes>
+        </Atributo>
+        <Atributo nome="cpf_number" id="345">
+          <Left Valor="679"/>
+          <Top Valor="163"/>
+          <Width Valor="95"/>
+          <Height Valor="16"/>
+          <Fonte default="-1"/>
+          <Atributos/>
+          <AtributosOcultos/>
+          <Dicionario></Dicionario>
+          <Nula Valor="0"/>
+          <Observacao></Observacao>
+          <Futuro></Futuro>
+          <Anexos/>
+          <MaxCard Valor="1"/>
+          <MinCard Valor="1"/>
+          <Composto Valor="0"/>
+          <Identificador Valor="0"/>
+          <Tipo Valor="Texto(1)"/>
+          <Multivalorado Valor="0"/>
+          <Orientacao Valor="3"/>
+          <TamAuto Valor="-1"/>
+          <Desvio Valor="10"/>
+          <BarraID Valor="346"/>
+          <Ligacoes>
+            <Ligacao Destino_ID="9">
+              <MostraCardinalidade Valor="0" Card_id="347"/>
               <Cardinalidades Cardinalidade="4"/>
               <Orientacao Valor="0"/>
               <Fraca Valor="0"/>

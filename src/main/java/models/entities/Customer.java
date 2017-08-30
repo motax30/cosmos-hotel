@@ -3,6 +3,7 @@ package models.entities;
 import java.util.List;
 
 public class Customer {
+	private int cpf_number;
 	private String name;
 	private List<Phone> phones;
 //	private String classification;
@@ -14,7 +15,15 @@ public class Customer {
 		this.phones = phones;
 		this.notes = notes;
 	}
+	
+	public int getCpf() {
+		return cpf_number;
+	}
 
+	public void setCpf(int cpf_number) {
+		this.cpf_number = cpf_number;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -39,16 +48,23 @@ public class Customer {
 		this.notes = notes;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + cpf_number;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result + ((phones == null) ? 0 : phones.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -58,6 +74,8 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
+		if (cpf_number != other.cpf_number)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
