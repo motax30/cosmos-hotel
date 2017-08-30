@@ -1,5 +1,7 @@
 package settings;
 
+import java.io.File;
+
 import com.db4o.ObjectServer;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
@@ -13,10 +15,14 @@ public class DatabaseServerTest {
 		if (server == null) {
 			ServerConfiguration config = new DatabaseConfiguration().getConfiguration();
 	        
-			server = Db4oClientServer.openServer(config,
-					 "database/main-test.odb", 0);
+			server = Db4oClientServer.openServer(config, "database/main-test.odb", 0);
 		}
 		return server;
+	}
+
+	public static void deletarBancoDeTeste() {
+		server.close();
+        new File("database","main-test.odb").delete();	
 	}
 	
 }

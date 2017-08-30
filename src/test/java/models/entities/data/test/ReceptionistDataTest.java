@@ -11,12 +11,13 @@ import static org.junit.Assert.*;
 import java.io.File;
 
 import org.junit.After;
+import org.junit.AfterClass;
 
 public class ReceptionistDataTest {
 	ReceptionistData receptionistData = new ReceptionistData(DatabaseServerTest.getServer().openClient());
 	
-	@After public void deleteDatabase() {
-        new File("database/main-test.odb").delete();
+	@AfterClass public static void deleteDatabase() {
+		DatabaseServerTest.deletarBancoDeTeste();
     }
 	
     @Test public void testReceptionistAdd() {
