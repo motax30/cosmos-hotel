@@ -5,6 +5,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
 import models.entities.Customer;
+import models.entities.Receptionist;
 import settings.DatabaseServer;
 
 public class CustomerData {
@@ -48,7 +49,7 @@ public class CustomerData {
 	}
 	
 	public boolean customerRemove(Customer customer) {
-		if(customerExists(customer.getCpf())) {
+		if(customerByCpfExists(customer.getCpf())) {
 			customerData.delete(customer);
 			customerData.commit();
 			return true;
@@ -59,19 +60,19 @@ public class CustomerData {
 	protected boolean customerExists(String customerName) {
 		return this.getCustomerByCustomerName(customerName)==null?false:true;
 	}
-	protected boolean customerExists(Integer cpfCustomer) {
+	protected boolean customerByCpfExists(String cpfCustomer) {
 		return this.getCustomerByCustomerCpf(cpfCustomer)==null?false:true;
 	}
 
-	private Object getCustomerByCustomerCpf(Integer cpfCustomer) {
+	public Customer getCustomerByCustomerCpf(String customerCpf) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("cpf").constrain(cpfCustomer).equal();
+		query.descend("cpf").constrain(customerCpf).equal();
 		ObjectSet<Customer> result = query.execute();
 		return result.hasNext()?result.next():null;
 	}
 	
-	private Object getCustomerByCustomerName(String customerName) {
+	public Customer getCustomerByCustomerName(String customerName) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
 		query.descend("name").constrain(customerName).equal();
