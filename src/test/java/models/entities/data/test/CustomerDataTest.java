@@ -32,10 +32,6 @@ public class CustomerDataTest {
 	ObjectSet<Customer> customers;
 	List<Address> address;
 	
-	@AfterClass public static void deleteDatabase() {
-		DatabaseServerTest.deletarBancoDeTeste();
-    }
-	
 	@Before
 	public void setUp() {
 		//Created a new Customer

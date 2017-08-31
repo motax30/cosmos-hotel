@@ -16,10 +16,6 @@ import org.junit.AfterClass;
 public class ReceptionistDataTest {
 	ReceptionistData receptionistData = new ReceptionistData(DatabaseServerTest.getServer().openClient());
 	
-	@AfterClass public static void deleteDatabase() {
-		DatabaseServerTest.deletarBancoDeTeste();
-    }
-	
     @Test public void testReceptionistAdd() {
         Receptionist receptionist = new Receptionist();
         receptionist.setFirstName("Roberto");
@@ -28,6 +24,17 @@ public class ReceptionistDataTest {
         receptionist.setUserName("roberto-das-torres");
         receptionist.setPassword("rob123456");
         assertTrue("the receptionistName should be created", receptionistData.receptionistAdd(receptionist));
+    }
+    
+    @Test public void testReceptionistRemove() {
+        Receptionist receptionist = new Receptionist();
+        receptionist.setFirstName("João");
+        receptionist.setLastName("das Torres");
+        receptionist.setEmail("joão@torres.com.br");
+        receptionist.setUserName("joao-das-torres");
+        receptionist.setPassword("jdab123456");
+        receptionistData.receptionistAdd(receptionist);
+        assertTrue("Recepcionist should be removed",receptionistData.receptionistRemove(receptionist));
     }
     
     @Test public void testReceptionistNotExists() {
