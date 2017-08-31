@@ -9,14 +9,13 @@ import models.entities.Receptionist;
 import settings.DatabaseServer;
 
 public class CustomerData {
-	ObjectContainer customerData;
+	private ObjectContainer customerData;
 	/*
 	 * Constructors	
 	 */
 	public CustomerData() {
 		customerData = DatabaseServer.getServer().openClient();
 	}
-	
 	public CustomerData(ObjectContainer customerData) {
 		super();
 		this.customerData = customerData;
@@ -49,7 +48,7 @@ public class CustomerData {
 	}
 	
 	public boolean customerRemove(Customer customer) {
-		if(customerByCpfExists(customer.getCpf())) {
+		if(customerByCpfExists(customer.getCpfNumber())) {
 			customerData.delete(customer);
 			customerData.commit();
 			return true;
@@ -57,27 +56,35 @@ public class CustomerData {
 		return false;
 	}
 
-	public boolean customerExists(String customerName) {
-		return this.getCustomerByCustomerName(customerName)==null?false:true;
+	public boolean customerExists(String name) {
+		return this.getCustomerByCustomerName(name) != null;
 	}
-	public boolean customerByCpfExists(String cpfCustomer) {
-		return this.getCustomerByCustomerCpf(cpfCustomer)==null?false:true;
+	public boolean customerByCpfExists(String cpfNumber) {
+		return this.getCustomerByCustomerCpf(cpfNumber) != null;
 	}
 
-	public Customer getCustomerByCustomerCpf(String customerCpf) {
+	public Customer getCustomerById(String id) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("cpf_number").constrain(customerCpf).equal();
+		query.descend("id").constrain(id).equal();
 		ObjectSet<Customer> result = query.execute();
-		return result.hasNext()?result.next():null;
+		return result.hasNext() ? result.next() : null;
+	}
+
+	public Customer getCustomerByCustomerCpf(String cpfNumber) {
+		Query query = customerData.query();
+		query.constrain(Customer.class);
+		query.descend("cpfNumber").constrain(cpfNumber).equal();
+		ObjectSet<Customer> result = query.execute();
+		return result.hasNext() ? result.next() : null;
 	}
 	
-	public Customer getCustomerByCustomerName(String customerName) {
+	public Customer getCustomerByCustomerName(String name) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("name").constrain(customerName).equal();
+		query.descend("name").constrain(name).equal();
 		ObjectSet<Customer> result = query.execute();
-		return result.hasNext()?result.next():null;
+		return result.hasNext() ? result.next() : null;
 	}
 	
 	public ObjectSet<Customer> getCustomers(){

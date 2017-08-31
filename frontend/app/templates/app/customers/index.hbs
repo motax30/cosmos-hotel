@@ -1,0 +1,18 @@
+{{#main-block title="Listar"}}
+<table class="table table-bordered table-striped">
+   <thead>
+     <tr>
+       <th>Nome</th>
+       <th>Anotações</th>
+     </tr>
+   </thead>
+   <tbody>
+     {{#each model as |customer|}}
+       <tr>
+         <td>{{#link-to "app.customers.show" customer}}{{customer.name}}{{/link-to}}</td>
+         <td>{{customer.notes}}</td>
+       </tr>
+     {{/each}}
+   </tbody>
+ </table>
+{{/main-block}}

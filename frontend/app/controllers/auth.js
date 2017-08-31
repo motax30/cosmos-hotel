@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
 			authenticator = 'authenticator:jwt';
 			
 			this.get('session').authenticate(authenticator, credentials).then(() => {
-			}, (error) => {
+			}, () => {
 				this.set('messageError',"Não conseguimos autenticar, por favor, verifique os dados.");
 			});
 		}

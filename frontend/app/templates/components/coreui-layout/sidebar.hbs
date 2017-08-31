@@ -1,0 +1,44 @@
+<div class="sidebar">
+  <nav class="sidebar-nav">
+    <ul class="nav">
+      <li class="nav-item">
+        {{#link-to "app.dashboard" class="nav-link"}}<i class="icon-speedometer"></i> Dashboard{{/link-to}}
+      </li>
+
+      <li class="nav-title">Geral</li>
+
+      <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle"><i class="icon-user"></i> Clientes</a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            {{#link-to "app.customers.index" class="nav-link"}}<i class="icon-puzzle"></i> Listar{{/link-to}}
+          </li>
+          <li class="nav-item">
+            {{#link-to "app.customers.new" class="nav-link"}}<i class="icon-puzzle"></i> Cadastrar{{/link-to}}
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-title">Extras</li>
+      
+      <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-star"></i> Pages</a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            <a class="nav-link" href="pages-login.html" target="_top"><i class="icon-star"></i> Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages-register.html" target="_top"><i class="icon-star"></i> Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages-404.html" target="_top"><i class="icon-star"></i> Error 404</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pages-500.html" target="_top"><i class="icon-star"></i> Error 500</a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </nav>
+</div>

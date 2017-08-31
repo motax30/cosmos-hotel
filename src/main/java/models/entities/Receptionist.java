@@ -1,11 +1,15 @@
 package models.entities;
 
+import com.google.gson.annotations.Expose;
+
 import models.enumerates.UserType;
 
 public class Receptionist {
 	// Login Information
 	private String userName;
 	private String email;
+	
+	@Expose(serialize = false)
 	private String password;
 	private UserType userType;
 	

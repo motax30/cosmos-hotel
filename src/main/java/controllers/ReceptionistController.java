@@ -2,6 +2,8 @@ package controllers;
 
 import static spark.Spark.get;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,8 +17,17 @@ public class ReceptionistController {
 			ReceptionistData userData = new ReceptionistData();
 			
 			GsonBuilder builder = new GsonBuilder();
-			Gson gson = builder.create();
 			
+			builder.setExclusionStrategies(new ExclusionStrategy() {
+				@Override
+				public boolean shouldSkipField(FieldAttributes f) { 
+					return f.getName().contains("password");
+				}
+				@Override
+				public boolean shouldSkipClass(Class<?> clazz) { return false; }
+			});
+			
+			Gson gson = builder.create();
 			return gson.toJson(userData.getReceptionists());
 		});
 		
