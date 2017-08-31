@@ -5,7 +5,6 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-import models.entities.Customer;
 import models.entities.Receptionist;
 import settings.DatabaseServer;
 
@@ -37,9 +36,9 @@ public class ReceptionistData {
 	/*
 	 * Public Methods
 	 */
-	public boolean receptionistAdd(Receptionist user) {
-		if (!receptionistExists(user.getUserName())) {
-			usersData.store(user);
+	public boolean receptionistAdd(Receptionist receptionist) {
+		if (!receptionistExists(receptionist.getUserName())) {
+			usersData.store(receptionist);
 			usersData.commit();
 			return true;
 		}
@@ -56,7 +55,7 @@ public class ReceptionistData {
 	}
 	
 	public boolean receptionistExists(String userName) {
-		return this.getReceptionistByUserName(userName) == null ? false : true;
+		return this.getReceptionistByUserName(userName) != null;
 	}
 	
 	public Receptionist getReceptionistByUserName(String userName) {

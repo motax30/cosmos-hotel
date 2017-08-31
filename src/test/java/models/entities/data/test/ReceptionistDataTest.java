@@ -8,13 +8,8 @@ import settings.DatabaseServerTest;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-
-import org.junit.After;
-import org.junit.AfterClass;
-
 public class ReceptionistDataTest {
-	ReceptionistData receptionistData = new ReceptionistData(DatabaseServerTest.getServer().openClient());
+	private ReceptionistData receptionistData = new ReceptionistData(DatabaseServerTest.getServer().openClient());
 	
     @Test public void testReceptionistAdd() {
         Receptionist receptionist = new Receptionist();
@@ -23,14 +18,14 @@ public class ReceptionistDataTest {
         receptionist.setEmail("roberto@torres.com.br");
         receptionist.setUserName("roberto-das-torres");
         receptionist.setPassword("rob123456");
-        assertTrue("the receptionistName should be created", receptionistData.receptionistAdd(receptionist));
+        assertTrue("the receptionist should be created", receptionistData.receptionistAdd(receptionist));
     }
     
     @Test public void testReceptionistRemove() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setFirstName("Jo„o");
+        receptionist.setFirstName("Jo√£o");
         receptionist.setLastName("das Torres");
-        receptionist.setEmail("jo„o@torres.com.br");
+        receptionist.setEmail("joao@torres.com.br");
         receptionist.setUserName("joao-das-torres");
         receptionist.setPassword("jdab123456");
         receptionistData.receptionistAdd(receptionist);
@@ -48,7 +43,7 @@ public class ReceptionistDataTest {
     }
     
     @Test public void testReceptionistLogin() {
-    		Receptionist receptionist = new Receptionist();
+        Receptionist receptionist = new Receptionist();
         receptionist.setFirstName("Jo√£o");
         receptionist.setLastName("das Neves");
         receptionist.setEmail("joao@inverno.com.br");

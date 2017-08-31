@@ -20,9 +20,8 @@ public class DatabaseServerTest {
 		return server;
 	}
 
-	public static void deletarBancoDeTeste() {
-		server.close();
-        new File("database","main-test.odb").delete();	
+	public static void deleteTestDatabase() {
+        new File("database","main-test.odb").delete();
 	}
 	
 }

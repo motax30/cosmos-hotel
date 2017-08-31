@@ -8,8 +8,7 @@ public class Receptionist {
 	// Login Information
 	private String userName;
 	private String email;
-	
-	@Expose(serialize = false)
+
 	private String password;
 	private UserType userType;
 	
