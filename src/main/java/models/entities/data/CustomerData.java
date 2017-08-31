@@ -57,17 +57,17 @@ public class CustomerData {
 		return false;
 	}
 
-	protected boolean customerExists(String customerName) {
+	public boolean customerExists(String customerName) {
 		return this.getCustomerByCustomerName(customerName)==null?false:true;
 	}
-	protected boolean customerByCpfExists(String cpfCustomer) {
+	public boolean customerByCpfExists(String cpfCustomer) {
 		return this.getCustomerByCustomerCpf(cpfCustomer)==null?false:true;
 	}
 
 	public Customer getCustomerByCustomerCpf(String customerCpf) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("cpf").constrain(customerCpf).equal();
+		query.descend("cpf_number").constrain(customerCpf).equal();
 		ObjectSet<Customer> result = query.execute();
 		return result.hasNext()?result.next():null;
 	}
@@ -85,5 +85,4 @@ public class CustomerData {
 		query.constrain(Customer.class);
 		return query.execute();
 	}
-
 }

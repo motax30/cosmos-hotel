@@ -16,6 +16,12 @@ public class Address {
 		this.state = state;
 	}
 	
+	public Address() {}
+
+	public Address(String street) {
+		this.street = street;
+	}
+
 	public String getStreet() {
 		return street;
 	}

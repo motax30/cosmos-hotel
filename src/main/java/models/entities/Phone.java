@@ -3,16 +3,16 @@ package models.entities;
 import models.enumerates.PhoneType;
 import models.enumerates.UserType;
 
-public class Phone {
+public class Phone<T> {
 	private Enum<PhoneType> type;
 	private int number;
-	private Receptionist user;
+	private T user;
 	private UserType userType;
 	
-	public Phone() {
-		super();
+	public Phone(PhoneType type, int number) {
+		this.type = type;
+		this.number = number;
 	}
-	
 	public Enum<PhoneType> getType() {
 		return type;
 	}
@@ -25,10 +25,10 @@ public class Phone {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	public Receptionist getUser() {
+	public T getUser() {
 		return user;
 	}
-	public void setUser(Receptionist user) {
+	public void setUser(T user) {
 		this.user = user;
 	}
 	public UserType getUserType() {
@@ -37,7 +37,6 @@ public class Phone {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,7 +47,6 @@ public class Phone {
 		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

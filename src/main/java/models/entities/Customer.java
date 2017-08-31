@@ -5,17 +5,26 @@ import java.util.List;
 public class Customer {
 	private String cpf_number;
 	private String name;
-	private List<Phone> phones;
+	private List<Phone<Customer>> phones;
+	private List<Address> address;
 //	private String classification;
 	private String notes;
 	
-	public Customer(int id, String name, List<Phone> phones, String notes) {
-		super();
+	public Customer() {}
+
+	public Customer(String cpf_number, String name, List<Phone<Customer>> phones, List<Address> address, String notes) {
+	super();
+	this.cpf_number = cpf_number;
+	this.name = name;
+	this.phones = phones;
+	this.address = address;
+	this.notes = notes;
+}
+
+	public Customer(String name) {
 		this.name = name;
-		this.phones = phones;
-		this.notes = notes;
 	}
-	
+
 	public String getCpf() {
 		return cpf_number;
 	}
@@ -32,10 +41,18 @@ public class Customer {
 		this.name = name;
 	}
 
-	public List<Phone> getPhones() {
+	public List<Phone<Customer>> getPhones() {
 		return phones;
 	}
 
+	public List<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+	
 	public void addPhone(Phone phone) {
 		phones.add(phone);
 	}
@@ -48,13 +65,11 @@ public class Customer {
 		this.notes = notes;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((cpf_number == null) ? 0 : cpf_number.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
@@ -62,9 +77,6 @@ public class Customer {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,6 +86,11 @@ public class Customer {
 		if (getClass() != obj.getClass())
 			return false;
 		Customer other = (Customer) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
 		if (cpf_number == null) {
 			if (other.cpf_number != null)
 				return false;
