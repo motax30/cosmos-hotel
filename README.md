@@ -28,12 +28,12 @@ Para rodar a aplicação é necessário:
 - Java 8
 
 ### Instalando o EmberJS e Bower
-- # `npm install -g ember-cli`
-- # `npm install -g bower`
+- `# npm install -g ember-cli`
+- `# npm install -g bower`
 
 ### Configuração Inicial
 Na pasta do projeto, faça:
-- # `cd frontend`
-- # `npm install`
-- # `bower install`
-- # `ember s`
+- `# cd frontend`
+- `#npm install`
+- `# bower install`
+- `# ember s`
