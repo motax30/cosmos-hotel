@@ -32,10 +32,7 @@ public class LoginController {
 			}
 			return jsonResponse;
 		});
-
-		options("/auth/", (req, res) -> {
-			return "";
-		});
+		options("/auth/", (req, res) -> "");
 		
 		post("/auth/token-refresh/", (req, res) -> {
 			JSONObject requestParams = new JSONObject(req.body());
@@ -45,9 +42,6 @@ public class LoginController {
 			jsonResponse.put("token", JWTKey.refreshToken(token));
 			return jsonResponse;
 		});
-		
-		options("/auth/token-refresh/", (req, res) -> {
-			return "";
-		});
+		options("/auth/token-refresh/", (req, res) -> "");
 	}
 }

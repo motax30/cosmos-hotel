@@ -46,11 +46,11 @@ public class Server {
         });
 
 //        Uncomment below to init seed to login
-//        Receptionist receptionist = new Receptionist();
-//        receptionist.setUserName("denis");
-//        receptionist.setPassword("123");
-//        ReceptionistData receptionistData = new ReceptionistData();
-//        receptionistData.receptionistAdd(receptionist);
+        Receptionist receptionist = new Receptionist();
+        receptionist.setUserName("admin");
+        receptionist.setPassword("admin");
+        ReceptionistData receptionistData = new ReceptionistData();
+        receptionistData.receptionistAdd(receptionist);
 
         // Controllers (routes)
         path("/api", () -> {
