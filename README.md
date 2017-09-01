@@ -16,8 +16,24 @@ O desenvolvimento deste projeto consiste nas seguintes ferramentas:
 
 ## Integrantes
 - Adriano Mota ([@motax30](https://github.com/motax30))
-- Denis Soares
+- Denis Soares ([@denissoares](https://github.com/denissoares))
 - Felipe Koblinger ([@felipekoblinger](https://github.com/felipekoblinger))
 
 ## Professor
 - Giuliano Bertoti ([@giulianobertoti](https://github.com/giulianobertoti))
+
+## Deploy
+Para rodar a aplicação é necessário:
+- NodeJS
+- Java 8
+
+### Instalando o EmberJS e Bower
+- # `npm install -g ember-cli`
+- # `npm install -g bower`
+
+### Configuração Inicial
+Na pasta do projeto, faça:
+- # `cd frontend`
+- # `npm install`
+- # `bower install`
+- # `ember s`
