@@ -50,6 +50,9 @@ local.properties
 
 # Custom
 build/
-.gradle
+.gradle/
 main.odb
 main-test.odb
+out/
+.idea/workspace.xml
+.DS_Store
