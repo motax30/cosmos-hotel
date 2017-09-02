@@ -1,9 +1,5 @@
 package controllers;
 
-import static spark.Spark.get;
-import static spark.Spark.options;
-import static spark.Spark.post;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,6 +8,8 @@ import com.google.gson.JsonParser;
 import models.entities.Customer;
 import models.entities.data.CustomerData;
 import org.json.JSONObject;
+
+import static spark.Spark.*;
 
 public class CustomerController {
 
@@ -57,6 +55,41 @@ public class CustomerController {
             return jsonObject;
         });
         options("/customers/:customer_id/", (req, res) -> "");
+
+        // PUT - edit - edit a customer
+        put("/customers/:customer_id/", (req, res) -> {
+            String id = req.params(":customer_id");
+            JSONObject requestParams = new JSONObject(req.body());
+
+            CustomerData customerData = new CustomerData();
+            Customer customer = customerData.getCustomerById(id);
+
+            String customerName = requestParams.getJSONObject("customer").getString("name");
+            String notes = requestParams.getJSONObject("customer").getString("notes");
+
+            customer.setName(customerName);
+            customer.setNotes(notes);
+
+            customerData.customerUpdate(customer);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
+            return jsonObject;
+        });
+
+        // DELETE - destroy - destroy a customer
+        delete("/customers/:customer_id/", (req, res) -> {
+            String id = req.params(":customer_id");
+
+            CustomerData customerData = new CustomerData();
+            Customer customer = customerData.getCustomerById(id);
+
+            customerData.customerRemove(customer);
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
+            return jsonObject;
+        });
 
         /*
             Unrouted actions

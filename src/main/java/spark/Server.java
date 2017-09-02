@@ -38,6 +38,7 @@ public class Server {
         /* Filter for CORS */
         before((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
             response.header("Access-Control-Request-Methods", "*");
             response.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept");
             response.header("Access-Control-Allow-Credentials", "true");
@@ -46,11 +47,11 @@ public class Server {
         });
 
 //        Uncomment below to init seed to login
-//        Receptionist receptionist = new Receptionist();
-//        receptionist.setUserName("denis");
-//        receptionist.setPassword("123");
-//        ReceptionistData receptionistData = new ReceptionistData();
-//        receptionistData.receptionistAdd(receptionist);
+        Receptionist receptionist = new Receptionist();
+        receptionist.setUserName("admin");
+        receptionist.setPassword("admin");
+        ReceptionistData receptionistData = new ReceptionistData();
+        receptionistData.receptionistAdd(receptionist);
 
         // Controllers (routes)
         path("/api", () -> {

@@ -71,6 +71,15 @@ public class CustomerData {
 		return result.hasNext() ? result.next() : null;
 	}
 
+	public Customer customerUpdate(Customer customer) {
+		Customer currentCustomer = getCustomerById(customer.getId());
+		currentCustomer.setName(customer.getName());
+		currentCustomer.setNotes(customer.getNotes());
+		customerData.store(currentCustomer);
+		customerData.commit();
+		return currentCustomer;
+	}
+
 	public Customer getCustomerByCustomerCpf(String cpfNumber) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
