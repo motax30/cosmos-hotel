@@ -1,0 +1,7 @@
+{{#main-block title="Cadastrar"}}
+	{{#bs-form formLayout="horizontal" model=model onSubmit=(action "save" model) as |form|}}
+	  {{form.element controlType="text" label="Nome" placeholder="Nome" value=model.name property="name" required=true}}
+	  {{form.element controlType="textarea" label="Anotações" value=model.notes property="notes"}}
+	  {{bs-button defaultText="Enviar" type="primary" buttonType="submit"}}
+	{{/bs-form}}
+{{/main-block}}
