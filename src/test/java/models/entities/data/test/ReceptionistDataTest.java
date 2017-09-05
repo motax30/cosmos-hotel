@@ -13,18 +13,17 @@ public class ReceptionistDataTest {
 	
     @Test public void testReceptionistAdd() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setFirstName("Roberto");
-        receptionist.setLastName("das Torres");
+        receptionist.setName("Roberto das Torres");
         receptionist.setEmail("roberto@torres.com.br");
         receptionist.setUserName("roberto-das-torres");
         receptionist.setPassword("rob123456");
         assertTrue("the receptionist should be created", receptionistData.receptionistAdd(receptionist));
+        receptionistData.receptionistRemove(receptionist);
     }
     
     @Test public void testReceptionistRemove() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setFirstName("João");
-        receptionist.setLastName("das Torres");
+        receptionist.setName("João das Torres");
         receptionist.setEmail("joao@torres.com.br");
         receptionist.setUserName("joao-das-torres");
         receptionist.setPassword("jdab123456");
@@ -34,8 +33,7 @@ public class ReceptionistDataTest {
     
     @Test public void testReceptionistNotExists() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setFirstName("João");
-        receptionist.setLastName("das Neves");
+        receptionist.setName("João das Neves");
         receptionist.setEmail("joao@inverno.com.br");
         receptionist.setUserName("joaodasneves");
         receptionist.setPassword("neves12345");
@@ -44,8 +42,7 @@ public class ReceptionistDataTest {
     
     @Test public void testReceptionistLogin() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setFirstName("João");
-        receptionist.setLastName("das Neves");
+        receptionist.setName("João das Neves");
         receptionist.setEmail("joao@inverno.com.br");
         receptionist.setUserName("joaologin");
         receptionist.setPassword("neves");

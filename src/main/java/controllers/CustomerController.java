@@ -5,9 +5,13 @@ import com.google.gson.GsonBuilder;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import models.entities.Address;
 import models.entities.Customer;
 import models.entities.data.CustomerData;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -17,7 +21,7 @@ public class CustomerController {
         // GET - index - return all customers
         get("/customers/", (req, res) -> {
             CustomerData costumerData = new CustomerData();
-
+            // TODO: make it from gson, as same from show route
             JSONObject jsonResponse = new JSONObject();
             jsonResponse.put("customers", costumerData.getCustomers());
 
@@ -27,12 +31,9 @@ public class CustomerController {
         // POST - new - create a customer
         post("/customers/", (req, res) -> {
             JSONObject requestParams = new JSONObject(req.body());
-            String customerName = requestParams.getJSONObject("customer").getString("name");
-            String notes = requestParams.getJSONObject("customer").getString("notes");
+            JSONObject customerJsonObject = requestParams.getJSONObject("customer");
 
-            Customer customer = new Customer();
-            customer.setName(customerName);
-            customer.setNotes(notes);
+            Customer customer = new Gson().fromJson(customerJsonObject.toString(), Customer.class);
 
             CustomerData customerData = new CustomerData();
             customerData.customerAdd(customer);

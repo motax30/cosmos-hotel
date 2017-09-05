@@ -1,7 +1,22 @@
 {{#main-block title="Cadastrar"}}
-	{{#bs-form formLayout="horizontal" model=model onSubmit=(action "save" model) as |form|}}
-	  {{form.element controlType="text" label="Nome" placeholder="Nome" value=model.name property="name" required=true}}
-	  {{form.element controlType="textarea" label="Anotações" value=model.notes property="notes"}}
-	  {{bs-button defaultText="Enviar" type="primary" buttonType="submit"}}
+	{{#bs-form formLayout="vertical" model=model onSubmit=(action "save" model) as |form|}}
+	  <div class="row">
+      <div class="col-md-6">
+        {{form.element controlType="text" label="Nome" placeholder="Nome"  property="name" required=true}}
+      </div>
+
+      <div class="col-md-6">
+        {{form.element controlType="text" label="CPF" placeholder="CPF"  property="cpf_number" required=true}}
+      </div>
+
+    </div>
+	  {{form.element controlType="textarea" label="Anotações"  property="notes"}}
+
+    {{#each model.address as |address|}}
+      {{form.element controlType="text" label="Rua" placeholder="Rua" value=address.street property="address.street" }}
+    {{/each}}
+
+
+    {{bs-button defaultText="Enviar" type="primary" buttonType="submit"}}
 	{{/bs-form}}
 {{/main-block}}

@@ -5,6 +5,7 @@
        <th>Nome</th>
        <th>Anotações</th>
        <th>Editar</th>
+       <th>Endereço</th>
        <th>Excluir</th>
      </tr>
    </thead>
@@ -15,6 +16,11 @@
          <td>{{customer.notes}}</td>
          <td>
            {{#link-to "app.customers.edit" customer}}Editar{{/link-to}}
+         </td>
+         <td>
+           {{#each customer.address as |address|}}
+             {{address.street}}
+           {{/each}}
          </td>
          <td>
            <button {{action 'destroy' customer}}>Delete <strong>{{customer.name}}</strong></button>

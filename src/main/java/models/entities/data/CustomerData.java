@@ -4,42 +4,32 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import models.entities.Address;
 import models.entities.Customer;
 import models.entities.Receptionist;
 import settings.DatabaseServer;
 
+@Data
+@AllArgsConstructor
 public class CustomerData {
 	private ObjectContainer customerData;
-	/*
-	 * Constructors	
-	 */
+
 	public CustomerData() {
 		customerData = DatabaseServer.getServer().openClient();
 	}
-	public CustomerData(ObjectContainer customerData) {
-		super();
-		this.customerData = customerData;
-	}
 
-	/**
-	 * @return the customerData
-	 */
-	public ObjectContainer getCustomerData() {
-		return customerData;
-	}
-
-	/**
-	 * @param customerData the customerData to set
-	 */
-	public void setCustomerData(ObjectContainer customerData) {
-		this.customerData = customerData;
-	}
-	
 	/*
 	 * Public Methods
 	 */
 	public boolean customerAdd(Customer customer) {
 		if(!customerExists(customer.getName())) {
+			if (customer.getAddress() != null) {
+				for (Address address : customer.getAddress()) {
+					customerData.store(address);
+				}
+			}
 			customerData.store(customer);
 			customerData.commit();
 			return true;

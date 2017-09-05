@@ -7,12 +7,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 		title: 'Cadastrar'
 	},
 	model() {
-		return this.store.createRecord('customer');
+	  return this.store.createRecord('customer', { address: [this.store.createRecord('customer_address')] } );
 	},
   actions: {
     willTransition() {
       const record = this.controller.get('model');
       if (record.get('isNew')) {
+        console.log(record.address);
         return this.store.unloadRecord(record);
       }
     }

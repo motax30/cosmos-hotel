@@ -2,7 +2,7 @@ package models.entities.data;
 
 import com.db4o.ObjectContainer;
 
-import models.entities.Acomodation;
+import models.entities.Accommodation;
 import settings.DatabaseServer;
 
 public class AcomodationData {
@@ -33,7 +33,7 @@ public class AcomodationData {
 		this.acomodationData = acomodationData;
 	}
 	
-	public boolean acomodationAdd(Acomodation acomodation) {
+	public boolean acomodationAdd(Accommodation acomodation) {
 		return false;
 //		if(!acomodationExists(acomodation.getAcomodationType())) {
 //			

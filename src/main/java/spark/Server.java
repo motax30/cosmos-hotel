@@ -53,6 +53,9 @@ public class Server {
         ReceptionistData receptionistData = new ReceptionistData();
         receptionistData.receptionistAdd(receptionist);
 
+        CustomerData customerData = new CustomerData();
+//        customerData.get
+
         // Controllers (routes)
         path("/api", () -> {
             new IndexController();
