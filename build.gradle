@@ -44,6 +44,9 @@ dependencies {
 
     // Everything inside libs folder
     compile fileTree(dir: 'lib', include: '*.jar')
+    
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+	compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'  
 }
 
 test {
