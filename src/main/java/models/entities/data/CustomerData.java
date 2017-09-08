@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import models.entities.Address;
 import models.entities.Customer;
-import models.entities.Receptionist;
 import settings.DatabaseServer;
 
 @Data

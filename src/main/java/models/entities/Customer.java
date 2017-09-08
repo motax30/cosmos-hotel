@@ -28,16 +28,4 @@ public class Customer {
 
 	private String notes;
 	private LocalDate birthday;
-
-	/* TODO: those constructors are being used only in tests */
-	public Customer(String cpfNumber, String name, List<Phone<Customer>> phones, List<Address> address, String notes) {
-		this.cpfNumber = cpfNumber;
-		this.name = name;
-		this.phones = phones;
-		this.address = address;
-		this.notes = notes;
-	}
-	public Customer(String name) {
-		this.name = name;
-	}
 }
