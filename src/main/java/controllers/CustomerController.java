@@ -5,12 +5,6 @@ import com.google.gson.*;
 import models.entities.Address;
 import models.entities.Customer;
 import models.entities.data.CustomerData;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static spark.Spark.*;
 
 public class CustomerController {
 
