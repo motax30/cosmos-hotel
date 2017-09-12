@@ -1,17 +1,20 @@
 package models.entities;
 
+import com.fasterxml.uuid.Generators;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Accommodation {
-	private Integer bedsQuantity;
-	private List<AccommodationType> accommodationType;
+	/* UUID */
+	private String id = Generators.timeBasedGenerator().generate().toString();
+	
+	private String typeAccommodation;
+	private AccommodationTypeInformations accommodationTypeInformations;
 }

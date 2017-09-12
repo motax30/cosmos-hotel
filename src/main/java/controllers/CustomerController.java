@@ -1,19 +1,20 @@
 package controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import static spark.Spark.delete;
+import static spark.Spark.get;
+import static spark.Spark.options;
+import static spark.Spark.post;
+import static spark.Spark.put;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import models.entities.Address;
-import models.entities.Customer;
-import models.entities.data.CustomerData;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import static spark.Spark.*;
+import models.entities.Customer;
+import models.entities.data.CustomerData;
 
 public class CustomerController {
 
