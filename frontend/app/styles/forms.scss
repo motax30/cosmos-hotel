@@ -1,0 +1,10 @@
+.is-required > label:before {
+  content: '*';
+  margin-right: 2px;
+  font-weight: bold;
+  color: red;
+}
+
+.form-group.has-danger .form-control-feedback {
+  color: red;
+}

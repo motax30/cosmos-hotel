@@ -2,6 +2,7 @@
   "name": "frontend",
   "dependencies": {
     "ember-simple-auth": "0.8.0",
-    "simple-line-icons": "latest"
+    "simple-line-icons": "latest",
+    "inputmask": "latest"
   }
 }

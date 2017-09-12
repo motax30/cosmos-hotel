@@ -47,10 +47,28 @@ module.exports = function(environment) {
 
   }
 
+  ENV['i18n'] = {
+    defaultLocale: 'pt-br'
+  };
+
+  ENV['ember-form-for'] = {
+    buttonClasses: ['btn'],
+    fieldClasses: ['form-group'],
+    fieldHasErrorClasses: ['has-danger'],
+    errorClasses: ['form-control-feedback'],
+    hintClasses: ['form-field--hint'],
+    inputClasses: ['form-control'],
+    labelClasses: [''],
+    resetClasses: ['btn btn-secondary'],
+    submitClasses: ['btn btn-primary'],
+    errorsPath: 'error.PROPERTY_NAME.validation'
+  };
+
   ENV['simple-auth'] = {
 	  authorizer: 'authorizer:token',
 	  crossOriginWhitelist: ['http://localhost:3000']
   };
+
   ENV['ember-simple-auth-token'] = {
 	  serverTokenEndpoint: 'http://localhost:3000/api/auth/',
 	  refreshAccessTokens: true,

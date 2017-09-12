@@ -26,9 +26,7 @@ public class CustomerData {
 	public boolean customerAdd(Customer customer) {
 		if(!customerExists(customer.getName())) {
 			if (customer.getAddress() != null) {
-				for (Address address : customer.getAddress()) {
-					customerData.store(address);
-				}
+				customerData.store(customer.getAddress());
 			}
 			customerData.store(customer);
 			customerData.commit();

@@ -3,14 +3,6 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	model() {
-		return this.store.findAll('customer');
-	},
-  actions: {
-    destroy(record) {
-      record.destroyRecord()
-        .then(() => {
-          this.transitionTo('app.customers.index');
-        });
-    },
-  }
+		return this.store.findAll('customer', { reload: true });
+	}
 });

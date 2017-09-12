@@ -1,10 +1,7 @@
 package controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import models.entities.Address;
 import models.entities.Customer;
 import models.entities.data.CustomerData;
@@ -20,11 +17,10 @@ public class CustomerController {
     public CustomerController() {
         // GET - index - return all customers
         get("/customers/", (req, res) -> {
-            CustomerData costumerData = new CustomerData();
-            // TODO: make it from gson, as same from show route
-            JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("customers", costumerData.getCustomers());
+            CustomerData customerData = new CustomerData();
 
+            JsonObject jsonResponse = new JsonObject();
+            jsonResponse.add("customers", new Gson().toJsonTree(customerData.getCustomers()));
             return jsonResponse;
         });
 
@@ -90,33 +86,6 @@ public class CustomerController {
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
             return jsonObject;
-        });
-
-        /*
-            Unrouted actions
-         */
-        // GET - return specific customer by Name
-        get("/customers/:name/", (req, res) -> {
-            String customerName = req.params(":name");
-            CustomerData customerData = new CustomerData();
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            Customer customer = customerData.getCustomerByCustomerName(customerName);
-            return customer == null ? "{}" : gson.toJson(customer);
-        });
-
-        // GET - return specific customer by cpf
-        get("/customers/:cpf/", (req, res) -> {
-            String customerCpf = req.params(":cpf");
-            CustomerData customerData = new CustomerData();
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            Customer customer = customerData.getCustomerByCustomerCpf(customerCpf);
-            return customer == null ? "{}" : gson.toJson(customer);
         });
     }
 }

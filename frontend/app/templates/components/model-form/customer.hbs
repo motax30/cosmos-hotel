@@ -1,0 +1,67 @@
+{{#form-for customer as |f|}}
+  <div class="row">
+    <div class="col-md-12">
+      {{f.text-field "email" label="E-mail" placeholder="Ex.: cosmos@exemplo.com" required=true}}
+    </div>
+
+    <div class="col-md-6">
+      {{f.text-field "name" label="Nome" placeholder="Ex.: João" required=true}}
+    </div>
+
+    <div class="col-md-6">
+      {{f.text-field "cpfNumber" inputClasses="cpf-mask" label="CPF" placeholder="Ex.: 123.123.123-12 (auto-formatado)" required=true}}
+    </div>
+  </div>
+
+  {{#card-block title="Endereço" icon="icon-map" class="card-accent-primary"}}
+      {{#fields-for address as |fa|}}
+        <div class="row">
+          <div class="col-md-6">
+            {{fa.text-field "zipCode" required=true inputClasses="zip-code-mask" label="CEP" placeholder="Ex.: 00000-000" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "street" required=true label="Logradouro" placeholder="Ex.: R. Maria" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "number" required=true label="Número" placeholder="Ex.: 100" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "neighborhood" required=true label="Bairro" placeholder="Ex.: Jd. Alves" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "city" required=true label="Cidade" placeholder="Ex.: São José dos Campos" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "state" required=true label="Estado" placeholder="Ex.: São Paulo" }}
+          </div>
+        </div>
+      {{/fields-for}}
+  {{/card-block}}
+
+  {{#card-block title="Telefones" icon="icon-phone" class="card-accent-primary"}}
+    {{#each phones as |phone|}}
+      {{#fields-for phone as |fa|}}
+        <div class="row">
+          <div class="col-md-6">
+            {{fa.text-field "type" label="Tipo" placeholder="Ex.: R. Maria" }}
+          </div>
+          <div class="col-md-6">
+            {{fa.text-field "number" inputClasses="phone-mask" label="Número do Telefone" placeholder="Ex.: (12) 91234-1234" }}
+          </div>
+        </div>
+      {{/fields-for}}
+    {{/each}}
+    <button class="btn btn-success" {{action "addPhone" model}}><i class="icon icon-plus"></i> Adicionar Telefone</button>
+  {{/card-block}}
+
+  <div class="row">
+    <div class="col-md-12">
+      {{f.textarea-field "notes" label="Anotações" placeholder="Digite quaisquer anotações pertinentes ao cliente"}}
+    </div>
+  </div>
+
+  <button class="btn btn-primary" {{ action "submit" customer }}>Cadastrar Cliente</button>
+{{/form-for}}
+
+<!-- Events -->
+{{input-mask-settings}}

@@ -5,7 +5,7 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
     let app = new EmberApp(defaults, {
-        // Add options here	
+        // Add options here
         sassOptions: {
             includePaths: [
                 'bower_components/simple-line-icons/scss'
@@ -47,6 +47,8 @@ module.exports = function(defaults) {
     app.import('bower_components/simple-line-icons/fonts/Simple-Line-Icons.svg',{
         destDir: 'fonts'
     });
+
+    app.import('bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js');
 
     return app.toTree();
 };
