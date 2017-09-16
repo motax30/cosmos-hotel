@@ -18,13 +18,9 @@ public class Customer {
 	/* UUID */
 	private String id = Generators.timeBasedGenerator().generate().toString();
 
-	@SerializedName("cpf_number")
 	private String cpfNumber;
-
 	private String name;
-
 	private String email;
-
 	private List<Phone<Customer>> phones;
 	private Address address;
 

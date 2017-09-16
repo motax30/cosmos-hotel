@@ -1,17 +1,24 @@
 package models.entities;
 
+import com.fasterxml.uuid.Generators;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import models.enumerates.PhoneType;
-import models.enumerates.ReceptionistType;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Phone<T> {
-	private Enum<PhoneType> type;
-	private int number;
+	/* UUID */
+	private String id = Generators.timeBasedGenerator().generate().toString();
+
+	private String type;
+	private String number;
 	private T user;
-	private ReceptionistType userType;
-	
-	public Phone(PhoneType type, int number) {
+
+	public Phone(String type, String number) {
 		this.type = type;
 		this.number = number;
 	}

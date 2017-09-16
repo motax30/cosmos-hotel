@@ -1,6 +1,6 @@
 // import buildMessage from 'ember-changeset-validations/utils/validation-errors';
 
-export default function isRealCPF(options = {}) {
+export default function isRealCPF() {
   return (key, value) => {
     // TODO: buildMessage...
     let message = "não é um CPF válido";
