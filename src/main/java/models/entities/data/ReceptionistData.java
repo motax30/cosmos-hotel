@@ -2,82 +2,89 @@ package models.entities.data;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import models.entities.Address;
 import models.entities.Receptionist;
 import settings.DatabaseServer;
 
+@Data
+@AllArgsConstructor
 public class ReceptionistData {
-	ObjectContainer usersData;
-	
-	/*
-	 * Constructors	
-	 */
+	private ObjectContainer receptionistData;
+
 	public ReceptionistData() {
-		usersData = DatabaseServer.getServer().openClient();
+		receptionistData = DatabaseServer.getServer().openClient();
 	}
-	
-	public ReceptionistData(ObjectContainer usersData) {
-		super();
-		this.usersData = usersData;
-	}
-	
-	/*
-	 * Get and Setters
-	 */
-	public ObjectContainer getUsersData() {
-		return usersData;
-	}
-	public void setUsersData(ObjectContainer usersData) {
-		this.usersData = usersData;
-	}
-	
+
 	/*
 	 * Public Methods
 	 */
 	public boolean receptionistAdd(Receptionist receptionist) {
-		if (!receptionistExists(receptionist.getUserName())) {
-			usersData.store(receptionist);
-			usersData.commit();
+		if(!receptionistExists(receptionist.getName())) {
+			if (receptionist.getAddress() != null) {
+				receptionistData.store(receptionist.getAddress());
+			}
+			receptionistData.store(receptionist);
+			receptionistData.commit();
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean receptionistRemove(Receptionist receptionist) {
-		if(receptionistExists(receptionist.getUserName())) {
-			usersData.delete(receptionist);
-			usersData.commit();
+		if(receptionistByCpfExists(receptionist.getCpfNumber())) {
+			receptionistData.delete(receptionist);
+			receptionistData.commit();
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean receptionistExists(String userName) {
-		return this.getReceptionistByUserName(userName) != null;
+
+	public boolean receptionistExists(String name) {
+		return this.getReceptionistByReceptionistName(name) != null;
 	}
-	
-	public Receptionist getReceptionistByUserName(String userName) {
-		Query query = usersData.query();
+	public boolean receptionistByCpfExists(String cpfNumber) {
+		return this.getReceptionistByReceptionistCpf(cpfNumber) != null;
+	}
+
+	public Receptionist getReceptionistById(String id) {
+		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		query.descend("userName").constrain(userName).equal();
+		query.descend("id").constrain(id).equal();
+		ObjectSet<Receptionist> result = query.execute();
+		return result.hasNext() ? result.next() : null;
+	}
+
+	public Receptionist receptionistUpdate(Receptionist receptionist) {
+		Receptionist currentReceptionist = getReceptionistById(receptionist.getId());
+		currentReceptionist.setName(receptionist.getName());
+		currentReceptionist.setNotes(receptionist.getNotes());
+		receptionistData.store(currentReceptionist);
+		receptionistData.commit();
+		return currentReceptionist;
+	}
+
+	public Receptionist getReceptionistByReceptionistCpf(String cpfNumber) {
+		Query query = receptionistData.query();
+		query.constrain(Receptionist.class);
+		query.descend("cpfNumber").constrain(cpfNumber).equal();
 		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
 	
-	public boolean receptionistLogin(String userName, String password) {
-		Query query = usersData.query();
+	public Receptionist getReceptionistByReceptionistName(String name) {
+		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		Constraint constrain = query.descend("userName").constrain(userName);
-		query.descend("password").constrain(password).and(constrain);
-		
+		query.descend("name").constrain(name).equal();
 		ObjectSet<Receptionist> result = query.execute();
-		return result.hasNext();
+		return result.hasNext() ? result.next() : null;
 	}
 	
-	public ObjectSet<Receptionist> getReceptionists() {
-		Query query = usersData.query();
+	public ObjectSet<Receptionist> getReceptionists(){
+		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
 		return query.execute();
 	}
