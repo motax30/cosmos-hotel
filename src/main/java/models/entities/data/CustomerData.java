@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import models.entities.Address;
 import models.entities.Customer;
+import models.entities.Phone;
+import org.springframework.beans.BeanUtils;
 import settings.DatabaseServer;
 
 @Data
@@ -27,6 +29,11 @@ public class CustomerData {
 			if (customer.getAddress() != null) {
 				customerData.store(customer.getAddress());
 			}
+
+			for (Phone<Customer> phone : customer.getPhones()) {
+				customerData.store(phone);
+			}
+
 			customerData.store(customer);
 			customerData.commit();
 			return true;
@@ -60,8 +67,7 @@ public class CustomerData {
 
 	public Customer customerUpdate(Customer customer) {
 		Customer currentCustomer = getCustomerById(customer.getId());
-		currentCustomer.setName(customer.getName());
-		currentCustomer.setNotes(customer.getNotes());
+		BeanUtils.copyProperties(customer, currentCustomer);
 		customerData.store(currentCustomer);
 		customerData.commit();
 		return currentCustomer;

@@ -55,22 +55,19 @@ public class CustomerController {
 
         // PUT - edit - edit a customer
         put("/customers/:customer_id/", (req, res) -> {
-            String id = req.params(":customer_id");
             JSONObject requestParams = new JSONObject(req.body());
+            JSONObject customerJsonObject = requestParams.getJSONObject("customer");
+            Customer customerJson = new Gson().fromJson(customerJsonObject.toString(), Customer.class);
 
+            String id = req.params(":customer_id");
             CustomerData customerData = new CustomerData();
             Customer customer = customerData.getCustomerById(id);
 
-            String customerName = requestParams.getJSONObject("customer").getString("name");
-            String notes = requestParams.getJSONObject("customer").getString("notes");
-
-            customer.setName(customerName);
-            customer.setNotes(notes);
-
-            customerData.customerUpdate(customer);
+            customerJson.setId(customer.getId());
+            customerData.customerUpdate(customerJson);
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
+            jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customerJson)).getAsJsonObject());
             return jsonObject;
         });
 
