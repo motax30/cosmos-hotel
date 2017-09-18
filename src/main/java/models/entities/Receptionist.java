@@ -25,4 +25,5 @@ public class Receptionist {
 	private ReceptionistType userType;
 	
 	private String name;
+	private String notes;
 }

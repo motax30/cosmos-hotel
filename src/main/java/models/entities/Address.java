@@ -22,9 +22,4 @@ public class Address {
 	private String city;
 	private String state;
 	private String country;
-
-	/* TODO: this constructor is being used only in tests */
-    public Address(String street) {
-        this.street = street;
-    }
 }

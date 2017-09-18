@@ -2,11 +2,11 @@ package models.entities.data;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import models.entities.Address;
 import models.entities.Receptionist;
 import settings.DatabaseServer;
 
@@ -23,10 +23,7 @@ public class ReceptionistData {
 	 * Public Methods
 	 */
 	public boolean receptionistAdd(Receptionist receptionist) {
-		if(!receptionistExists(receptionist.getName())) {
-			if (receptionist.getAddress() != null) {
-				receptionistData.store(receptionist.getAddress());
-			}
+		if(!receptionistExists(receptionist.getUserName())) {
 			receptionistData.store(receptionist);
 			receptionistData.commit();
 			return true;
@@ -35,7 +32,7 @@ public class ReceptionistData {
 	}
 	
 	public boolean receptionistRemove(Receptionist receptionist) {
-		if(receptionistByCpfExists(receptionist.getCpfNumber())) {
+		if(receptionistExists(receptionist.getUserName())) {
 			receptionistData.delete(receptionist);
 			receptionistData.commit();
 			return true;
@@ -43,11 +40,8 @@ public class ReceptionistData {
 		return false;
 	}
 
-	public boolean receptionistExists(String name) {
-		return this.getReceptionistByReceptionistName(name) != null;
-	}
-	public boolean receptionistByCpfExists(String cpfNumber) {
-		return this.getReceptionistByReceptionistCpf(cpfNumber) != null;
+	public boolean receptionistExists(String user_name) {
+		return this.getReceptionistByReceptionistUserName(user_name) != null;
 	}
 
 	public Receptionist getReceptionistById(String id) {
@@ -66,21 +60,23 @@ public class ReceptionistData {
 		receptionistData.commit();
 		return currentReceptionist;
 	}
-
-	public Receptionist getReceptionistByReceptionistCpf(String cpfNumber) {
+	
+	public Receptionist getReceptionistByReceptionistUserName(String user_name) {
 		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		query.descend("cpfNumber").constrain(cpfNumber).equal();
+		query.descend("user_name").constrain(user_name).equal();
 		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
 	
-	public Receptionist getReceptionistByReceptionistName(String name) {
+	public boolean receptionistLogin(String userName, String password) {
 		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		query.descend("name").constrain(name).equal();
+		Constraint constrain = query.descend("userName").constrain(userName);
+		query.descend("password").constrain(password).and(constrain);
+		
 		ObjectSet<Receptionist> result = query.execute();
-		return result.hasNext() ? result.next() : null;
+		return result.hasNext();
 	}
 	
 	public ObjectSet<Receptionist> getReceptionists(){
