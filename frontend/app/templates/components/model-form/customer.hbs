@@ -13,7 +13,11 @@
     </div>
   </div>
 
-  {{#card-block title="Endereço" icon="icon-map" class="card-accent-primary"}}
+  {{#card-block cardClass="card-accent-primary" as |card|}}
+    {{#card.header}}
+      {{fa-icon "map-pin"}}<strong>Endereço</strong>
+    {{/card.header}}
+    {{#card.body}}
       {{#fields-for address as |fa|}}
         <div class="row">
           <div class="col-md-6">
@@ -32,26 +36,63 @@
             {{fa.text-field "city" required=true label="Cidade" placeholder="Ex.: São José dos Campos" }}
           </div>
           <div class="col-md-6">
-            {{fa.text-field "state" required=true label="Estado" placeholder="Ex.: São Paulo" }}
+            {{fa.select-field "state"
+                              promptIsSelectable=false
+                              includeBlank=true
+                              options=address.stateSelect
+                              optionTargetPath="id"
+                              optionLabelPath="label"
+                              prompt="Escolha um Estado"
+                              label="Estado" required=true}}
           </div>
         </div>
       {{/fields-for}}
+    {{/card.body}}
   {{/card-block}}
 
-  {{#card-block title="Telefones" icon="icon-phone" class="card-accent-primary"}}
-    {{#each phones as |phone|}}
-      {{#fields-for phone as |fa|}}
-        <div class="row">
-          <div class="col-md-6">
-            {{fa.text-field "type" label="Tipo" placeholder="Ex.: R. Maria" }}
-          </div>
-          <div class="col-md-6">
-            {{fa.text-field "number" inputClasses="phone-mask" label="Número do Telefone" placeholder="Ex.: (12) 91234-1234" }}
-          </div>
-        </div>
-      {{/fields-for}}
-    {{/each}}
-    <button class="btn btn-success" {{action "addPhone" model}}><i class="icon icon-plus"></i> Adicionar Telefone</button>
+  {{#card-block cardClass="card-accent-primary" as |card|}}
+    {{#card.header}}
+      {{fa-icon "phone"}}<strong>Telefones</strong>
+      <div class="card-actions">
+        <a {{action "addPhone" model}}>{{fa-icon "plus"}}</a>
+      </div>
+    {{/card.header}}
+    {{#card.body}}
+      {{#each phones as |phone i|}}
+        {{#fields-for phone as |fa|}}
+          {{#unless phone._content.isDeleted}}
+            <div class="row">
+              <div class="col-md-6">
+                {{#fa.custom-field "number" label="Número do Telefone/Celular" inputClasses="phone-mask" as |ff|}}
+                  {{ff.label required=true}}
+                  <div class="input-group">
+                  <span class="input-group-btn">
+                    <button class="btn btn-danger" disabled={{model.isPhonesRemovable}} {{action "removePhone" customer phone}} type="button">
+                      <i class="icon icon-minus"></i> Remover
+                    </button>
+                  </span>
+                    {{ff.control placeholder="Ex.: (12) 91234-1234"  data-inputmask="'alias': 'phoneAlias'" }}
+                  </div>
+                  {{ff.errors}}
+                {{/fa.custom-field}}
+              </div>
+
+              <div class="col-md-6">
+                {{fa.select-field "type"
+                                  promptIsSelectable=false
+                                  includeBlank=true
+                                  options=phone.typeSelect
+                                  optionTargetPath="id"
+                                  optionLabelPath="label"
+                                  prompt="Escolha um Tipo de Telefone"
+                                  label="Tipo" required=true}}
+
+              </div>
+            </div>
+          {{/unless}}
+        {{/fields-for}}
+      {{/each}}
+    {{/card.body}}
   {{/card-block}}
 
   <div class="row">
@@ -60,7 +101,12 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" {{ action "submit" customer }}>Cadastrar Cliente</button>
+  {{#link-to "app.customers" class="btn btn-secondary"}}
+    Cancelar
+  {{/link-to}}
+  <button class="btn btn-primary" {{ action "submit" customer }}>
+    {{ if model.isNew "Cadastrar Cliente" "Editar Cliente" }}
+  </button>
 {{/form-for}}
 
 <!-- Events -->

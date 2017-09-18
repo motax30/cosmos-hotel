@@ -1,10 +1,16 @@
 // Vendors
-@import "ember-cli-bootstrap-4/bootstrap";
+//@import "ember-cli-bootstrap-4/bootstrap";
 @import "simple-line-icons";
 @import "coreui";
+@import "coreui-cards";
 
 // Internals
 @import "coreui-custom";
 @import "custom-bootstrap";
 @import "auth";
 @import "forms";
+
+/* 404 */
+body.not-found > .ember-view {
+  flex: 1;
+}

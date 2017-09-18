@@ -1,10 +1,8 @@
-.is-required > label:before {
-  content: '*';
-  margin-right: 2px;
-  font-weight: bold;
+.form-group.has-danger .form-control-feedback {
   color: red;
 }
 
-.form-group.has-danger .form-control-feedback {
+.form-group label > .star {
   color: red;
+  font-weight: bold;
 }

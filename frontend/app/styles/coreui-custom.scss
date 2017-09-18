@@ -6,3 +6,19 @@ header.navbar.app-header a.navbar-brand {
 .nav-dropdown-toggle {
 	cursor: pointer;
 }
+
+/* Cards */
+.card-actions > a {
+  cursor: pointer;
+  transition: .4s;
+}
+.card-actions > a:hover {
+  background-color: #c8cbcd;
+}
+.card-actions > a:hover > i {
+  color: white;
+}
+.card-actions > a:active {
+  background-color: #aaadaf;
+}
+

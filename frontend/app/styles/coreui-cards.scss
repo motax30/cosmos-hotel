@@ -1,0 +1,109 @@
+.card-primary {
+  background-color: #20a8d8
+}
+
+.card-primary .card-header {
+  border-color: #1d97c2
+}
+
+.card-primary .card-footer, .card-primary .card-header {
+  background-color: #1d97c2
+}
+
+.card-secondary {
+  background-color: #cfd8dc
+}
+
+.card-secondary .card-header {
+  border-color: #c0ccd1
+}
+
+.card-secondary .card-footer, .card-secondary .card-header {
+  background-color: #c0ccd1
+}
+
+.card-success {
+  background-color: #4dbd74
+}
+
+.card-success .card-header {
+  border-color: #41af67
+}
+
+.card-success .card-footer, .card-success .card-header {
+  background-color: #41af67
+}
+
+.card-info {
+  background-color: #63c2de
+}
+
+.card-info .card-header {
+  border-color: #4ebada
+}
+
+.card-info .card-footer, .card-info .card-header {
+  background-color: #4ebada
+}
+
+.card-warning {
+  background-color: #f8cb00
+}
+
+.card-warning .card-header {
+  border-color: #dfb600
+}
+
+.card-warning .card-footer, .card-warning .card-header {
+  background-color: #dfb600
+}
+
+.card-danger {
+  background-color: #f86c6b
+}
+
+.card-danger .card-header {
+  border-color: #f75453
+}
+
+.card-danger .card-footer, .card-danger .card-header {
+  background-color: #f75453
+}
+
+.card-inverse .text-muted {
+  color: rgba(255, 255, 255, .6) !important
+}
+
+.card-inverse .progress[value] {
+  background-color: rgba(255, 255, 255, .2) !important
+}
+
+.card-inverse .progress[value]::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, .2) !important
+}
+
+.card-inverse .progress[value], .card-inverse base::-moz-progress-bar {
+  background-color: rgba(255, 255, 255, .2) !important
+}
+
+.card-inverse .progress[value]::-webkit-progress-value {
+  background-color: #fff !important
+}
+
+.card-inverse .progress[value]::-moz-progress-bar {
+  background-color: #fff !important
+}
+
+.card-inverse .progress[value]::-ms-fill {
+  background-color: #fff !important
+}
+
+@media screen and (min-width:0\0) {
+  .card-inverse .progress .progress-bar {
+    background-color: #fff !important
+  }
+}
+
+.card-header.card-header-inverse, .card-inverse {
+  color: #fff
+}

@@ -1,34 +1,43 @@
-{{#card-block title="Listar"}}
-<table class="table table-bordered table-striped">
-   <thead>
-     <tr>
-       <th>Nome</th>
-       <th>E-mail</th>
-       <th>CPF</th>
-       <th>Ações</th>
-     </tr>
-   </thead>
-   <tbody>
-     {{#each model as |customer|}}
-       <tr>
-         <td>{{#link-to "app.customers.show" customer.id}}{{customer.name}}{{/link-to}}</td>
-         <td>{{customer.email}}</td>
-         <td>{{customer.cpf_number}}</td>
-         <td>
-           {{#link-to "app.customers.edit" customer.id class="btn btn-primary"}}<i class="icon icon-pencil"></i> Editar{{/link-to}}
+{{#card-block cardClass="card-accent-secondary" as |card|}}
+  {{#card.header}}
+    {{fa-icon "users"}}<strong>Listar</strong>
+  {{/card.header}}
 
-           {{#bs-button class="btn-danger" onClick=(action (mut customer_destroy) customer)}}
-             <i class="icon icon-minus"></i> Excluir
-           {{/bs-button}}
-         </td>
-       </tr>
-     {{/each}}
-   </tbody>
- </table>
+  {{#card.body}}
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>CPF</th>
+        <th>Data de Cadastro</th>
+        <th>Data de Atualização</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each model as |customer|}}
+        <tr>
+          <td>{{#link-to "app.customers.show" customer.id}}{{customer.name}}{{/link-to}}</td>
+          <td>{{customer.email}}</td>
+          <td>{{customer.cpfNumber}}</td>
+          <td>{{customer.createdAt}}</td>
+          <td>{{customer.updatedAt}}</td>
+          <td>
+            {{#link-to "app.customers.edit" customer.id class="btn btn-primary"}}<i class="icon icon-pencil"></i> Editar{{/link-to}}
+
+            {{#bs-button class="btn-danger" onClick=(action (mut customer_destroy) customer)}}
+              <i class="icon icon-minus"></i> Excluir
+            {{/bs-button}}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  {{/card.body}}
 {{/card-block}}
 
 {{#bs-modal open=customer_destroy onHidden=(action (mut customer_destroy) false) as |modal|}}
-
   {{#modal.header}}
     <h4 class="modal-title">
       Excluir Cliente?
@@ -41,7 +50,7 @@
       <dd class="col-sm-9">{{customer_destroy.name}}</dd>
 
       <dt class="col-sm-3">CPF:</dt>
-      <dd class="col-sm-9">{{customer_destroy.cpf_number}}</dd>
+      <dd class="col-sm-9">{{customer_destroy.cpfNumber}}</dd>
 
       <dt class="col-sm-3">E-mail:</dt>
       <dd class="col-sm-9">{{customer_destroy.email}}</dd>
@@ -52,8 +61,7 @@
   {{/modal.body}}
 
   {{#modal.footer}}
-    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
+    {{#bs-button onClick=(action modal.close)}}Cancelar{{/bs-button}}
     {{#bs-button onClick=(action "destroy" customer_destroy) class="btn btn-danger"}}Excluir{{/bs-button}}
   {{/modal.footer}}
-
 {{/bs-modal}}

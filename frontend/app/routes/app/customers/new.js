@@ -18,9 +18,6 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       if (record.get('isNew')) {
         return this.store.unloadRecord(record);
       }
-    },
-    newPhone() {
-      this.controller.get('model').get('phones').pushObject(this.store.createRecord('customer_phone'));
     }
   }
 });

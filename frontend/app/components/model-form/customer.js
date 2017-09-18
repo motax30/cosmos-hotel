@@ -7,14 +7,15 @@ import Changeset from 'ember-changeset';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
-
   init() {
     this._super(...arguments);
-    let model = get(this, 'model');
+    let model = this.get('model');
     this.customer = new Changeset(model, lookupValidator(CustomerValidations), CustomerValidations);
     this.address = new Changeset(model.get('address'), lookupValidator(AddressValidations), AddressValidations);
-    this.phones = [new Changeset(model.get('phones').get('firstObject'), lookupValidator(PhoneValidations), PhoneValidations)];
-
+    this.phones = [];
+    model.get('phones').forEach(phone => {
+        this.phones.push(new Changeset(phone, lookupValidator(PhoneValidations), PhoneValidations))
+    });
   },
   actions: {
     addPhone(customer) {
@@ -23,6 +24,11 @@ export default Ember.Component.extend({
 
       this.get('phones').pushObject(new Changeset(phone, lookupValidator(PhoneValidations), PhoneValidations));
       customer.get('phones').pushObject(phone);
+    },
+    removePhone(customer, phone) {
+      let phoneModel = phone.get('_content').get('_internalModel');
+      customer.get('phones').removeObject(phoneModel);
+      phoneModel.deleteRecord();
     },
     submit: function (customer) {
       this.get('customer').validate();
@@ -37,16 +43,19 @@ export default Ember.Component.extend({
         return false;
       }
 
+      /* Only in case of has many */
+      let phoneValidation = true;
       if (!this.get('address').get('isValid')) return false;
-      this.get('phones').forEach(phone => {
+      this.get('phones').filterBy('isDeleted', false).forEach(phone => {
         if (!phone.get('isValid')) {
-          return false;
+          phoneValidation = false;
         }
       });
+      if (!phoneValidation) return false;
 
       this.get('customer').execute();
       this.get('address').execute();
-      this.get('phones').forEach(phone => {
+      this.get('phones').filterBy('isDeleted', false).forEach(phone => {
         phone.execute();
       });
 

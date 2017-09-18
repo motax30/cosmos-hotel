@@ -1,7 +1,7 @@
+import Ember from 'ember';
 import {
   validatePresence,
   validateLength,
-  validateConfirmation,
   validateFormat
 } from 'ember-changeset-validations/validators';
 import validateIsRealCPF from '../validations/customs/is_real_cpf';

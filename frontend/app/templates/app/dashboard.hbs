@@ -1,3 +1,8 @@
-{{#card-block title="Dashboard"}}
-	<button {{ action 'logout' }} class="btn">Logout</button>
+{{#card-block as |card|}}
+  {{#card.header}}
+    Dashboard
+  {{/card.header}}
+  {{#card.body}}
+    <button {{ action 'logout' }} class="btn">Logout</button>
+  {{/card.body}}
 {{/card-block}}

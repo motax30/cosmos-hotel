@@ -49,6 +49,7 @@ module.exports = function(defaults) {
     });
 
     app.import('bower_components/inputmask/dist/min/jquery.inputmask.bundle.min.js');
+    app.import('bower_components/arrive/minified/arrive.min.js');
 
     return app.toTree();
 };

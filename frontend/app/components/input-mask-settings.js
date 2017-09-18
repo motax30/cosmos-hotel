@@ -1,4 +1,6 @@
 import Ember from 'ember';
+/* globals Inputmask */
+
 const { $ } = Ember;
 
 export default Ember.Component.extend({
@@ -16,12 +18,22 @@ export default Ember.Component.extend({
         clearMaskOnLostFocus: false
       });
 
-      /* Phone Mask */
-      $('.phone-mask').inputmask({
-        mask: ["(99) 9999-9999", "(99) 99999-9999"],
-        clearMaskOnLostFocus: false
+      Inputmask.extendAliases({
+        'phoneAlias': {
+          mask: ["(99) 9999-9999", "(99) 99999-9999"],
+          clearMaskOnLostFocus: false
+        }
       });
 
+      /* Uses MutationObserver */
+      $(document).arrive(".phone-mask", function() {
+        $(this).inputmask({
+          alias: 'phoneAlias'
+        });
+      });
+
+      /* This is the common: $(":input").inputmask(); */
+      $(".phone-mask").inputmask();
     });
   }
 });

@@ -11,11 +11,11 @@ import models.enumerates.PhoneType;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Phone<T> {
+public class Phone<Object> {
 	/* UUID */
 	private String id = Generators.timeBasedGenerator().generate().toString();
 
 	private PhoneType type;
 	private String number;
-	private T user;
+	private Object user;
 }

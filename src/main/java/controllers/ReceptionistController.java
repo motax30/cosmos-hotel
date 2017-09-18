@@ -63,9 +63,6 @@ public class ReceptionistController {
             String receptionistName = requestParams.getJSONObject("receptionist").getString("name");
             String notes = requestParams.getJSONObject("receptionist").getString("notes");
 
-            receptionist.setName(receptionistName);
-            receptionist.setNotes(notes);
-
             receptionistData.receptionistUpdate(receptionist);
 
             JsonObject jsonObject = new JsonObject();

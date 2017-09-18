@@ -3,6 +3,7 @@
   "dependencies": {
     "ember-simple-auth": "0.8.0",
     "simple-line-icons": "latest",
-    "inputmask": "latest"
+    "inputmask": "latest",
+    "arrive": "^2.4.1"
   }
 }

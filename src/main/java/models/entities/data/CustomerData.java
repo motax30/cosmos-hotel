@@ -6,11 +6,12 @@ import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import models.entities.Address;
 import models.entities.Customer;
 import models.entities.Phone;
 import org.springframework.beans.BeanUtils;
 import settings.DatabaseServer;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -26,12 +27,16 @@ public class CustomerData {
 	 */
 	public boolean customerAdd(Customer customer) {
 		if(!customerExists(customer.getName())) {
+			customer.setCreatedAt(LocalDateTime.now());
+			customer.setUpdatedAt(LocalDateTime.now());
 			if (customer.getAddress() != null) {
 				customerData.store(customer.getAddress());
 			}
 
-			for (Phone<Customer> phone : customer.getPhones()) {
-				customerData.store(phone);
+			if (customer.getPhones() != null) {
+				for (Phone<Customer> phone : customer.getPhones()) {
+					customerData.store(phone);
+				}
 			}
 
 			customerData.store(customer);
@@ -67,7 +72,11 @@ public class CustomerData {
 
 	public Customer customerUpdate(Customer customer) {
 		Customer currentCustomer = getCustomerById(customer.getId());
+		LocalDateTime createdAt = currentCustomer.getCreatedAt();
+
 		BeanUtils.copyProperties(customer, currentCustomer);
+		currentCustomer.setUpdatedAt(LocalDateTime.now());
+		currentCustomer.setCreatedAt(createdAt);
 		customerData.store(currentCustomer);
 		customerData.commit();
 		return currentCustomer;

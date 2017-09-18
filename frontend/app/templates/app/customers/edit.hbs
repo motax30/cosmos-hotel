@@ -1,3 +1,9 @@
-{{#card-block title="Editar"}}
-  {{model-form/customer model=model action=(action "save" model)}}
+{{#card-block cardClass="card-accent-secondary" as |card|}}
+  {{#card.header}}
+    {{fa-icon "pencil"}}<strong>Editar</strong>: {{#link-to "app.customers.show" model}}{{model.name}}{{/link-to}}
+  {{/card.header}}
+
+  {{#card.body}}
+    {{model-form/customer model=model action=(action "save" model)}}
+  {{/card.body}}
 {{/card-block}}

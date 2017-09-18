@@ -3,9 +3,11 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 	actions: {
 		save(record) {
+      const flashMessages = Ember.get(this, 'flashMessages');
 			let self = this;
 			record.save().then(function() {
-				self.transitionToRoute('app.customers.show', record);
+        flashMessages.success('Cliente editado com sucesso!');
+				self.transitionToRoute('app.customers.show', record.id);
 			});
 		}
 	}

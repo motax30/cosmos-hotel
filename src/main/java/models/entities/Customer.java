@@ -1,6 +1,7 @@
 package models.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.uuid.Generators;
@@ -22,8 +23,11 @@ public class Customer {
 	private String name;
 	private String email;
 	private List<Phone<Customer>> phones;
-	private List<Address> address;
+	private Address address;
 
 	private String notes;
 	private LocalDate birthday;
+
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 }

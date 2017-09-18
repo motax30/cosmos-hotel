@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,20 +31,15 @@ public class CustomerDataTest {
 	Phone<Customer> phone3;
 	private Customer customerComTodosOsDados;
 	private Customer customer;
-	private ObjectSet<Customer> customers;
-	Address end1;
-	Address end2;
-	Address end3;
-	List<Address> enderecos = new ArrayList<Address>();
-	
+	private Address end1;
+	private Address end2;
+	private Address end3;
+
 	@Before
 	public void setUp() {
-		end1 = new Address("1","Rua 1","123","esplanada","12756712","São José","sp","Brasil");
-		end2 = new Address("2","Rua 2","321","jardim americano","12756712","São José","sp","Brasil");
-		end3 = new Address("3","Rua 3","456","por do sol","12756712","São José","sp","Brasil");
-		enderecos.add(end1);
-		enderecos.add(end2);
-		enderecos.add(end3);
+		end1 = new Address("1","Rua 1","123","esplanada","12756712","SÃ£o JosÃ©","sp","Brasil");
+		end2 = new Address("2","Rua 2","321","jardim americano","12756712","SÃ£o JosÃ©","sp","Brasil");
+		end3 = new Address("3","Rua 3","456","por do sol","12756712","SÃ£o JosÃ©","sp","Brasil");
 	}
 
 	@Test
@@ -56,10 +52,10 @@ public class CustomerDataTest {
 	@Test
 	public void testCustomerRemove() {
 		phones = new ArrayList4<>();
-		phones.add(new Phone<Customer>("1", PhoneType.CEL, "1111111", customerComTodosOsDados));
+		phones.add(new Phone<Customer>("1", PhoneType.CELLULAR, "1111111", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.HOME, "32456789", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.WORK, "34561234", customer));
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		customerData.customerAdd(customerComTodosOsDados);
 		customerData.customerRemove(customerComTodosOsDados);
 	}
@@ -67,20 +63,20 @@ public class CustomerDataTest {
 	@Test
 	public void testCustomerSearchFromNameAndNotFound() {
 		phones = new ArrayList4<>();
-		phones.add(new Phone<Customer>("1", PhoneType.CEL, "1111111", customerComTodosOsDados));
+		phones.add(new Phone<Customer>("1", PhoneType.CELLULAR, "1111111", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.HOME, "32456789", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.WORK, "34561234", customer));
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		assertFalse("the customerName should not be found",customerData.customerExists(customerComTodosOsDados.getName()));
 	}
 	
 	@Test
 	public void testCustomerSearchFromNameAndReturnWithSuccess() {
 		phones = new ArrayList4<>();
-		phones.add(new Phone<Customer>("1", PhoneType.CEL, "1111111", customerComTodosOsDados));
+		phones.add(new Phone<Customer>("1", PhoneType.CELLULAR, "1111111", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.HOME, "32456789", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.WORK, "34561234", customer));
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		customerData.customerAdd(customerComTodosOsDados);
 		assertTrue("the customerName be found",customerData.customerExists(customerComTodosOsDados.getName()));
 		customerData.customerRemove(customerComTodosOsDados);
@@ -89,16 +85,16 @@ public class CustomerDataTest {
 	@Test
 	public void testCustomerSearchFromCpfAndNotFound() {
 		phones = new ArrayList4<>();
-		phones.add(new Phone<Customer>("1", PhoneType.CEL, "1111111", customerComTodosOsDados));
+		phones.add(new Phone<Customer>("1", PhoneType.CELLULAR, "1111111", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.HOME, "32456789", customerComTodosOsDados));
 		phones.add(new Phone<Customer>("1", PhoneType.WORK, "34561234", customer));
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		assertFalse("the cpfNumber of customer should not be found",customerData.customerByCpfExists(customerComTodosOsDados.getName()));
 	}
 	
 	@Test
 	public void testCustomerSearchFromCpfAndReturnWithSuccess() {
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		customerData.customerAdd(customerComTodosOsDados);
 		assertTrue("the cpfNumber of customer should be found",customerData.customerExists(customerComTodosOsDados.getName()));
 		customerData.customerRemove(customerComTodosOsDados);
@@ -106,7 +102,7 @@ public class CustomerDataTest {
 
 	@Test
 	public void testGetCustomerByCustomerCpf() {
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		customerData.customerAdd(customerComTodosOsDados);
 		Customer customerRetornado = customerData.getCustomerByCustomerCpf(customerComTodosOsDados.getCpfNumber());
 		assertEquals(customerComTodosOsDados,customerRetornado);
@@ -115,7 +111,7 @@ public class CustomerDataTest {
 
 	@Test
 	public void testGetCustomerByCustomerName() {
-		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, enderecos, "anotação", LocalDate.now());
+		customerComTodosOsDados = new Customer("1","33345555511","teste","email@sistema.com", phones, end1, "anotaÃ§Ã£o", LocalDate.now(), LocalDateTime.now(), LocalDateTime.now());
 		customerData.customerAdd(customerComTodosOsDados);
 		assertEquals("the customerName should not be found",customerComTodosOsDados,customerData.getCustomerByCustomerName(customerComTodosOsDados.getName()));
 		customerData.customerRemove(customerComTodosOsDados);
@@ -126,7 +122,7 @@ public class CustomerDataTest {
 		customer = new Customer();
 		customer.setName("nomeTeste1");
 		customerData.customerAdd(customer);
-		customers = customerData.getCustomers();
+		ObjectSet<Customer> customers = customerData.getCustomers();
 		while(customers.hasNext()) {
 			Customer customerRetornado = customers.next();
 			assertEquals(customerData.getCustomerByCustomerName(customerRetornado.getName()), customerRetornado);

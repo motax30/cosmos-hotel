@@ -1,8 +1,18 @@
-<div class="card {{class}}">
-	<div class="card-header">
-    {{#if icon}}<i class="icon {{icon}}"></i>{{/if}}<strong>{{title}}</strong>
-	</div>
-	<div class="card-block">
-		{{yield}}
-	</div>
+<div class="card {{cardClass}}">
+  {{#if hasBlockParams}}
+    {{yield
+      (hash
+        header = (component 'card-block/header')
+        body = (component 'card-block/body')
+        footer = (component 'card-block/footer')
+      )
+    }}
+  {{else}}
+    <div class="card-header">
+      {{title}}
+    </div>
+    <div class="card-block">
+      {{yield}}
+    </div>
+  {{/if}}
 </div>

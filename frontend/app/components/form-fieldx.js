@@ -22,6 +22,7 @@ export default FormField.extend({
     },
 
     processFocusOut(object, propertyName, value) {
+      console.log(object, propertyName, value);
       if (get(this, 'updateOnFocusOut')) {
         this._processUpdate(object, propertyName, value);
       }

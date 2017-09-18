@@ -64,7 +64,7 @@ public class ReceptionistData {
 	public Receptionist getReceptionistByReceptionistUserName(String user_name) {
 		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		query.descend("user_name").constrain(user_name).equal();
+		query.descend("userName").constrain(user_name).equal();
 		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
