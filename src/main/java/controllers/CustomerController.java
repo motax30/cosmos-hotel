@@ -1,5 +1,6 @@
 package controllers;
 
+import com.db4o.ObjectSet;
 import com.google.gson.*;
 
 import models.entities.Address;
@@ -18,9 +19,16 @@ public class CustomerController {
         // GET - index - return all customers
         get("/customers/", (req, res) -> {
             CustomerData customerData = new CustomerData();
+            ObjectSet customers;
+
+            if (req.queryParams("filter[email]") != null) {
+                customers =  customerData.getCustomersByEmail(req.queryParams("filter[email]"));
+            } else {
+                customers = customerData.getCustomers();
+            }
 
             JsonObject jsonResponse = new JsonObject();
-            jsonResponse.add("customers", new Gson().toJsonTree(customerData.getCustomers()));
+            jsonResponse.add("customers", new Gson().toJsonTree(customers));
             return jsonResponse;
         });
 

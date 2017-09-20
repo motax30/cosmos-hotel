@@ -103,4 +103,11 @@ public class CustomerData {
 		query.constrain(Customer.class);
 		return query.execute();
 	}
+
+	public ObjectSet<Customer> getCustomersByEmail(String email){
+		Query query = customerData.query();
+		query.constrain(Customer.class);
+		query.descend("email").constrain(email).equal();
+		return query.execute();
+	}
 }
