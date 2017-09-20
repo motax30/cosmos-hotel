@@ -23,6 +23,8 @@ public class CustomerController {
 
             if (req.queryParams("filter[email]") != null) {
                 customers =  customerData.getCustomersByEmail(req.queryParams("filter[email]"));
+            } else if (req.queryParams("filter[cpfNumber]") != null) {
+                customers = customerData.getCustomersByCustomerCpf(req.queryParams("filter[cpfNumber]"));
             } else {
                 customers = customerData.getCustomers();
             }

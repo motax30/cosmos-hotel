@@ -110,4 +110,12 @@ public class CustomerData {
 		query.descend("email").constrain(email).equal();
 		return query.execute();
 	}
+
+	public ObjectSet<Customer> getCustomersByCustomerCpf(String cpfNumber) {
+		Query query = customerData.query();
+		query.constrain(Customer.class);
+		query.descend("cpfNumber").constrain(cpfNumber).equal();
+		ObjectSet<Customer> result = query.execute();
+		return query.execute();
+	}
 }
