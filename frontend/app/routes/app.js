@@ -4,10 +4,10 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	classNames: ["navbar-fixed sidebar-fixed header-fixed fixed-nav footer-fixed"],
 	title: function(tokens) {
-		return tokens.join(' - ') + ' » Cosmos Hotel';
+		return tokens.join(' - ') + ' » Cosmos Star Hotel';
 	},
 	breadCrumb: {
-		title: 'Main',
+		title: 'Home',
 		path: 'app.dashboard'
 	},
 	authenticationRoute: "auth"

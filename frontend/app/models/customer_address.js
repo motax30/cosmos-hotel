@@ -5,6 +5,7 @@ const { attr, belongsTo } = DS;
 export default DS.Model.extend({
   street: attr('string'),
   number: attr('string'),
+  complement: attr('string'),
   neighborhood: attr('string'),
   zipCode: attr('string'),
   city: attr('string'),

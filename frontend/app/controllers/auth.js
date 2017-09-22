@@ -5,12 +5,15 @@ export default Ember.Controller.extend({
 
 	actions: {
 		authenticate: function() {
-			var credentials = this.getProperties('identification', 'password'),
+			let credentials = this.getProperties('identification', 'password'),
 			authenticator = 'authenticator:jwt';
-			
+
+      const flashMessages = Ember.get(this, 'flashMessages');
+
 			this.get('session').authenticate(authenticator, credentials).then(() => {
+        flashMessages.success('Login realizado com sucesso!');
 			}, () => {
-				this.set('messageError',"Não conseguimos autenticar, por favor, verifique os dados.");
+        flashMessages.danger('Não foi possível autenticar, por favor, verifique seus dados.');
 			});
 		}
 	}

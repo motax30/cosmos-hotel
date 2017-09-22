@@ -1,19 +1,31 @@
 .auth-background {
 	background-image: url(/assets/images/auth/cosmos-background.jpg);
-	background-size: cover;
+  background-size: cover;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-image: linear-gradient(to bottom right, #000, #111);
+    opacity: .5;
+  }
 }
 
 .auth-logo {
-	width: 70%;
-	margin-bottom: 20px;
+  z-index: 1;
 
-	background-color: rgba(0, 0, 0, 0.31);
-	border-radius: 10px;
-	padding: 5px 0;
+	width: 70%;
+  height: 70%;
+
+  margin-bottom: 15px;
+  padding: 10px;
+
+  border-radius: 2px;
 }
 
 @media (min-width: 768px) {
   .auth-logo {
     width: 40%;
+    height: 40%;
   }
 }

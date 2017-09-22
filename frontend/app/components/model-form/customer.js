@@ -7,6 +7,7 @@ import Changeset from 'ember-changeset';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+  toast: Ember.inject.service(),
   init() {
     this._super(...arguments);
     let model = this.get('model');
@@ -29,6 +30,26 @@ export default Ember.Component.extend({
       let phoneModel = phone.get('_content').get('_internalModel');
       customer.get('phones').removeObject(phoneModel);
       phoneModel.deleteRecord();
+    },
+    fillAddressByZipCode(address) {
+      let toast = this.get('toast');
+      let zipCode = address.get('zipCode');
+      address.validate('zipCode');
+      let isValid = (address.get('errors').findBy('key', 'zipCode')) === undefined;
+
+      if (isValid) {
+        Ember.$.getJSON("http://api.postmon.com.br/v1/cep/" + zipCode).done(function(data) {
+          address.set('street', data.logradouro);
+          address.set('neighborhood', data.bairro);
+          address.set('city', data.cidade);
+          address.set('state', data.estado);
+          toast.success(`Endereço do CEP ${zipCode} preenchido!`);
+        }).fail(function(response) {
+          if (response.status === 404) {
+            toast.warning(`CEP ${zipCode} não encontrado.`);
+          }
+        });
+      }
     },
     submit: function (customer) {
       this.get('customer').validate();

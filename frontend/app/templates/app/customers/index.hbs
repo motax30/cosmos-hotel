@@ -1,10 +1,10 @@
 {{#card-block cardClass="card-accent-secondary" as |card|}}
   {{#card.header}}
-    {{fa-icon "users"}}<strong>Listar</strong>
+    {{fa-icon "list"}}<strong>Listar</strong>
   {{/card.header}}
 
   {{#card.body}}
-    <table class="table table-bordered table-striped">
+    <table class="table table-responsive table-bordered table-striped">
       <thead>
       <tr>
         <th>Nome</th>
@@ -61,7 +61,7 @@
   {{/modal.body}}
 
   {{#modal.footer}}
-    {{#bs-button onClick=(action modal.close)}}Cancelar{{/bs-button}}
     {{#bs-button onClick=(action "destroy" customer_destroy) class="btn btn-danger"}}Excluir{{/bs-button}}
+    {{#bs-button onClick=(action modal.close)}}Cancelar{{/bs-button}}
   {{/modal.footer}}
 {{/bs-modal}}

@@ -5,12 +5,9 @@
 @import "coreui-cards";
 
 // Internals
+@import "errors";
 @import "coreui-custom";
 @import "custom-bootstrap";
 @import "auth";
 @import "forms";
-
-/* 404 */
-body.not-found > .ember-view {
-  flex: 1;
-}
+@import "tables";

@@ -4,6 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	titleToken: 'Clientes',
 	breadCrumb: {
-		title: 'Clientes'
+		title: 'Clientes',
+    icon: 'users'
 	}
 });

@@ -21,13 +21,27 @@
       {{#fields-for address as |fa|}}
         <div class="row">
           <div class="col-md-6">
-            {{fa.text-field "zipCode" required=true inputClasses="zip-code-mask" label="CEP" placeholder="Ex.: 00000-000" }}
+            {{#fa.custom-field "zipCode" label="CEP" inputClasses="zip-code-mask" as |ff|}}
+              {{ff.label required=true}}
+              <div class="input-group">
+                {{ff.control placeholder="Ex.: (12) 91234-1234" }}
+                <span class="input-group-btn">
+                    <button class="btn btn-success" {{action "fillAddressByZipCode" address}} type="button">
+                      {{fa-icon 'search'}} Pesquisar
+                    </button>
+                  </span>
+              </div>
+              {{ff.errors}}
+            {{/fa.custom-field}}
           </div>
           <div class="col-md-6">
             {{fa.text-field "street" required=true label="Logradouro" placeholder="Ex.: R. Maria" }}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             {{fa.text-field "number" required=true label="Número" placeholder="Ex.: 100" }}
+          </div>
+          <div class="col-md-3">
+            {{fa.text-field "complement" label="Complemento" placeholder="Ex.: Fundos" }}
           </div>
           <div class="col-md-6">
             {{fa.text-field "neighborhood" required=true label="Bairro" placeholder="Ex.: Jd. Alves" }}
@@ -84,7 +98,7 @@
                                   options=phone.typeSelect
                                   optionTargetPath="id"
                                   optionLabelPath="label"
-                                  prompt="Escolha um Tipo de Telefone"
+                                  prompt="Escolha um Tipo"
                                   label="Tipo" required=true}}
 
               </div>
@@ -101,12 +115,13 @@
     </div>
   </div>
 
-  {{#link-to "app.customers" class="btn btn-secondary"}}
-    Cancelar
-  {{/link-to}}
   <button class="btn btn-primary" {{ action "submit" customer }}>
     {{ if model.isNew "Cadastrar Cliente" "Editar Cliente" }}
   </button>
+  {{#link-to "app.customers" class="btn btn-secondary"}}
+    Cancelar
+  {{/link-to}}
+
 {{/form-for}}
 
 <!-- Events -->

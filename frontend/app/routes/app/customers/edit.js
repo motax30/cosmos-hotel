@@ -5,6 +5,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model(params) {
     return this.store.find('customer', params.id);
   },
+  titleToken: function(model) {
+    return `Editar - ${model.get('name')}`;
+  },
+  breadCrumb: {
+    title: 'Editar'
+  },
   actions: {
     willTransition() {
       const record = this.controller.get('model');

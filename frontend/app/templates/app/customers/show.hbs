@@ -7,66 +7,68 @@
     <!-- Customer -->
     <div class="row">
       <div class="col-md-12">
-          <table class="table">
-            <thead>
-              <th>{{fa-icon "user"}} Nome</th>
-              <th>{{fa-icon "envelope"}} E-mail</th>
-              <th>{{fa-icon "file"}} CPF</th>
-              <th>{{fa-icon "calendar-plus-o"}} Criado em</th>
-              <th>{{fa-icon "calendar-check-o"}} Atualizado em</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{{model.name}}</td>
-                <td>{{model.email}}</td>
-                <td>{{model.cpfNumber}}</td>
-                <td>{{model.createdAt}}</td>
-                <td>{{model.updatedAt}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <p class="lead">{{fa-icon "user" class="text-danger"}} Cliente</p>
+        <table class="table table-responsive table-bordered table-show table-condensed">
+          <tbody>
+          <tr>
+            <th>{{fa-icon "user"}} Nome:</th>
+            <td>{{model.name}}</td>
+            <th>{{fa-icon "envelope"}} E-mail:</th>
+            <td>{{model.email}}</td>
+            <th>{{fa-icon "file"}} CPF:</th>
+            <td>{{model.cpfNumber}}</td>
+          </tr>
+          <tr>
+            <th>{{fa-icon "calendar-plus-o"}} Criado em:</th>
+            <td>{{model.createdAt}}</td>
+            <th>{{fa-icon "calendar-check-o"}} Atualizado em:</th>
+            <td>{{model.updatedAt}}</td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <!-- Address -->
     <div class="row">
       <div class="col-md-12">
-        <p class="lead">{{fa-icon "map-pin"}} Endereço</p>
-        <table class="table">
-          <thead>
-            <th>Logradouro</th>
-            <th>Número</th>
-            <th>Bairro</th>
-            <th>CEP</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-          </thead>
+        <p class="lead">{{fa-icon "map-pin" class="text-danger"}} Endereço</p>
+        <table class="table table-responsive table-bordered table-show table-condensed">
           <tbody>
           <tr>
+            <th>Logradouro:</th>
             <td>{{model.address.street}}</td>
+            <th>Número:</th>
             <td>{{model.address.number}}</td>
+            <th>Complemento:</th>
+            <td>{{model.address.complement}}</td>
+            <th>Bairro:</th>
             <td>{{model.address.neighborhood}}</td>
+          </tr>
+          <tr>
+            <th>CEP:</th>
             <td>{{model.address.zipCode}}</td>
+            <th>Cidade:</th>
             <td>{{model.address.city}}</td>
+            <th>Estado:</th>
             <td>{{model.address.state}}</td>
           </tr>
           </tbody>
         </table>
       </div>
     </div>
+
     <!-- Phones -->
     <div class="row">
       <div class="col-md-12">
-        <p class="lead">{{fa-icon "phone"}} Telefones</p>
-        <table class="table">
-          <thead>
-            <th>Número</th>
-            <th>Tipo</th>
-          </thead>
+        <p class="lead">{{fa-icon "phone" class="text-danger"}} Telefones</p>
+        <table class="table table-responsive table-bordered table-show table-condensed">
           <tbody>
           {{#each model.phones as |phone|}}
             <tr>
+              <th>Número:</th>
               <td>{{phone.number}}</td>
-              <td>{{phone.type}}</td>
+              <th>Tipo:</th>
+              <td>{{phone.typeShow}}</td>
             </tr>
           {{/each}}
           </tbody>
@@ -76,12 +78,12 @@
   {{/card.body}}
 
   {{#card.footer}}
-    {{#link-to "app.customers" class="btn btn-secondary"}}
-      Cancelar
-    {{/link-to}}
-
     {{#link-to "app.customers.edit" model class="btn btn-primary"}}
       Editar
+    {{/link-to}}
+
+    {{#link-to "app.customers" class="btn btn-secondary"}}
+      Cancelar
     {{/link-to}}
   {{/card.footer}}
 {{/card-block}}
