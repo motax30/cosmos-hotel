@@ -9,7 +9,7 @@ import settings.DatabaseServerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CustomerDataTest.class, 
-	ReceptionistDataTest.class })
+	ReceptionistDataTest.class, AccommodationDataTest.class })
 public class AllTests {
 	@BeforeClass
 	public static void beforeClass() {

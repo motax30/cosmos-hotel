@@ -37,9 +37,9 @@ public class CustomerDataTest {
 
 	@Before
 	public void setUp() {
-		end1 = new Address("1","Rua 1","123","esplanada","12756712","São José","sp","Brasil");
-		end2 = new Address("2","Rua 2","321","jardim americano","12756712","São José","sp","Brasil");
-		end3 = new Address("3","Rua 3","456","por do sol","12756712","São José","sp","Brasil");
+		end1 = new Address("1","Rua 1","123","fundos","esplanada","12756712","São José","sp","Brasil");
+		end2 = new Address("2","Rua 2","321","fundos","jardim americano","12756712","São José","sp","Brasil");
+		end3 = new Address("3","Rua 3","456","fundos","por do sol","12756712","São José","sp","Brasil");
 	}
 
 	@Test
