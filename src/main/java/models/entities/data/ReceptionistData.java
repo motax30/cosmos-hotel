@@ -40,8 +40,8 @@ public class ReceptionistData {
 		return false;
 	}
 
-	public boolean receptionistExists(String user_name) {
-		return this.getReceptionistByReceptionistUserName(user_name) != null;
+	public boolean receptionistExists(String userName) {
+		return this.getReceptionistByReceptionistUserName(userName) != null;
 	}
 
 	public Receptionist getReceptionistById(String id) {
@@ -61,10 +61,10 @@ public class ReceptionistData {
 		return currentReceptionist;
 	}
 	
-	public Receptionist getReceptionistByReceptionistUserName(String user_name) {
+	public Receptionist getReceptionistByReceptionistUserName(String userName) {
 		Query query = receptionistData.query();
 		query.constrain(Receptionist.class);
-		query.descend("userName").constrain(user_name).equal();
+		query.descend("userName").constrain(userName).equal();
 		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}

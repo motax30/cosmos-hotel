@@ -13,7 +13,7 @@ import models.entities.Accommodation;
 @AllArgsConstructor
 public class AccommodationData {
 	
-	ObjectContainer accommodationData;
+	private ObjectContainer accommodationData;
 	/*
 	 * Constructors	
 	 */

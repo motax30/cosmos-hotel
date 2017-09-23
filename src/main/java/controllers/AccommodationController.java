@@ -94,20 +94,5 @@ public class AccommodationController {
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
             return jsonObject;
         });
-
-        /*
-            Unrouted actions
-         */
-        // GET - return specific accommodation by typeAccommodation
-        get("/accommodations/:typeAccommodation/", (req, res) -> {
-            String typeAccommodation = req.params(":typeAccommodation");
-            AccommodationData accommodationData = new AccommodationData();
-
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-
-            Accommodation accommodation = accommodationData.getAccommodationByType(typeAccommodation);
-            return accommodation == null ? "{}" : gson.toJson(accommodation);
-        });
 	}
 }
