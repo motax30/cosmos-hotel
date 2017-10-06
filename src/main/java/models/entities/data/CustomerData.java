@@ -25,97 +25,82 @@ public class CustomerData {
 	/*
 	 * Public Methods
 	 */
-	public boolean customerAdd(Customer customer) {
-		if(!customerExists(customer.getName())) {
-			customer.setCreatedAt(LocalDateTime.now());
-			customer.setUpdatedAt(LocalDateTime.now());
-			if (customer.getAddress() != null) {
-				customerData.store(customer.getAddress());
-			}
-
-			if (customer.getPhones() != null) {
-				for (Phone<Customer> phone : customer.getPhones()) {
-					customerData.store(phone);
-				}
-			}
-
-			customerData.store(customer);
-			customerData.commit();
-			return true;
+	public boolean create(Customer customer) {
+		if (exists("cpfNumber", customer.getCpfNumber()) || exists("email", customer.getEmail())) {
+			return false;
 		}
-		return false;
-	}
-	
-	public boolean customerRemove(Customer customer) {
-		if(customerByCpfExists(customer.getCpfNumber())) {
-			customerData.delete(customer);
-			customerData.commit();
-			return true;
+
+		customer.setCreatedAt(LocalDateTime.now());
+		customer.setUpdatedAt(LocalDateTime.now());
+
+		if (customer.getAddress() != null) {
+			customerData.store(customer.getAddress());
 		}
-		return false;
+
+		if (customer.getPhones() != null) {
+			for (Phone<Customer> phone : customer.getPhones()) {
+				customerData.store(phone);
+			}
+		}
+
+		customerData.store(customer);
+		customerData.commit();
+		return true;
 	}
 
-	public boolean customerExists(String name) {
-		return this.getCustomerByCustomerName(name) != null;
-	}
-	public boolean customerByCpfExists(String cpfNumber) {
-		return this.getCustomerByCustomerCpf(cpfNumber) != null;
-	}
-
-	public Customer getCustomerById(String id) {
-		Query query = customerData.query();
-		query.constrain(Customer.class);
-		query.descend("id").constrain(id).equal();
-		ObjectSet<Customer> result = query.execute();
-		return result.hasNext() ? result.next() : null;
-	}
-
-	public Customer customerUpdate(Customer customer) {
-		Customer currentCustomer = getCustomerById(customer.getId());
+	public Customer update(Customer customer) {
+		Customer currentCustomer = findBy("id", customer.getId());
 		LocalDateTime createdAt = currentCustomer.getCreatedAt();
 
 		BeanUtils.copyProperties(customer, currentCustomer);
 		currentCustomer.setUpdatedAt(LocalDateTime.now());
 		currentCustomer.setCreatedAt(createdAt);
+
 		customerData.store(currentCustomer);
 		customerData.commit();
+
 		return currentCustomer;
 	}
 
-	public Customer getCustomerByCustomerCpf(String cpfNumber) {
+	public boolean delete(Customer customer) {
+		try {
+			customerData.delete(customer);
+			customerData.commit();
+			return true;
+		} catch (Exception error) {
+			return false;
+		}
+	}
+
+	public void deleteAll() {
+		for(Customer customer : findAll()) {
+			customerData.delete(customer);
+			customerData.commit();
+		}
+	}
+
+	public boolean exists(String key, String value) {
+		return findBy(key, value) != null;
+	}
+
+	public Customer findBy(String key, String value) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("cpfNumber").constrain(cpfNumber).equal();
+		query.descend(key).constrain(value).equal();
 		ObjectSet<Customer> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
-	
-	public Customer getCustomerByCustomerName(String name) {
-		Query query = customerData.query();
-		query.constrain(Customer.class);
-		query.descend("name").constrain(name).equal();
-		ObjectSet<Customer> result = query.execute();
-		return result.hasNext() ? result.next() : null;
-	}
-	
-	public ObjectSet<Customer> getCustomers(){
+
+	public ObjectSet<Customer> findAll() {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
 		return query.execute();
 	}
 
-	public ObjectSet<Customer> getCustomersByEmail(String email){
+	public ObjectSet<Customer> findAllBy(String key, String value) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
-		query.descend("email").constrain(email).equal();
-		return query.execute();
-	}
-
-	public ObjectSet<Customer> getCustomersByCustomerCpf(String cpfNumber) {
-		Query query = customerData.query();
-		query.constrain(Customer.class);
-		query.descend("cpfNumber").constrain(cpfNumber).equal();
-		ObjectSet<Customer> result = query.execute();
+		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
 }

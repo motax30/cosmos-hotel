@@ -2,15 +2,9 @@ package controllers;
 
 import com.db4o.ObjectSet;
 import com.google.gson.*;
-
-import models.entities.Address;
 import models.entities.Customer;
 import models.entities.data.CustomerData;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static spark.Spark.*;
 
 public class CustomerController {
@@ -22,11 +16,11 @@ public class CustomerController {
             ObjectSet customers;
 
             if (req.queryParams("filter[email]") != null) {
-                customers =  customerData.getCustomersByEmail(req.queryParams("filter[email]"));
+                customers = customerData.findAllBy("email", req.queryParams("filter[email]"));
             } else if (req.queryParams("filter[cpfNumber]") != null) {
-                customers = customerData.getCustomersByCustomerCpf(req.queryParams("filter[cpfNumber]"));
+                customers = customerData.findAllBy("cpfNumber", req.queryParams("filter[cpfNumber]"));
             } else {
-                customers = customerData.getCustomers();
+                customers = customerData.findAll();
             }
 
             JsonObject jsonResponse = new JsonObject();
@@ -42,7 +36,7 @@ public class CustomerController {
             Customer customer = new Gson().fromJson(customerJsonObject.toString(), Customer.class);
 
             CustomerData customerData = new CustomerData();
-            customerData.customerAdd(customer);
+            customerData.create(customer);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
@@ -55,7 +49,7 @@ public class CustomerController {
             String id = req.params(":customer_id");
 
             CustomerData customerData = new CustomerData();
-            Customer customer = customerData.getCustomerById(id);
+            Customer customer = customerData.findBy("id", id);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
@@ -71,10 +65,10 @@ public class CustomerController {
 
             String id = req.params(":customer_id");
             CustomerData customerData = new CustomerData();
-            Customer customer = customerData.getCustomerById(id);
+            Customer customer = customerData.findBy("id", id);
 
             customerJson.setId(customer.getId());
-            customerData.customerUpdate(customerJson);
+            customerData.update(customerJson);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customerJson)).getAsJsonObject());
@@ -86,9 +80,9 @@ public class CustomerController {
             String id = req.params(":customer_id");
 
             CustomerData customerData = new CustomerData();
-            Customer customer = customerData.getCustomerById(id);
+            Customer customer = customerData.findBy("id", id);
 
-            customerData.customerRemove(customer);
+            customerData.delete(customer);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
