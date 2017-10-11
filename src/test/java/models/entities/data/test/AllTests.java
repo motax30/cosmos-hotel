@@ -1,5 +1,7 @@
 package models.entities.data.test;
 
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -12,7 +14,7 @@ import settings.DatabaseServerTest;
 	ReceptionistDataTest.class, AccommodationDataTest.class })
 public class AllTests {
 	@BeforeClass
-	public static void beforeClass() {
+	public static void beforeClass() throws IOException {
 		DatabaseServerTest.deleteTestDatabase();
 	}
 }

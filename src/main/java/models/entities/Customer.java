@@ -26,7 +26,7 @@ public class Customer {
 	private Address address;
 
 	private String notes;
-	private LocalDate birthday;
+	private LocalDateTime birthday;
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
