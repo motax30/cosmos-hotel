@@ -44,15 +44,15 @@ public class BookingDataTest {
 	@Before
 	public void setUp() throws Exception {
 		phones = new ArrayList<>();
-		phones.add(new Phone<Customer>("1", PhoneType.HOME, "30987877", customer1));
-		phones.add(new Phone<Customer>("2", PhoneType.CELLULAR, "987651238", customer1));
-		phones.add(new Phone<Customer>("", PhoneType.HOME, "32345432", customer1));
+		phones.add(new Phone<Customer>("1", PhoneType.HOME, "30987877", customer1,LocalDateTime.now(),LocalDateTime.now()));
+		phones.add(new Phone<Customer>("2", PhoneType.CELLULAR, "987651238", customer1,LocalDateTime.now(),LocalDateTime.now()));
+		phones.add(new Phone<Customer>("", PhoneType.HOME, "32345432", customer1,LocalDateTime.now(),LocalDateTime.now()));
 		address = new Address("1", "Rua 1", "123","home", "jardim Americado", "123345678", "São Jose dos Campos", "sp", "Brasil");
 		customer1 = new Customer("1", "15287269951", "joao", "joaopedro@email.com", phones, address, "cliente vip", birthday.now(),LocalDateTime.now(),LocalDateTime.now());
 		customer1 = new Customer("2", "22222222222", "pedro", "pedro@email.com", phones, address, "cliente vip", birthday.now(),LocalDateTime.now(),LocalDateTime.now());
-		accommodation1 = new Accommodation("1", "duplo", new AccommodationTypeInformations(123.00, 2));
-		accommodation2 = new Accommodation("2", "simples", new AccommodationTypeInformations(223.00, 2));
-		recepcionist = new Receptionist("1", "admin", "admin@fatec.br", "admin", ReceptionistType.RECEPCIONIST, "Joana", "notes");
+		accommodation1 = new Accommodation("1", "duplo", new AccommodationTypeInformations(123.00, 2,"1"), LocalDateTime.now(),LocalDateTime.now());
+		accommodation2 = new Accommodation("2", "simples", new AccommodationTypeInformations(223.00, 2,"2"),LocalDateTime.now(),LocalDateTime.now());
+		recepcionist = new Receptionist("1", "admin", "admin@fatec.br", "admin", ReceptionistType.RECEPCIONIST, "Joana", "notes", LocalDateTime.now(),LocalDateTime.now());
 	}
 
 	@After
@@ -77,7 +77,6 @@ public class BookingDataTest {
 				BookingInitialDate, BookingFinalDate,300.12, PaymentOptions.IN_CASH,111.45,createdAt,updateAt);
 		bookingData.create(booking);
 		assertTrue("Reserva de número: "+booking2.getId()+" já foi cadastrada no sistema",bookingData.create(booking2));
-		
 	}
 
 }

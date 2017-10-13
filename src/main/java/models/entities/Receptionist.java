@@ -1,5 +1,7 @@
 package models.entities;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.uuid.Generators;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,9 @@ public class Receptionist {
 
 	private String email;
 	private String password;
-
 	private ReceptionistType userType;
-	
 	private String name;
 	private String notes;
+	private LocalDateTime createdAt;
+	private LocalDateTime UpdatedAt;
 }

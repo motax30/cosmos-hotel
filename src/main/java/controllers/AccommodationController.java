@@ -24,7 +24,7 @@ public class AccommodationController {
 			AccommodationData accommodationData = new AccommodationData();
 			
 			JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("accommodations", accommodationData.getAccommodations());
+            jsonResponse.put("accommodations", accommodationData.findAll());
 			return jsonResponse;
 		}
 		);
@@ -37,7 +37,7 @@ public class AccommodationController {
             Accommodation accommodation = new Gson().fromJson(accommodationJsonObject.toString(), Accommodation.class);
 
             AccommodationData customerData = new AccommodationData();
-            customerData.accommodationAdd(accommodation);
+            customerData.create(accommodation);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
@@ -50,7 +50,7 @@ public class AccommodationController {
             String id = req.params(":accommodation_id");
 
             AccommodationData accommodationData = new AccommodationData();
-            Accommodation accommodation = accommodationData.getAccommodationById(id);
+            Accommodation accommodation = accommodationData.findBy("id",id);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
@@ -64,17 +64,17 @@ public class AccommodationController {
             JSONObject requestParams = new JSONObject(req.body());
 
             AccommodationData accommodationData = new AccommodationData();
-            Accommodation accommodation = accommodationData.getAccommodationById(id);
+            Accommodation accommodation = accommodationData.findBy("id",id);
 
             String accommodationType = requestParams.getJSONObject("accommodation").getString("typeAccommodation");
             JSONArray typeInformations = requestParams.getJSONObject("accommodation").getJSONArray("accommodationTypeInformations");
 
             AccommodationTypeInformations accommodationTypeInformations = new AccommodationTypeInformations(
-            		Double.valueOf(typeInformations.getString(1)),Integer.valueOf(typeInformations.getString(2)));
+            		Double.valueOf(typeInformations.getString(1)),Integer.valueOf(typeInformations.getString(2)),typeInformations.getString(3));
 			
             accommodation.setAccommodationTypeInformations(accommodationTypeInformations );
 			accommodation.setTypeAccommodation(accommodationType);
-            accommodationData.accommodationUpdate(accommodation);
+            accommodationData.update(accommodation);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
@@ -86,9 +86,9 @@ public class AccommodationController {
             String id = req.params(":accommodation_id");
 
             AccommodationData accommodationData = new AccommodationData();
-            Accommodation accommodation = accommodationData.getAccommodationById(id);
+            Accommodation accommodation = accommodationData.findBy("id", id);
 
-            accommodationData.accommodationRemove(accommodation);
+            accommodationData.delete(accommodation);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());

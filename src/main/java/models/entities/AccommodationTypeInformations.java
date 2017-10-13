@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class AccommodationTypeInformations {
-	private double dailyPrice;
-	private int numberBeds;
+	private double dailyPrice=0;
+	private int numberBeds=0;
+	private String idAccommodation;
 }

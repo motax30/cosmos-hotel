@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class CustomerData {
+public class CustomerData implements Datable<Customer, Customer,String>{
 	private ObjectContainer customerData;
 
 	public CustomerData() {
@@ -25,6 +25,7 @@ public class CustomerData {
 	/*
 	 * Public Methods
 	 */
+	@Override
 	public boolean create(Customer customer) {
 		if (exists("cpfNumber", customer.getCpfNumber()) || exists("email", customer.getEmail())) {
 			return false;
@@ -47,7 +48,8 @@ public class CustomerData {
 		customerData.commit();
 		return true;
 	}
-
+	
+	@Override
 	public Customer update(Customer customer) {
 		Customer currentCustomer = findBy("id", customer.getId());
 		LocalDateTime createdAt = currentCustomer.getCreatedAt();
@@ -61,7 +63,8 @@ public class CustomerData {
 
 		return currentCustomer;
 	}
-
+	
+	@Override
 	public boolean delete(Customer customer) {
 		try {
 			customerData.delete(customer);
@@ -71,18 +74,21 @@ public class CustomerData {
 			return false;
 		}
 	}
-
+	
+	@Override
 	public void deleteAll() {
 		for(Customer customer : findAll()) {
 			customerData.delete(customer);
 			customerData.commit();
 		}
 	}
-
+	
+	@Override
 	public boolean exists(String key, String value) {
 		return findBy(key, value) != null;
 	}
-
+	
+	@Override
 	public Customer findBy(String key, String value) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
@@ -90,13 +96,15 @@ public class CustomerData {
 		ObjectSet<Customer> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
-
+	
+	@Override
 	public ObjectSet<Customer> findAll() {
 		Query query = customerData.query();
 		query.constrain(Customer.class);
 		return query.execute();
 	}
-
+	
+	@Override
 	public ObjectSet<Customer> findAllBy(String key, String value) {
 		Query query = customerData.query();
 		query.constrain(Customer.class);

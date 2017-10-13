@@ -1,5 +1,9 @@
 package models.entities.data;
 
+import java.time.LocalDateTime;
+
+import org.springframework.beans.BeanUtils;
+
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -11,7 +15,7 @@ import models.entities.Accommodation;
 
 @Data
 @AllArgsConstructor
-public class AccommodationData {
+public class AccommodationData implements Datable<Accommodation,Accommodation,String> {
 	
 	private ObjectContainer accommodationData;
 	/*
@@ -35,60 +39,83 @@ public class AccommodationData {
 	public void setCustomerData(ObjectContainer acomodationData) {
 		this.accommodationData = acomodationData;
 	}
-	
-	public boolean accommodationAdd(Accommodation acomodation) {
-		if(!acomodationExists(acomodation)){
-			if(acomodation.getAccommodationTypeInformations()!=null) {
-				accommodationData.store(acomodation.getAccommodationTypeInformations());
-			}
-			accommodationData.store(acomodation);
-			accommodationData.commit();
-			return true;
+
+	@Override
+	public boolean create(Accommodation acc) {
+		if(exists("id", acc.getId())&&!(acc.getTypeAccommodation().isEmpty())) {
+			return false;
 		}
-		return false;
+		acc.setCreatedAt(LocalDateTime.now());
+		acc.setUpdatedAt(LocalDateTime.now());
+		if(acc.getAccommodationTypeInformations().getDailyPrice()!=0 && acc.getAccommodationTypeInformations().getNumberBeds()!=0) {
+			accommodationData.store(acc.getAccommodationTypeInformations());
+		}
+		accommodationData.store(acc);
+		accommodationData.commit();
+		return true;
 	}
 	
-	public boolean accommodationRemove(Accommodation accommodation) {
-		if(acomodationExists(accommodation)) {
+
+	@Override
+	public Accommodation update(Accommodation acc) {
+		Accommodation currentAccommodation = findBy("id", acc.getId());
+		LocalDateTime createdAt = currentAccommodation.getCreatedAt();
+
+		BeanUtils.copyProperties(acc, currentAccommodation);
+		currentAccommodation.setUpdatedAt(LocalDateTime.now());
+		currentAccommodation.setCreatedAt(createdAt);
+
+		accommodationData.store(currentAccommodation);
+		accommodationData.commit();
+
+		return currentAccommodation;
+	}
+
+	@Override
+	public boolean delete(Accommodation acc) {
+		try {
+			accommodationData.delete(acc);
+			accommodationData.commit();
+			return true;
+		} catch (Exception error) {
+			return false;
+		}
+	}
+
+	@Override
+	public void deleteAll() {
+		for(Accommodation accommodation : findAll()) {
 			accommodationData.delete(accommodation);
 			accommodationData.commit();
-			return true;
 		}
-		return false;
 	}
 
-	private boolean acomodationExists(Accommodation accommodation) {
-		return getAccommodationByType(accommodation.getTypeAccommodation())!=null;
+	@Override
+	public boolean exists(String key, String value) {
+		return findBy(key, value) != null;
 	}
 
-	public Accommodation getAccommodationById(String id) {
+	@Override
+	public Accommodation findBy(String key, String value) {
 		Query query = accommodationData.query();
 		query.constrain(Accommodation.class);
-		query.descend("id").constrain(id).equal();
+		query.descend(key).constrain(value).equal();
 		ObjectSet<Accommodation> result = query.execute();
 		return result.hasNext() ? result.next() : null;
 	}
-	
-	public Accommodation getAccommodationByType(String type) {
+
+	@Override
+	public ObjectSet<Accommodation> findAll() {
 		Query query = accommodationData.query();
 		query.constrain(Accommodation.class);
-		query.descend("typeAccommodation").constrain(type).equal();
-		ObjectSet<Accommodation> result = query.execute();
-		return result.hasNext()?result.next() : null;
+		return query.execute();
 	}
-	
-	public Accommodation accommodationUpdate(Accommodation accommodation) {
-		Accommodation currentAccommodation = getAccommodationById(accommodation.getId());
-		currentAccommodation.setTypeAccommodation(accommodation.getTypeAccommodation());
-		currentAccommodation.setAccommodationTypeInformations(accommodation.getAccommodationTypeInformations());
-		accommodationData.store(currentAccommodation);
-		accommodationData.commit();
-		return currentAccommodation;
-	}
-	
-	public ObjectSet<Accommodation> getAccommodations(){
+
+	@Override
+	public ObjectSet<Accommodation> findAllBy(String key, String value) {
 		Query query = accommodationData.query();
 		query.constrain(Accommodation.class);
+		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
 }

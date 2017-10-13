@@ -1,5 +1,7 @@
 package models.entities;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.uuid.Generators;
 
 import lombok.AllArgsConstructor;
@@ -17,4 +19,6 @@ public class Accommodation {
 	
 	private String typeAccommodation;
 	private AccommodationTypeInformations accommodationTypeInformations;
+	private LocalDateTime createdAt;
+	private LocalDateTime UpdatedAt;
 }
