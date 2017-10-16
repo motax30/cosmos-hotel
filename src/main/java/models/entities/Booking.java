@@ -23,13 +23,13 @@ public class Booking {
 	 private Accommodation accommodation;
 	 private Receptionist recepcionist;
 	 private double dayleValue;
-	 private StatusBooking status;
+	 private String status;
 	 private LocalDateTime checkInDate;
 	 private LocalDateTime checkOutDate;
 	 private LocalDateTime BookingInitialDate;
 	 private LocalDateTime BookingFinalDate;
 	 private double paymentValue;
-	 private PaymentOptions conditionPayment;
+	 private String conditionPayment;
 	 private double paymentMade;
 	 private LocalDateTime createdAt;
 	 private LocalDateTime updatedAt;

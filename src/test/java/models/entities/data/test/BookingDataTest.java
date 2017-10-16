@@ -69,12 +69,12 @@ public class BookingDataTest {
 		LocalDateTime updateAt = LocalDateTime.of(LocalDate.of(2017, 05, 20),LocalTime.now());
 		booking = new Booking("1", customer1, accommodation1, recepcionist,
 							accommodation1.getAccommodationTypeInformations().getDailyPrice(),
-							StatusBooking.BLANK, checkInDate, checkOutDate, 
-							BookingInitialDate, BookingFinalDate,123.34, PaymentOptions.IN_CASH,123.45,createdAt,updateAt);
+							StatusBooking.BLANK.toString(), checkInDate, checkOutDate, 
+							BookingInitialDate, BookingFinalDate,123.34, PaymentOptions.IN_CASH.toString(),123.45,createdAt,updateAt);
 		booking2 = new Booking("2", customer2, accommodation1, recepcionist,
 				accommodation2.getAccommodationTypeInformations().getDailyPrice(),
-				StatusBooking.BLANK, checkInDate, checkOutDate, 
-				BookingInitialDate, BookingFinalDate,300.12, PaymentOptions.IN_CASH,111.45,createdAt,updateAt);
+				StatusBooking.BLANK.toString(), checkInDate, checkOutDate, 
+				BookingInitialDate, BookingFinalDate,300.12, PaymentOptions.IN_CASH.toString(),111.45,createdAt,updateAt);
 		bookingData.create(booking);
 		assertTrue("Reserva de número: "+booking2.getId()+" já foi cadastrada no sistema",bookingData.create(booking2));
 	}

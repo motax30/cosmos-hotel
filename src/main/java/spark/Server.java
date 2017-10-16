@@ -51,7 +51,7 @@ public class Server {
         receptionist.setUserName("admin");
         receptionist.setPassword("admin");
         ReceptionistData receptionistData = new ReceptionistData();
-        receptionistData.receptionistAdd(receptionist);
+        receptionistData.create(receptionist);
 
         CustomerData customerData = new CustomerData();
 //        customerData.get

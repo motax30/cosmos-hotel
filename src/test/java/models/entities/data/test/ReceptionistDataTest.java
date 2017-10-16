@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import models.entities.Receptionist;
 import models.entities.data.ReceptionistData;
+import settings.DatabaseServer;
 import settings.DatabaseServerTest;
 
 import static org.junit.Assert.*;
@@ -11,24 +12,24 @@ import static org.junit.Assert.*;
 public class ReceptionistDataTest {
 	private ReceptionistData receptionistData = new ReceptionistData(DatabaseServerTest.getServer().openClient());
 	
-    @Test public void testReceptionistAdd() {
+    @Test public void testReceptionistCreate() {
         Receptionist receptionist = new Receptionist();
-        receptionist.setName("Roberto das Torres");
-        receptionist.setEmail("roberto@torres.com.br");
-        receptionist.setUserName("roberto-das-torres");
-        receptionist.setPassword("rob123456");
-        assertTrue("the receptionist should be created", receptionistData.receptionistAdd(receptionist));
-        receptionistData.receptionistRemove(receptionist);
+        receptionist.setName("adriano");
+        receptionist.setEmail("adriano@mota.com.br");
+        receptionist.setUserName("motax30");
+        receptionist.setPassword("123456");
+        assertTrue("the receptionist should be created", receptionistData.create(receptionist));
+        receptionistData.delete(receptionist);
     }
     
-    @Test public void testReceptionistRemove() {
+    @Test public void testReceptionistDelete() {
         Receptionist receptionist = new Receptionist();
         receptionist.setName("João das Torres");
         receptionist.setEmail("joao@torres.com.br");
         receptionist.setUserName("joao-das-torres");
         receptionist.setPassword("jdab123456");
-        receptionistData.receptionistAdd(receptionist);
-        assertTrue("Recepcionist should be removed",receptionistData.receptionistRemove(receptionist));
+        receptionistData.create(receptionist);
+        assertTrue("Recepcionist should be removed",receptionistData.delete(receptionist));
     }
     
     @Test public void testReceptionistNotExists() {
@@ -37,7 +38,7 @@ public class ReceptionistDataTest {
         receptionist.setEmail("joao@inverno.com.br");
         receptionist.setUserName("joaodasneves");
         receptionist.setPassword("neves12345");
-        assertFalse("the receptionistName should not be found", receptionistData.receptionistExists(receptionist.getUserName()));
+        assertFalse("the receptionistName should not be found", receptionistData.exists("userName",receptionist.getUserName()));
     }
     
     @Test public void testReceptionistLogin() {
@@ -46,7 +47,7 @@ public class ReceptionistDataTest {
         receptionist.setEmail("joao@inverno.com.br");
         receptionist.setUserName("joaologin");
         receptionist.setPassword("neves");
-        receptionistData.receptionistAdd(receptionist);
+        receptionistData.create(receptionist);
 	    assertTrue("this receptionistName and password should be able to login", receptionistData.receptionistLogin("joaologin", "neves"));
 	}
 }

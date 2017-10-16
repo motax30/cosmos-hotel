@@ -20,7 +20,7 @@ public class ReceptionistController {
             ReceptionistData receptionistData = new ReceptionistData();
 
             JsonObject jsonResponse = new JsonObject();
-            jsonResponse.add("receptionists", new Gson().toJsonTree(receptionistData.getReceptionists()));
+            jsonResponse.add("receptionists", new Gson().toJsonTree(receptionistData.findAll()));
             return jsonResponse;
         });
 
@@ -31,7 +31,7 @@ public class ReceptionistController {
             Receptionist receptionist = new Gson().fromJson(receptionistJsonObject.toString(), Receptionist.class);
 
             ReceptionistData receptionistData = new ReceptionistData();
-            receptionistData.receptionistAdd(receptionist);
+            receptionistData.create(receptionist);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
@@ -44,7 +44,7 @@ public class ReceptionistController {
             String id = req.params(":receptionist_id");
 
             ReceptionistData receptionistData = new ReceptionistData();
-            Receptionist receptionist = receptionistData.getReceptionistById(id);
+            Receptionist receptionist = receptionistData.findBy("id", id);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
@@ -58,12 +58,12 @@ public class ReceptionistController {
             JSONObject requestParams = new JSONObject(req.body());
 
             ReceptionistData receptionistData = new ReceptionistData();
-            Receptionist receptionist = receptionistData.getReceptionistById(id);
+            Receptionist receptionist = receptionistData.findBy("id", id);
 
             String receptionistName = requestParams.getJSONObject("receptionist").getString("name");
             String notes = requestParams.getJSONObject("receptionist").getString("notes");
 
-            receptionistData.receptionistUpdate(receptionist);
+            receptionistData.update(receptionist);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
@@ -75,9 +75,9 @@ public class ReceptionistController {
             String id = req.params(":receptionist_id");
 
             ReceptionistData receptionistData = new ReceptionistData();
-            Receptionist receptionist = receptionistData.getReceptionistById(id);
+            Receptionist receptionist = receptionistData.findBy("id", id);
 
-            receptionistData.receptionistRemove(receptionist);
+            receptionistData.delete(receptionist);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
