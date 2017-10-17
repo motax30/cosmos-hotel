@@ -110,4 +110,13 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
+
+	@Override
+	public boolean closeConnection(ObjectContainer conexao) {
+		boolean closed = false;
+		if (receptionistData.close()) {
+			closed= true;
+		};
+		return closed;
+	}
 }

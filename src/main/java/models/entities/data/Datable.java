@@ -1,5 +1,6 @@
 package models.entities.data;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 
 import models.entities.Customer;
@@ -13,4 +14,5 @@ public interface Datable<T,P,J> {
 	public T findBy(String key, String value);
 	public ObjectSet<T> findAll();
 	public ObjectSet<T> findAllBy(String key,J value);
+	public boolean closeConnection(ObjectContainer conexao);
 }

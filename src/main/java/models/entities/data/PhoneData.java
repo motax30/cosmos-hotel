@@ -119,4 +119,13 @@ public class PhoneData implements Datable<Phone, Phone,String>{
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
+
+	@Override
+	public boolean closeConnection(ObjectContainer conexao) {
+		boolean closed = false;
+		if (phoneData.close()) {
+			closed= true;
+		};
+		return closed;
+	}
 }

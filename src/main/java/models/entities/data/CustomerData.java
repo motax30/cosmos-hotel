@@ -111,4 +111,13 @@ public class CustomerData implements Datable<Customer, Customer,String>{
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
+
+	@Override
+	public boolean closeConnection(ObjectContainer conexao) {
+		boolean closed = false;
+		if (customerData.close()) {
+			closed= true;
+		};
+		return closed;
+	}
 }

@@ -17,7 +17,8 @@ import models.enumerates.StatusBooking;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class Booking {
-	 private String id = Generators.timeBasedGenerator().generate().toString();
+	 
+	private String id = Generators.timeBasedGenerator().generate().toString();
 	 
 	 private Customer customer;
 	 private Accommodation accommodation;
@@ -33,4 +34,24 @@ public class Booking {
 	 private double paymentMade;
 	 private LocalDateTime createdAt;
 	 private LocalDateTime updatedAt;
+	 
+	 public Booking(Customer customer, Accommodation accommodation, Receptionist recepcionist, double dailyValue,
+				String status, LocalDateTime checkInDate, LocalDateTime checkOutDate, LocalDateTime bookinginitialdate,
+				LocalDateTime bookingfinaldate, double paymentValue, String conditionPayment, double paymentMade, LocalDateTime createdAt,
+				LocalDateTime updateAt) {
+		 this.customer = customer;
+		 this.accommodation = accommodation;
+		 this.recepcionist = recepcionist;
+		 this.dayleValue = dayleValue;
+		 this.status = status;
+		 this.checkInDate = checkInDate;
+		 this.checkOutDate = checkOutDate;
+		 this.BookingInitialDate = bookinginitialdate;
+		 this.BookingFinalDate = bookingfinaldate;
+		 this.paymentValue = paymentValue;
+		 this.conditionPayment = conditionPayment;
+		 this.paymentMade = paymentMade;
+		 this.createdAt = createdAt;
+		 this.updatedAt = updateAt;
+	 }
 }

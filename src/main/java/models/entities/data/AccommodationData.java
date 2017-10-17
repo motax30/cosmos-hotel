@@ -118,4 +118,13 @@ public class AccommodationData implements Datable<Accommodation,Accommodation,St
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
+
+	@Override
+	public boolean closeConnection(ObjectContainer conexao) {
+		boolean closed = false;
+		if (accommodationData.close()) {
+			closed= true;
+		};
+		return closed;
+	}
 }

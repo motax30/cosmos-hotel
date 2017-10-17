@@ -30,4 +30,6 @@ public class Customer {
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	
+	
 }
