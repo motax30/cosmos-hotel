@@ -50,7 +50,7 @@ public class BookingDataTest {
 		address = new Address("1", "Rua 1", "123","home", "jardim Americado", "123345678", "São Jose dos Campos", "sp", "Brasil");
 		customer1 = new Customer("1", "15287269951", "joao", "joaopedro@email.com", phones, address, "cliente vip", birthday.now(),LocalDateTime.now(),LocalDateTime.now());
 		customer1 = new Customer("2", "22222222222", "pedro", "pedro@email.com", phones, address, "cliente vip", birthday.now(),LocalDateTime.now(),LocalDateTime.now());
-		accommodation1 = new Accommodation("duplo", new AccommodationTypeInformations(123.00, 2,"1"), false, LocalDateTime.now(),LocalDateTime.now());
+		accommodation1 = new Accommodation("duplo", new AccommodationTypeInformations(123.00, 2,"1"), true, LocalDateTime.now(),LocalDateTime.now());
 		accommodation2 = new Accommodation("simples", new AccommodationTypeInformations(223.00, 2,"2"),false,LocalDateTime.now(),LocalDateTime.now());
 		recepcionist = new Receptionist("1", "admin", "admin@fatec.br", "admin", ReceptionistType.RECEPCIONIST, "Joana", "notes", LocalDateTime.now(),LocalDateTime.now());
 	}
@@ -71,11 +71,10 @@ public class BookingDataTest {
 							accommodation1.getAccommodationTypeInformations().getDailyPrice(),
 							StatusBooking.BLANK.toString(), checkInDate, checkOutDate, 
 							BookingInitialDate, BookingFinalDate,123.34, PaymentOptions.IN_CASH.toString(),123.45,createdAt,updateAt);
-		booking2 = new Booking(customer2, accommodation1, recepcionist,
-				accommodation2.getAccommodationTypeInformations().getDailyPrice(),
-				StatusBooking.BLANK.toString(), checkInDate, checkOutDate, 
-				BookingInitialDate, BookingFinalDate,300.12, PaymentOptions.IN_CASH.toString(),111.45,createdAt,updateAt);
+//		booking2 = new Booking(customer2, accommodation1, recepcionist,
+//				accommodation2.getAccommodationTypeInformations().getDailyPrice(),
+//				StatusBooking.BLANK.toString(), checkInDate, checkOutDate, 
+//				BookingInitialDate, BookingFinalDate,300.12, PaymentOptions.IN_CASH.toString(),111.45,createdAt,updateAt);
 		assertTrue(bookingData.create(booking));
 	}
-
 }
