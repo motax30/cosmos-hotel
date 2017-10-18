@@ -1,13 +1,10 @@
 package models.entities.data;
-import java.util.ListIterator;
-
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.query.Query;
+import com.db4o.query.Predicate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import models.entities.Accommodation;
 import models.entities.Booking;
 import settings.DatabaseServer;
 
@@ -26,12 +23,9 @@ public class BookingData implements Datable<Booking, Booking, String>{
 		if (exists(booking.getAccommodation().getId())) {
 			return false;
 		}
-		if(!booking.getAccommodation().isOcupied()) {
-			bookingData.store(booking);
-			closeConnection(bookingData);
-			return true;
-		}
-		return false;
+		bookingData.store(booking);
+		closeConnection(bookingData);
+		return true;
 	}
 
 	@Override
@@ -53,25 +47,30 @@ public class BookingData implements Datable<Booking, Booking, String>{
 	}
 	
 	private boolean exists(String idAccommodation) {
-		return findAccommodationInBooking(idAccommodation)!=null;
-	}
-	
-	private Booking findAccommodationInBooking(String idAccommodation) {
-		return findInBooking(idAccommodation);
-	}
-	
-	private Booking findInBooking(Object obj) {
-		Booking encontrado = null;
-		Booking b = null;
-		ObjectSet<Object> query = bookingData.queryByExample(Booking.class);
-		while (query.hasNext()) {
-			b = (Booking) query.next();
-			if (b.getAccommodation().getId().equals(obj)) {
-				encontrado = b;
+		/*Faz a busca de objetos Booking que atendam os critérios especificados
+		neste caso irá retornar apenas um resultado caso haja uma Accommodation ocupada, ai não se cadastra
+		a reserva para a accommodation encontrada.
+		*/
+		ObjectSet<Booking> boo = bookingData.query(new Predicate<Booking>() {
+			@Override
+			public boolean match(Booking booking) {
+				return booking.getAccommodation().getId().equals(idAccommodation)&&booking.getAccommodation().isOcupied();
 			}
-		}
-		return encontrado;
-	}
+		});
+		return boo.size()==1;
+	}		   
+		
+		//		Booking encontrado = null;
+//		Booking b = null;
+//		ObjectSet<Object> query = bookingData.queryByExample(Booking.class);
+//		while (query.hasNext()) {
+//			b = (Booking) query.next();
+//			if (b.getAccommodation().getId().equals(obj)) {
+//				encontrado = b;
+//			}
+//		}
+//		return encontrado;
+//	}
 	
 	@Override
 	public boolean exists(String key, String value) {return false;}
