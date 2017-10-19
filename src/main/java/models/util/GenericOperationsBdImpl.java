@@ -38,7 +38,7 @@ public class GenericOperationsBdImpl implements GenericOperationsBd<Object> {
 	}
 
 	@Override
-	public Object deletarEntidadeBd(Object entity) {
+	public Object delEntityToBd(Object entity) {
 		Object objDeletar = entity;
 		bd.delete(entity);
 		bd.commit();// TODO Auto-generated method stub

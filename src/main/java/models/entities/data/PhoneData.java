@@ -23,8 +23,8 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	public PhoneData(String escope) {
 		openBd(escope);
 	}
-	
-	private void isBdNullOrClosed(String escope) {
+	@Override
+	public void isBdNullOrClosed(String escope) {
 		if(bd==null||bd.ext().isClosed()) {
 			openBd(escope);
 		}
@@ -144,5 +144,11 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	public ObjectSet<Phone> findAllBy(String key, String value, String escope) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean exists(String key, String value, String escope) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

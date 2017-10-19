@@ -8,6 +8,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 import models.entities.data.ReceptionistData;
+import models.enumerates.Scope;
 import settings.JWTKey;
 
 public class LoginController {
@@ -23,7 +24,7 @@ public class LoginController {
 					String password = requestParams.getString("password");
 
 					ReceptionistData userData = new ReceptionistData();
-					if (userData.receptionistLogin(userName, password)) {
+					if (userData.receptionistLogin(userName, password,Scope.PRODUCAO.toString())) {
 						claims.put("username", userName);
 						String token = JWTKey.getToken(claims);
 						jsonResponse.put("token", token);

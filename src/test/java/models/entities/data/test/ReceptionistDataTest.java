@@ -48,6 +48,6 @@ public class ReceptionistDataTest {
         receptionist.setUserName("joaologin");
         receptionist.setPassword("neves");
         receptionistData.create(receptionist,Scope.TESTE.toString());
-	    assertTrue("this receptionistName and password should be able to login", receptionistData.receptionistLogin("joaologin", "neves"));
+	    assertTrue("this receptionistName and password should be able to login", receptionistData.receptionistLogin("joaologin", "neves",Scope.PRODUCAO.toString()));
 	}
 }

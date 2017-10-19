@@ -18,8 +18,8 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	public CustomerData(String escope) {
 		openBd(escope);
 	}
-
-	private void isBdNullOrClosed(String escope) {
+	@Override
+	public void isBdNullOrClosed(String escope) {
 		if(bd==null||bd.ext().isClosed()) {
 			openBd(escope);
 		}
@@ -71,7 +71,7 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	public boolean delete(Customer customer,String escope) {
 		openBd(escope);
 		try {
-			deletarEntidadeBd(customer);
+			delEntityToBd(customer);
 			closeBd();
 			return true;
 		} catch (Exception error) {
@@ -83,7 +83,7 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	public void deleteAll(String escope) {
 		openBd(escope);
 		for(Customer customer : findAll(escope)) {
-			deletarEntidadeBd(customer);
+			delEntityToBd(customer);
 		}
 		closeBd();
 	}
@@ -129,5 +129,11 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	public ObjectSet<Customer> findAllBy(String value, String escope) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean exists(String key, String value, String escope) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

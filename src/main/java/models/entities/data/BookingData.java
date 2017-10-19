@@ -1,10 +1,17 @@
 package models.entities.data;
+import java.awt.print.Book;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
+import models.entities.Accommodation;
+import models.entities.Booking;
 import models.entities.Booking;
 import models.enumerates.StatusBooking;
 import models.util.GenericOperationsBdImpl;
@@ -15,8 +22,8 @@ public class BookingData extends GenericOperationsBdImpl implements Datable<Book
 	public BookingData(String escope) {
 		openBd(escope);
 	}
-	
-	private void isBdNullOrClosed(String escope) {
+	@Override
+	public void isBdNullOrClosed(String escope) {
 		if(bd==null||bd.ext().isClosed()) {
 			openBd(escope);
 		}
@@ -36,7 +43,49 @@ public class BookingData extends GenericOperationsBdImpl implements Datable<Book
 	}	   
 	
 	@Override
+	public Booking update(Booking booking, String escope) {
+		isBdNullOrClosed(escope);
+		Booking currentBooking = findBy("id", booking.getId());
+		LocalDateTime createdAt = currentBooking.getCreatedAt();
+
+		BeanUtils.copyProperties(booking, currentBooking);
+		currentBooking.setUpdatedAt(LocalDateTime.now());
+		currentBooking.setCreatedAt(createdAt);
+
+		gravarBd((Booking)currentBooking);
+		closeBd();
+		return currentBooking;
+	}
+
+	@Override
+	public boolean delete(Booking booking, String escope) {
+		isBdNullOrClosed(escope);
+		try {
+			delEntityToBd(booking);
+			closeBd();
+			return true;
+		} catch (Exception error) {
+			return false;
+		}
+	}
+
+	@Override
+	public void deleteAll(String escope) {
+		isBdNullOrClosed(escope);
+		for(Booking booking : findAll(escope)) {
+			delEntityToBd(booking);
+		}
+		closeBd();
+	}
+
+	@Override
+	public boolean exists(String bookId, String escope) {
+		return findBy(bookId,escope) != null;
+	}
+	
+	@Override
 	public Booking findBy(String idAccommodation,String escope) {
+		isBdNullOrClosed(escope);
 		List<Booking> res = bd.query(new Predicate<Booking>() {
 			private static final long serialVersionUID = 1L;
 
@@ -48,52 +97,43 @@ public class BookingData extends GenericOperationsBdImpl implements Datable<Book
 						booking.getAccommodation().getId().equals(idAccommodation);
 			}
 		});
+		closeBd();
 		for (Booking booking : res) {
 			return booking;
 		}
 		return null;
 	}
-
+	
 	@Override
-	public Booking update(Booking obj, String escope) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean exists(String key, String value, String escope) {
+		return findBy(key, value,escope) != null;
 	}
-
+	
 	@Override
-	public boolean delete(Booking obj, String escope) {
-		// TODO Auto-generated method stub
-		return false;
+	public Booking findBy(String key, String value, String escope) {
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
+		query.constrain(Booking.class);
+		query.descend(key).constrain(value).equal();
+		ObjectSet<Booking> result = query.execute();
+		closeBd();
+		return result.hasNext() ? result.next() : null;
 	}
-
 	@Override
-	public void deleteAll(String escope) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean exists(String key, String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Booking findBy(String entity, String entity2, String escope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ObjectSet<Booking> findAll(String scope) {
-		// TODO Auto-generated method stub
-		return null;
+	public ObjectSet<Booking> findAll(String escope) {
+		isBdNullOrClosed(escope);
+		return bd.queryByExample(Booking.class);
 	}
 
 	@Override
 	public ObjectSet<Booking> findAllBy(String key, String value, String escope) {
-		// TODO Auto-generated method stub
-		return null;
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
+		query.constrain(Booking.class);
+		query.descend(key).constrain(value);
+		ObjectSet<Booking> res = query.execute();
+		closeBd();
+		return res;
 	}
 
 	@Override
@@ -101,6 +141,8 @@ public class BookingData extends GenericOperationsBdImpl implements Datable<Book
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 	
 	
 

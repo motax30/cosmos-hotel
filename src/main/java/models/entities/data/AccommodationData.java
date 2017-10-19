@@ -1,10 +1,12 @@
 package models.entities.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 
 import models.entities.Accommodation;
@@ -15,8 +17,9 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	public AccommodationData(String escope) {
 		openBd(escope);
 	}
-	
-	private void isBdNullOrClosed(String escope) {
+
+	@Override
+	public void isBdNullOrClosed(String escope) {
 		if(bd==null||bd.ext().isClosed()) {
 			openBd(escope);
 		}
@@ -25,20 +28,18 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	@Override
 	public boolean create(Accommodation acc,String escope) {
 		isBdNullOrClosed(escope);
-		if(exists("id", acc.getId())&&!(acc.getAccommodationTypeInformations().getTypeAccommodation().isEmpty())) {
+		if(exists("id", acc.getId(),escope)) {
 			return false;
 		}
 		acc.setCreatedAt(LocalDateTime.now());
 		acc.setUpdatedAt(LocalDateTime.now());
 		if(acc.getAccommodationTypeInformations().getDailyPrice()!=0 && acc.getAccommodationTypeInformations().getNumberBeds()!=0) {
-			bd.store(acc.getAccommodationTypeInformations());
+			gravarBd(acc);
+			closeBd();
 		}
-		gravarBd((Accommodation)acc);
-		closeBd();
 		return true;
 	}
 	
-
 	@Override
 	public Accommodation update(Accommodation acc,String escope) {
 		isBdNullOrClosed(escope);
@@ -58,7 +59,7 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	public boolean delete(Accommodation acc,String escope) {
 		isBdNullOrClosed(escope);
 		try {
-			deletarEntidadeBd(acc);
+			delEntityToBd(acc);
 			closeBd();
 			return true;
 		} catch (Exception error) {
@@ -70,16 +71,39 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	public void deleteAll(String escope) {
 		isBdNullOrClosed(escope);
 		for(Accommodation accommodation : findAll(escope)) {
-			deletarEntidadeBd(accommodation);
+			delEntityToBd(accommodation);
 		}
 		closeBd();
 	}
 
 	@Override
-	public boolean exists(String key, String value) {
-		return findBy(key, value) != null;
+	public boolean exists(String acmdId, String escope) {
+		return findBy(acmdId,escope) != null;
 	}
+	
+	@Override
+	public Accommodation findBy(String acmdId, String escope) {
+		isBdNullOrClosed(escope);
+		List<Accommodation> res = bd.query(new Predicate<Accommodation>() {
+			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unlikely-arg-type")
+			@Override
+			public boolean match(Accommodation accommodation) {
+				return accommodation.getId().equals(acmdId);
+			}
+		});
+		closeBd();
+		for (Accommodation accommodation : res) {
+			return accommodation;
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean exists(String key, String value,String escope) {
+		return findBy(key, value,escope) != null;
+	}
 	@Override
 	public Accommodation findBy(String key, String value,String escope) {
 		isBdNullOrClosed(escope);
@@ -87,34 +111,30 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 		query.constrain(Accommodation.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Accommodation> result = query.execute();
+		closeBd();
 		return result.hasNext() ? result.next() : null;
 	}
 
 	@Override
 	public ObjectSet<Accommodation> findAll(String escope) {
 		isBdNullOrClosed(escope);
-		Query query = bd.query();
-		query.constrain(Accommodation.class);
-		return query.execute();
-	}
-
-	@Override
-	public ObjectSet<Accommodation> findAllBy(String key, String value) {
-		Query query = bd.query();
-		query.constrain(Accommodation.class);
-		query.descend(key).constrain(value).equal();
-		return query.execute();
-	}
-
-	@Override
-	public Accommodation findBy(String entity, String escope) {
-		// TODO Auto-generated method stub
-		return null;
+		return bd.queryByExample(Accommodation.class);
 	}
 
 	@Override
 	public ObjectSet<Accommodation> findAllBy(String key, String value, String escope) {
-		// TODO Auto-generated method stub
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
+		query.constrain(Accommodation.class);
+		query.descend(key).constrain(value);
+		ObjectSet<Accommodation> res = query.execute();
+		closeBd();
+		return res;
+	}
+
+	@Override
+	public ObjectSet<Accommodation> findAllBy(String termSearch, String escope) {
 		return null;
 	}
+	
 }

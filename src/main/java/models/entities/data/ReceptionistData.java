@@ -1,14 +1,17 @@
 package models.entities.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Constraint;
+import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
+import models.entities.Receptionist;
 import models.entities.Receptionist;
 import models.util.GenericOperationsBdImpl;
 
@@ -19,7 +22,15 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 		openBd(escope);
 	}
 	
-	public boolean receptionistLogin(String userName, String password) {
+	@Override
+	public void isBdNullOrClosed(String escope) {
+		if(bd==null||bd.ext().isClosed()) {
+			openBd(escope);
+		}
+	}
+	
+	public boolean receptionistLogin(String userName, String password,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		Constraint constrain = query.descend("userName").constrain(userName);
@@ -31,20 +42,21 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 
 	@Override
 	public boolean create(Receptionist recep,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		if (exists("userName", recep.getUserName())||exists("password",recep.getPassword())) {
 			return false;
 		}
 		
 		recep.setCreatedAt(LocalDateTime.now());
 		recep.setUpdatedAt(LocalDateTime.now());
-		bd.store(recep);
-		bd.commit();
+		gravarBd(recep);
+		closeBd();
 		return true;
 	}
 
 	@Override
 	public Receptionist update(Receptionist recep, String escope) {
+		isBdNullOrClosed(escope);
 		Receptionist currentRecepcionist = findBy("id", recep.getId());
 		LocalDateTime createdAt = currentRecepcionist.getCreatedAt();
 
@@ -52,17 +64,18 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 		currentRecepcionist.setUpdatedAt(LocalDateTime.now());
 		currentRecepcionist.setCreatedAt(createdAt);
 
-		bd.store(currentRecepcionist);
-		bd.commit();
+		gravarBd(currentRecepcionist);
+		closeBd();
 
 		return currentRecepcionist;
 	}
 
 	@Override
 	public boolean delete(Receptionist rcp, String escope) {
+		isBdNullOrClosed(escope);
 		try {
-			bd.delete(rcp);
-			bd.commit();
+			delEntityToBd(rcp);
+			closeBd();
 			return true;
 		} catch (Exception error) {
 			return false;
@@ -71,50 +84,76 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 
 	@Override
 	public void deleteAll(String escope) {
+		isBdNullOrClosed(escope);
 		for(Receptionist reception : findAll(escope)) {
-			bd.delete(reception);
-			bd.commit();
+			delEntityToBd(reception);
 		}
+		closeBd();
 	}
 
 	@Override
-	public boolean exists(String key, String value) {
-		return findBy(key, value) != null;
+	public boolean exists(String recepId, String escope) {
+		return findBy(recepId, escope) != null;
 	}
-
+	
 	@Override
-	public Receptionist findBy(String key, String value) {
+	public Receptionist findBy(String recepId, String escope) {
+		isBdNullOrClosed(escope);
+		List<Receptionist> res = bd.query(new Predicate<Receptionist>() {
+			private static final long serialVersionUID = 1L;
+
+			@SuppressWarnings("unlikely-arg-type")
+			@Override
+			public boolean match(Receptionist recepcionist) {
+				return recepcionist.getId().equals(recepId);
+			}
+		});
+		for (Receptionist recepcionist : res) {
+			return recepcionist;
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean exists(String key, String value, String escope) {
+		return findBy(key, value,escope) != null;
+	}
+	
+	@Override
+	public Receptionist findBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Receptionist> result = query.execute();
+		closeBd();
 		return result.hasNext() ? result.next() : null;
 	}
 
 	@Override
 	public ObjectSet<Receptionist> findAll(String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Receptionist.class);
-		return query.execute();
+		ObjectSet<Receptionist> res = query.execute();
+		closeBd();
+		return res;
 	}
 
 	@Override
-	public ObjectSet<Receptionist> findAllBy(String key, String value) {
+	public ObjectSet<Receptionist> findAllBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
-		return query.execute();
+		ObjectSet<Receptionist> res = query.execute();
+		return res;
 	}
 
 	@Override
-	public Receptionist findBy(String entity, String entity2, String escope) {
-		// TODO Auto-generated method stub
+	public ObjectSet<Receptionist> findAllBy(String value, String escope) {
 		return null;
 	}
 
-	@Override
-	public ObjectSet<Receptionist> findAllBy(String key, String value, String escope) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }
