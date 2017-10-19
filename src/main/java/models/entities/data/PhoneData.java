@@ -8,56 +8,63 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import models.entities.Phone;
+import models.util.GenericOperationsBdImpl;
 import settings.DatabaseServer;
 
 @SuppressWarnings("rawtypes")
-public class PhoneData implements Datable<Phone, Phone,String>{
+@NoArgsConstructor
+public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone, Phone,String>{
 
-	ObjectContainer phoneData;
+	ObjectContainer bd;
 	/*
 	 * Constructors	
 	 */
-	public PhoneData() {
-		phoneData = DatabaseServer.getServer().openClient();
+	public PhoneData(String escope) {
+		openBd(escope);
 	}
 	
 	public PhoneData(ObjectContainer phoneData) {
 		super();
-		this.phoneData = phoneData;
+		this.bd = phoneData;
 	}
 
 	/**
 	 * @return the customerData
 	 */
 	public ObjectContainer getPhoneData() {
-		return phoneData;
+		return bd;
 	}
 
 	/**
 	 * @param PhoneData the phoneData to set
 	 */
 	public void setPhoneData(ObjectContainer PhoneData) {
-		this.phoneData = PhoneData;
+		this.bd = PhoneData;
 	}
 
 	@Override
-	public boolean create(Phone pho) {
+	public boolean create(Phone pho,String escope) {
+		openBd(escope);
 		if (exists("number", pho.getNumber())) {
 			return false;
 		}
 		pho.setCreatedAt(LocalDateTime.now());
 		pho.setUpdatedAt(LocalDateTime.now());
 		if(pho.getUser()!=null) {
-			phoneData.store(pho.getUser());
+			bd.store(pho.getUser());
 		}
-		phoneData.store(pho);
-		phoneData.commit();
+		bd.store(pho);
+		bd.commit();
 		return true;
 	}
 
 	@Override
-	public Phone<Phone> update(Phone pho) {
+	public Phone<Phone> update(Phone pho,String escope) {
+		openBd(escope);
 		Phone<Phone> currentPhone = findBy("id", pho.getId());
 		LocalDateTime createdAt = currentPhone.getCreatedAt();
 
@@ -65,17 +72,17 @@ public class PhoneData implements Datable<Phone, Phone,String>{
 		currentPhone.setUpdatedAt(LocalDateTime.now());
 		currentPhone.setCreatedAt(createdAt);
 
-		phoneData.store(currentPhone);
-		phoneData.commit();
+		bd.store(currentPhone);
+		bd.commit();
 
 		return currentPhone;
 	}
 
 	@Override
-	public boolean delete(Phone pho) {
+	public boolean delete(Phone pho,String escope) {
 		try {
-			phoneData.delete(pho);
-			phoneData.commit();
+			bd.delete(pho);
+			bd.commit();
 			return true;
 		} catch (Exception error) {
 			return false;
@@ -84,10 +91,10 @@ public class PhoneData implements Datable<Phone, Phone,String>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deleteAll() {
+	public void deleteAll(String escope) {
 		for(Phone<Phone>phone : findAll()) {
-			phoneData.delete(phone);
-			phoneData.commit();
+			bd.delete(phone);
+			bd.commit();
 		}
 	}
 
@@ -98,7 +105,7 @@ public class PhoneData implements Datable<Phone, Phone,String>{
 
 	@Override
 	public Phone<Phone> findBy(String key, String value) {
-		Query query = phoneData.query();
+		Query query = bd.query();
 		query.constrain(Phone.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Phone> result = query.execute();
@@ -107,25 +114,28 @@ public class PhoneData implements Datable<Phone, Phone,String>{
 	
 	@Override
 	public ObjectSet<Phone> findAll() {
-		Query query = phoneData.query();
+		Query query = bd.query();
 		query.constrain(Phone.class);
 		return query.execute();
 	}
 	
 	@Override
 	public ObjectSet<Phone> findAllBy(String key, String value) {
-		Query query = phoneData.query();
+		Query query = bd.query();
 		query.constrain(Phone.class);
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
 
 	@Override
-	public boolean closeConnection(ObjectContainer conexao) {
-		boolean closed = false;
-		if (phoneData.close()) {
-			closed= true;
-		};
-		return closed;
+	public Phone findBy(String entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectSet<Phone> findAllBy(String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

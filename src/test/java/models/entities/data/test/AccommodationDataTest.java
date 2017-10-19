@@ -13,11 +13,14 @@ import com.db4o.ObjectSet;
 import models.entities.Accommodation;
 import models.entities.AccommodationTypeInformations;
 import models.entities.data.AccommodationData;
+import models.enumerates.Scope;
 import models.enumerates.TypeAccommodation;
+import models.util.GenericOperationsBdImpl;
+import models.util.TableDayleValue;
 import settings.DatabaseServerTest;
 
-public class AccommodationDataTest {
-	private AccommodationData accommodationData = new AccommodationData(DatabaseServerTest.getServer().openClient());
+public class AccommodationDataTest{
+	private AccommodationData accommodationData = new AccommodationData(Scope.TESTE.toString());
 	private Accommodation accommodation;
 	private Accommodation accommodation2;
 	private AccommodationTypeInformations accommodationTypeInformations;
@@ -28,36 +31,29 @@ public class AccommodationDataTest {
 	public void setUp() {
 		accommodation = new Accommodation();
 		accommodation2 = new Accommodation();
-		accommodation.setId("1");
-		accommodationTypeInformations = new AccommodationTypeInformations(120,3,accommodation.getId());
+		accommodationTypeInformations = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1);
 		accommodation.setAccommodationTypeInformations(accommodationTypeInformations);
-		accommodation.setTypeAccommodation(TypeAccommodation.DUPLO.toString());
-	}
-	
-	@After
-	public void finishedTest() {
-		accommodationData.delete(accommodation);
 	}
 
 	@Test
 	public void testCreateAccommodation() {
-		assertTrue(accommodationData.create(accommodation));
+		assertTrue(accommodationData.create(accommodation, Scope.TESTE.toString()));
 	}
 	
 	@Test
 	public void testCreateAccommodationExists() {
-		accommodationData.create(accommodation);
-		assertFalse(accommodationData.create(accommodation));
+		
+		accommodationData.create(accommodation, Scope.TESTE.toString());
+		assertFalse(accommodationData.create(accommodation, Scope.TESTE.toString()));
 	}
 	
 	@Test
 	public void testUpdateAccommodation() {
-		accommodationData.create(accommodation);
-		String originalType = accommodation.getTypeAccommodation();
+		accommodationData.create(accommodation, Scope.TESTE.toString());
+		String originalType = accommodation.getAccommodationTypeInformations().getTypeAccommodation();
 		int originalUpdateAt = accommodation.getUpdatedAt().getNano();
-		accommodation.setTypeAccommodation(TypeAccommodation.SIMPLES.toString());
-		accommodationData.update(accommodation);
-		String atualType = accommodation.getTypeAccommodation();
+		accommodationData.update(accommodation, Scope.TESTE.toString());
+		String atualType = accommodation.getAccommodationTypeInformations().getTypeAccommodation();
 		int atualUpdateAt = accommodation.getUpdatedAt().getNano();
 		assertNotEquals(originalType,atualType);
 		assertNotEquals(originalUpdateAt,atualUpdateAt);
@@ -65,50 +61,50 @@ public class AccommodationDataTest {
 	
 	@Test
 	public void testRemoveAccommodation() {
-		accommodationData.create(accommodation);
-		assertTrue(accommodationData.delete(accommodation));
+		accommodationData.create(accommodation, Scope.TESTE.toString());
+		assertTrue(accommodationData.delete(accommodation, Scope.TESTE.toString()));
 	}
 	
 	@Test
 	public void testRemoveAllAccommodation() {
-		accommodationData.create(accommodation);
+		accommodationData.create(accommodation, Scope.TESTE.toString());
 		accommodation2.setId("2");
-		accommodationTypeInformations2 = new AccommodationTypeInformations(150,2,accommodation2.getId());
+		accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
+				new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
-		accommodation2.setTypeAccommodation(TypeAccommodation.SIMPLES.toString());
-		accommodationData.create(accommodation2);
-		accommodationData.deleteAll();
+		accommodationData.create(accommodation2, Scope.TESTE.toString());
+		accommodationData.deleteAll(Scope.TESTE.toString());
 		assertTrue(accommodationData.findAll().isEmpty());
 	}
 	
 	@Test
 	public void testGetAccommodations() {
 		accommodation2.setId("2");
-		accommodationTypeInformations2 = new AccommodationTypeInformations(150,2,accommodation2.getId());
+		accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
+				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
-		accommodation2.setTypeAccommodation(TypeAccommodation.SIMPLES.toString());
-		accommodationData.create(accommodation2);
+		accommodationData.create(accommodation2, Scope.TESTE.toString());
 		ObjectSet<Accommodation>accommodations = accommodationData.findAll();
 		while(accommodations.hasNext()) {
 			Accommodation tmpAcc = accommodations.next();
 			assertTrue(tmpAcc.equals(accommodation) || tmpAcc.equals(accommodation2));
 		}
-		accommodationData.delete(accommodation2);
+		accommodationData.delete(accommodation2, Scope.TESTE.toString());
 	}
 	
 	@Test
 	public void testfindAllAccommodationsWithSimilarTypeAccommodation() {
-		accommodationData.create(accommodation);
+		accommodationData.create(accommodation, Scope.TESTE.toString());
 		accommodation2.setId("2");
-		AccommodationTypeInformations accommodationTypeInformations2 = new AccommodationTypeInformations(150,2,accommodation2.getId());
+		AccommodationTypeInformations accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
+				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
-		accommodation2.setTypeAccommodation(TypeAccommodation.DUPLO.toString());
-		accommodationData.create(accommodation2);
+		accommodationData.create(accommodation2, Scope.TESTE.toString());
 		ObjectSet<Accommodation>res = accommodationData.findAllBy("typeAccommodation", TypeAccommodation.DUPLO.toString());
 		while (res.hasNext()) {
 			Accommodation acc = res.next();
 			assertTrue("Não foram retornadas as Accommodations cadastradas.",acc.equals(accommodation) || acc.equals(accommodation2));
 		}
-		accommodationData.delete(accommodation2);	
+		accommodationData.delete(accommodation2, Scope.TESTE.toString());	
 	}
 }

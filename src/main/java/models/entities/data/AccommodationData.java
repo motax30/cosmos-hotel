@@ -4,60 +4,40 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.BeanUtils;
 
-import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 import models.entities.Accommodation;
+import models.util.GenericOperationsBdImpl;
 
-@Data
-@AllArgsConstructor
-public class AccommodationData implements Datable<Accommodation,Accommodation,String> {
+public class AccommodationData extends GenericOperationsBdImpl implements Datable<Accommodation,Accommodation,String> {
 	
-	private ObjectContainer accommodationData;
-	/*
-	 * Constructors	
-	 */
-	@SuppressWarnings("deprecation")
-	public AccommodationData() {
-		accommodationData = Db4o.openFile("main.odb");
+	public AccommodationData(String escope) {
+		openBd(escope);
 	}
 	
-	/**
-	 * @return the acomodationData
-	 */
-	public ObjectContainer acomodationData() {
-		return accommodationData;
-	}
-	
-	/**
-	 * @param acomodationData the acomodationData to set
-	 */
-	public void setCustomerData(ObjectContainer acomodationData) {
-		this.accommodationData = acomodationData;
-	}
-
 	@Override
-	public boolean create(Accommodation acc) {
-		if(exists("id", acc.getId())&&!(acc.getTypeAccommodation().isEmpty())) {
+	public boolean create(Accommodation acc,String escope) {
+		openBd(escope);
+		if(exists("id", acc.getId())&&!(acc.getAccommodationTypeInformations().getTypeAccommodation().isEmpty())) {
 			return false;
 		}
 		acc.setCreatedAt(LocalDateTime.now());
 		acc.setUpdatedAt(LocalDateTime.now());
 		if(acc.getAccommodationTypeInformations().getDailyPrice()!=0 && acc.getAccommodationTypeInformations().getNumberBeds()!=0) {
-			accommodationData.store(acc.getAccommodationTypeInformations());
+			bd.store(acc.getAccommodationTypeInformations());
 		}
-		accommodationData.store(acc);
-		accommodationData.commit();
+		gravarBd((Accommodation)acc);
+		closeBd();
 		return true;
 	}
 	
 
 	@Override
-	public Accommodation update(Accommodation acc) {
+	public Accommodation update(Accommodation acc,String escope) {
+		openBd(escope);
 		Accommodation currentAccommodation = findBy("id", acc.getId());
 		LocalDateTime createdAt = currentAccommodation.getCreatedAt();
 
@@ -65,17 +45,17 @@ public class AccommodationData implements Datable<Accommodation,Accommodation,St
 		currentAccommodation.setUpdatedAt(LocalDateTime.now());
 		currentAccommodation.setCreatedAt(createdAt);
 
-		accommodationData.store(currentAccommodation);
-		accommodationData.commit();
-
+		gravarBd((Accommodation)currentAccommodation);
+		closeBd();
 		return currentAccommodation;
 	}
 
 	@Override
-	public boolean delete(Accommodation acc) {
+	public boolean delete(Accommodation acc,String escope) {
 		try {
-			accommodationData.delete(acc);
-			accommodationData.commit();
+			openBd(escope);
+			deletarEntidadeBd(acc);
+			closeBd();
 			return true;
 		} catch (Exception error) {
 			return false;
@@ -83,10 +63,11 @@ public class AccommodationData implements Datable<Accommodation,Accommodation,St
 	}
 
 	@Override
-	public void deleteAll() {
+	public void deleteAll(String escope) {
+		openBd(escope);
 		for(Accommodation accommodation : findAll()) {
-			accommodationData.delete(accommodation);
-			accommodationData.commit();
+			deletarEntidadeBd(accommodation);
+			closeBd();
 		}
 	}
 
@@ -97,7 +78,7 @@ public class AccommodationData implements Datable<Accommodation,Accommodation,St
 
 	@Override
 	public Accommodation findBy(String key, String value) {
-		Query query = accommodationData.query();
+		Query query = bd.query();
 		query.constrain(Accommodation.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Accommodation> result = query.execute();
@@ -106,25 +87,28 @@ public class AccommodationData implements Datable<Accommodation,Accommodation,St
 
 	@Override
 	public ObjectSet<Accommodation> findAll() {
-		Query query = accommodationData.query();
+		Query query = bd.query();
 		query.constrain(Accommodation.class);
 		return query.execute();
 	}
 
 	@Override
 	public ObjectSet<Accommodation> findAllBy(String key, String value) {
-		Query query = accommodationData.query();
+		Query query = bd.query();
 		query.constrain(Accommodation.class);
 		query.descend(key).constrain(value).equal();
 		return query.execute();
 	}
 
 	@Override
-	public boolean closeConnection(ObjectContainer conexao) {
-		boolean closed = false;
-		if (accommodationData.close()) {
-			closed= true;
-		};
-		return closed;
+	public Accommodation findBy(String entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectSet<Accommodation> findAllBy(String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

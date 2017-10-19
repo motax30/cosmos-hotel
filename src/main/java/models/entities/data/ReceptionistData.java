@@ -12,21 +12,21 @@ import com.db4o.query.Query;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import models.entities.Receptionist;
+import models.util.GenericOperationsBdImpl;
 import models.entities.Receptionist;
 import models.entities.Receptionist;
 import settings.DatabaseServer;
 
 @Data
 @AllArgsConstructor
-public class ReceptionistData implements Datable<Receptionist, Receptionist,String>{
-	private ObjectContainer receptionistData;
+public class ReceptionistData extends GenericOperationsBdImpl implements Datable<Receptionist, Receptionist,String>{
 
-	public ReceptionistData() {
-		receptionistData = DatabaseServer.getServer().openClient();
+	public ReceptionistData(String escope) {
+		openBd(escope);
 	}
 	
 	public boolean receptionistLogin(String userName, String password) {
-		Query query = receptionistData.query();
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		Constraint constrain = query.descend("userName").constrain(userName);
 		query.descend("password").constrain(password).and(constrain);
@@ -43,8 +43,8 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 		
 		recep.setCreatedAt(LocalDateTime.now());
 		recep.setUpdatedAt(LocalDateTime.now());
-		receptionistData.store(recep);
-		receptionistData.commit();
+		bd.store(recep);
+		bd.commit();
 		return true;
 	}
 
@@ -57,8 +57,8 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 		currentRecepcionist.setUpdatedAt(LocalDateTime.now());
 		currentRecepcionist.setCreatedAt(createdAt);
 
-		receptionistData.store(currentRecepcionist);
-		receptionistData.commit();
+		bd.store(currentRecepcionist);
+		bd.commit();
 
 		return currentRecepcionist;
 	}
@@ -66,8 +66,8 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 	@Override
 	public boolean delete(Receptionist rcp) {
 		try {
-			receptionistData.delete(rcp);
-			receptionistData.commit();
+			bd.delete(rcp);
+			bd.commit();
 			return true;
 		} catch (Exception error) {
 			return false;
@@ -77,8 +77,8 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 	@Override
 	public void deleteAll() {
 		for(Receptionist reception : findAll()) {
-			receptionistData.delete(reception);
-			receptionistData.commit();
+			bd.delete(reception);
+			bd.commit();
 		}
 	}
 
@@ -89,7 +89,7 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 
 	@Override
 	public Receptionist findBy(String key, String value) {
-		Query query = receptionistData.query();
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Receptionist> result = query.execute();
@@ -98,14 +98,14 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 
 	@Override
 	public ObjectSet<Receptionist> findAll() {
-		Query query = receptionistData.query();
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		return query.execute();
 	}
 
 	@Override
 	public ObjectSet<Receptionist> findAllBy(String key, String value) {
-		Query query = receptionistData.query();
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
 		return query.execute();
@@ -114,7 +114,7 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 	@Override
 	public boolean closeConnection(ObjectContainer conexao) {
 		boolean closed = false;
-		if (receptionistData.close()) {
+		if (bd.close()) {
 			closed= true;
 		};
 		return closed;

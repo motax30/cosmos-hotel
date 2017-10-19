@@ -10,26 +10,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Customer {
 	/* UUID */
-	private String id = Generators.timeBasedGenerator().generate().toString();
+	@NonNull private String id = Generators.timeBasedGenerator().generate().toString();
 
-	private String cpfNumber;
-	private String name;
+	@NonNull private String cpfNumber;
+	@NonNull private String name;
 	private String email;
-	private List<Phone<Customer>> phones;
-	private Address address;
+	@NonNull private List<Phone<Customer>> phones;
+	@NonNull private Address address;
 
 	private String notes;
 	private LocalDateTime birthday;
 
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+	@NonNull private LocalDateTime createdAt;
+	@NonNull private LocalDateTime updatedAt;
 	
 	
 }
