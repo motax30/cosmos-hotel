@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.BeanUtils;
 
-import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
-import lombok.NoArgsConstructor;
 import models.entities.Accommodation;
 import models.util.GenericOperationsBdImpl;
 
@@ -18,9 +16,15 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 		openBd(escope);
 	}
 	
+	private void isBdNullOrClosed(String escope) {
+		if(bd==null||bd.ext().isClosed()) {
+			openBd(escope);
+		}
+	}
+	
 	@Override
 	public boolean create(Accommodation acc,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		if(exists("id", acc.getId())&&!(acc.getAccommodationTypeInformations().getTypeAccommodation().isEmpty())) {
 			return false;
 		}
@@ -37,7 +41,7 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 
 	@Override
 	public Accommodation update(Accommodation acc,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		Accommodation currentAccommodation = findBy("id", acc.getId());
 		LocalDateTime createdAt = currentAccommodation.getCreatedAt();
 
@@ -52,8 +56,8 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 
 	@Override
 	public boolean delete(Accommodation acc,String escope) {
+		isBdNullOrClosed(escope);
 		try {
-			openBd(escope);
 			deletarEntidadeBd(acc);
 			closeBd();
 			return true;
@@ -64,11 +68,11 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 
 	@Override
 	public void deleteAll(String escope) {
-		openBd(escope);
-		for(Accommodation accommodation : findAll()) {
+		isBdNullOrClosed(escope);
+		for(Accommodation accommodation : findAll(escope)) {
 			deletarEntidadeBd(accommodation);
-			closeBd();
 		}
+		closeBd();
 	}
 
 	@Override
@@ -77,7 +81,8 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	}
 
 	@Override
-	public Accommodation findBy(String key, String value) {
+	public Accommodation findBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Accommodation.class);
 		query.descend(key).constrain(value).equal();
@@ -86,7 +91,8 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	}
 
 	@Override
-	public ObjectSet<Accommodation> findAll() {
+	public ObjectSet<Accommodation> findAll(String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Accommodation.class);
 		return query.execute();
@@ -101,13 +107,13 @@ public class AccommodationData extends GenericOperationsBdImpl implements Databl
 	}
 
 	@Override
-	public Accommodation findBy(String entity) {
+	public Accommodation findBy(String entity, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ObjectSet<Accommodation> findAllBy(String value) {
+	public ObjectSet<Accommodation> findAllBy(String key, String value, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}

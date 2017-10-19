@@ -11,7 +11,7 @@ import settings.DatabaseServerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CustomerDataTest.class, 
-	ReceptionistDataTest.class, AccommodationDataTest.class })
+	ReceptionistDataTest.class, AccommodationDataTest.class,BookingDataTest.class })
 public class AllTests {
 	@BeforeClass
 	public static void beforeClass() throws IOException {

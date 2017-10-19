@@ -1,26 +1,31 @@
 package controllers;
 
-import com.google.gson.*;
+import static spark.Spark.delete;
+import static spark.Spark.get;
+import static spark.Spark.options;
+import static spark.Spark.post;
+import static spark.Spark.put;
 
-import models.entities.Address;
-import models.entities.Receptionist;
-import models.entities.data.ReceptionistData;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import static spark.Spark.*;
+import models.entities.Receptionist;
+import models.entities.data.ReceptionistData;
+import models.enumerates.Scope;
 
 public class ReceptionistController {
 
-    public ReceptionistController() {
+    @SuppressWarnings("unused")
+	public ReceptionistController() {
         // GET - index - return all receptionists
         get("/receptionists/", (req, res) -> {
             ReceptionistData receptionistData = new ReceptionistData();
 
             JsonObject jsonResponse = new JsonObject();
-            jsonResponse.add("receptionists", new Gson().toJsonTree(receptionistData.findAll()));
+            jsonResponse.add("receptionists", new Gson().toJsonTree(receptionistData.findAll(Scope.TESTE.toString())));
             return jsonResponse;
         });
 
@@ -31,7 +36,7 @@ public class ReceptionistController {
             Receptionist receptionist = new Gson().fromJson(receptionistJsonObject.toString(), Receptionist.class);
 
             ReceptionistData receptionistData = new ReceptionistData();
-            receptionistData.create(receptionist);
+            receptionistData.create(receptionist,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
@@ -63,7 +68,7 @@ public class ReceptionistController {
             String receptionistName = requestParams.getJSONObject("receptionist").getString("name");
             String notes = requestParams.getJSONObject("receptionist").getString("notes");
 
-            receptionistData.update(receptionist);
+            receptionistData.update(receptionist,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());
@@ -77,7 +82,7 @@ public class ReceptionistController {
             ReceptionistData receptionistData = new ReceptionistData();
             Receptionist receptionist = receptionistData.findBy("id", id);
 
-            receptionistData.delete(receptionist);
+            receptionistData.delete(receptionist,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("receptionist", new JsonParser().parse(new Gson().toJson(receptionist)).getAsJsonObject());

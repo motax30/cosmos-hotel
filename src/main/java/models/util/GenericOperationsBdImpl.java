@@ -8,17 +8,20 @@ import settings.DatabaseServerTest;
 
 public class GenericOperationsBdImpl implements GenericOperationsBd<Object> {
 	protected static ObjectContainer bd;
+	@SuppressWarnings("static-access")
 	@Override
 	public boolean openBd(String escope) {
-		if(!bd.close()) {
+		if(bd==null||bd.ext().isClosed()) {
 			if(escope==Scope.PRODUCAO.toString()) {
 				this.bd = DatabaseServer.getServer().openClient();
 				return true;
-			}else {
-				this.bd = DatabaseServerTest.getServer().openClient();
+				}else {
+					this.bd = DatabaseServerTest.getServer().openClient();
+					return true;
+				}
+			}else if(!bd.close()){
 				return true;
 			}
-			};
 		return false;
 	}
 

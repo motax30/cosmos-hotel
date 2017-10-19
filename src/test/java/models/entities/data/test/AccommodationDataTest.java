@@ -4,7 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,9 +16,7 @@ import models.entities.AccommodationTypeInformations;
 import models.entities.data.AccommodationData;
 import models.enumerates.Scope;
 import models.enumerates.TypeAccommodation;
-import models.util.GenericOperationsBdImpl;
 import models.util.TableDayleValue;
-import settings.DatabaseServerTest;
 
 public class AccommodationDataTest{
 	private AccommodationData accommodationData = new AccommodationData(Scope.TESTE.toString());
@@ -27,6 +26,7 @@ public class AccommodationDataTest{
 	private AccommodationTypeInformations accommodationTypeInformations2;
 	
 	
+	@SuppressWarnings("static-access")
 	@Before
 	public void setUp() {
 		accommodation = new Accommodation();
@@ -42,7 +42,6 @@ public class AccommodationDataTest{
 	
 	@Test
 	public void testCreateAccommodationExists() {
-		
 		accommodationData.create(accommodation, Scope.TESTE.toString());
 		assertFalse(accommodationData.create(accommodation, Scope.TESTE.toString()));
 	}
@@ -65,6 +64,7 @@ public class AccommodationDataTest{
 		assertTrue(accommodationData.delete(accommodation, Scope.TESTE.toString()));
 	}
 	
+	@SuppressWarnings("static-access")
 	@Test
 	public void testRemoveAllAccommodation() {
 		accommodationData.create(accommodation, Scope.TESTE.toString());
@@ -73,10 +73,12 @@ public class AccommodationDataTest{
 				new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
 		accommodationData.create(accommodation2, Scope.TESTE.toString());
-		accommodationData.deleteAll(Scope.TESTE.toString());
-		assertTrue(accommodationData.findAll().isEmpty());
+		accommodationData.deleteAll(Scope.TESTE.toString());getClass();
+		List<Accommodation> res = accommodationData.findAll(Scope.TESTE.toString());
+		assertTrue(res.isEmpty());
 	}
 	
+	@SuppressWarnings("static-access")
 	@Test
 	public void testGetAccommodations() {
 		accommodation2.setId("2");
@@ -84,7 +86,7 @@ public class AccommodationDataTest{
 				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
 		accommodationData.create(accommodation2, Scope.TESTE.toString());
-		ObjectSet<Accommodation>accommodations = accommodationData.findAll();
+		ObjectSet<Accommodation>accommodations = accommodationData.findAll(Scope.TESTE.toString());
 		while(accommodations.hasNext()) {
 			Accommodation tmpAcc = accommodations.next();
 			assertTrue(tmpAcc.equals(accommodation) || tmpAcc.equals(accommodation2));
@@ -96,6 +98,7 @@ public class AccommodationDataTest{
 	public void testfindAllAccommodationsWithSimilarTypeAccommodation() {
 		accommodationData.create(accommodation, Scope.TESTE.toString());
 		accommodation2.setId("2");
+		@SuppressWarnings("static-access")
 		AccommodationTypeInformations accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
 				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);

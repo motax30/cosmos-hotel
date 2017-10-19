@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -19,13 +18,14 @@ import models.entities.AccommodationTypeInformations;
 import models.entities.data.AccommodationData;
 import models.enumerates.Scope;
 public class AccommodationController {
+	@SuppressWarnings("unused")
 	public AccommodationController() {
 		 // GET - index - return all accommodations
 		get("/accommodations/",(req,res)->{
 			AccommodationData accommodationData = new AccommodationData(Scope.PRODUCAO.toString());
 			
 			JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("accommodations", accommodationData.findAll());
+            jsonResponse.put("accommodations", accommodationData.findAll(Scope.TESTE.toString()));
 			return jsonResponse;
 		}
 		);

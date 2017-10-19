@@ -1,37 +1,35 @@
 package models.entities.data;
 
-import com.db4o.ObjectContainer;
+import java.time.LocalDateTime;
+
+import org.springframework.beans.BeanUtils;
+
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import models.entities.Customer;
 import models.entities.Phone;
 import models.util.GenericOperationsBdImpl;
 
-import org.springframework.beans.BeanUtils;
-import settings.DatabaseServer;
-
-import java.time.LocalDateTime;
-
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class CustomerData extends GenericOperationsBdImpl implements Datable<Customer, Customer,String>{
-	private ObjectContainer bd;
-
+	
 	public CustomerData(String escope) {
 		openBd(escope);
 	}
 
+	private void isBdNullOrClosed(String escope) {
+		if(bd==null||bd.ext().isClosed()) {
+			openBd(escope);
+		}
+	}
 	/*
 	 * Public Methods
 	 */
 	@Override
 	public boolean create(Customer customer,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		if (exists("cpfNumber", customer.getCpfNumber()) || exists("email", customer.getEmail())) {
 			return false;
 		}
@@ -71,6 +69,7 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	
 	@Override
 	public boolean delete(Customer customer,String escope) {
+		openBd(escope);
 		try {
 			deletarEntidadeBd(customer);
 			closeBd();
@@ -82,10 +81,11 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	
 	@Override
 	public void deleteAll(String escope) {
-		for(Customer customer : findAll()) {
+		openBd(escope);
+		for(Customer customer : findAll(escope)) {
 			deletarEntidadeBd(customer);
-			closeBd();
 		}
+		closeBd();
 	}
 	
 	@Override
@@ -103,14 +103,16 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	}
 	
 	@Override
-	public ObjectSet<Customer> findAll() {
+	public ObjectSet<Customer> findAll(String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Customer.class);
 		return query.execute();
 	}
 	
 	@Override
-	public ObjectSet<Customer> findAllBy(String key, String value) {
+	public ObjectSet<Customer> findAllBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Customer.class);
 		query.descend(key).constrain(value).equal();
@@ -118,13 +120,13 @@ public class CustomerData extends GenericOperationsBdImpl implements Datable<Cus
 	}
 
 	@Override
-	public Customer findBy(String entity) {
+	public Customer findBy(String entity, String entity2, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ObjectSet<Customer> findAllBy(String value) {
+	public ObjectSet<Customer> findAllBy(String value, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}

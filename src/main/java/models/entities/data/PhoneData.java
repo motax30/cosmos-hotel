@@ -8,12 +8,9 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import models.entities.Phone;
 import models.util.GenericOperationsBdImpl;
-import settings.DatabaseServer;
 
 @SuppressWarnings("rawtypes")
 @NoArgsConstructor
@@ -25,6 +22,12 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	 */
 	public PhoneData(String escope) {
 		openBd(escope);
+	}
+	
+	private void isBdNullOrClosed(String escope) {
+		if(bd==null||bd.ext().isClosed()) {
+			openBd(escope);
+		}
 	}
 	
 	public PhoneData(ObjectContainer phoneData) {
@@ -48,7 +51,7 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 
 	@Override
 	public boolean create(Phone pho,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		if (exists("number", pho.getNumber())) {
 			return false;
 		}
@@ -64,7 +67,7 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 
 	@Override
 	public Phone<Phone> update(Phone pho,String escope) {
-		openBd(escope);
+		isBdNullOrClosed(escope);
 		Phone<Phone> currentPhone = findBy("id", pho.getId());
 		LocalDateTime createdAt = currentPhone.getCreatedAt();
 
@@ -80,6 +83,7 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 
 	@Override
 	public boolean delete(Phone pho,String escope) {
+		isBdNullOrClosed(escope);
 		try {
 			bd.delete(pho);
 			bd.commit();
@@ -92,7 +96,8 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deleteAll(String escope) {
-		for(Phone<Phone>phone : findAll()) {
+		isBdNullOrClosed(escope);
+		for(Phone<Phone>phone : findAll(escope)) {
 			bd.delete(phone);
 			bd.commit();
 		}
@@ -103,8 +108,10 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 		return findBy(key, value) != null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Phone<Phone> findBy(String key, String value) {
+	public Phone<Phone> findBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
 		Query query = bd.query();
 		query.constrain(Phone.class);
 		query.descend(key).constrain(value).equal();
@@ -113,7 +120,7 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	}
 	
 	@Override
-	public ObjectSet<Phone> findAll() {
+	public ObjectSet<Phone> findAll(String escope) {
 		Query query = bd.query();
 		query.constrain(Phone.class);
 		return query.execute();
@@ -128,13 +135,13 @@ public class PhoneData extends GenericOperationsBdImpl implements Datable<Phone,
 	}
 
 	@Override
-	public Phone findBy(String entity) {
+	public Phone findBy(String entity, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ObjectSet<Phone> findAllBy(String value) {
+	public ObjectSet<Phone> findAllBy(String key, String value, String escope) {
 		// TODO Auto-generated method stub
 		return null;
 	}

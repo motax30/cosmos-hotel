@@ -4,20 +4,14 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.BeanUtils;
 
-import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import models.entities.Receptionist;
 import models.util.GenericOperationsBdImpl;
-import models.entities.Receptionist;
-import models.entities.Receptionist;
-import settings.DatabaseServer;
 
-@Data
 @AllArgsConstructor
 public class ReceptionistData extends GenericOperationsBdImpl implements Datable<Receptionist, Receptionist,String>{
 
@@ -36,7 +30,8 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public boolean create(Receptionist recep) {
+	public boolean create(Receptionist recep,String escope) {
+		openBd(escope);
 		if (exists("userName", recep.getUserName())||exists("password",recep.getPassword())) {
 			return false;
 		}
@@ -49,7 +44,7 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public Receptionist update(Receptionist recep) {
+	public Receptionist update(Receptionist recep, String escope) {
 		Receptionist currentRecepcionist = findBy("id", recep.getId());
 		LocalDateTime createdAt = currentRecepcionist.getCreatedAt();
 
@@ -64,7 +59,7 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public boolean delete(Receptionist rcp) {
+	public boolean delete(Receptionist rcp, String escope) {
 		try {
 			bd.delete(rcp);
 			bd.commit();
@@ -75,8 +70,8 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public void deleteAll() {
-		for(Receptionist reception : findAll()) {
+	public void deleteAll(String escope) {
+		for(Receptionist reception : findAll(escope)) {
 			bd.delete(reception);
 			bd.commit();
 		}
@@ -97,7 +92,7 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public ObjectSet<Receptionist> findAll() {
+	public ObjectSet<Receptionist> findAll(String escope) {
 		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		return query.execute();
@@ -112,11 +107,14 @@ public class ReceptionistData extends GenericOperationsBdImpl implements Datable
 	}
 
 	@Override
-	public boolean closeConnection(ObjectContainer conexao) {
-		boolean closed = false;
-		if (bd.close()) {
-			closed= true;
-		};
-		return closed;
+	public Receptionist findBy(String entity, String entity2, String escope) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectSet<Receptionist> findAllBy(String key, String value, String escope) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

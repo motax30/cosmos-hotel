@@ -1,17 +1,26 @@
 package controllers;
 
+import static spark.Spark.delete;
+import static spark.Spark.get;
+import static spark.Spark.options;
+import static spark.Spark.post;
+import static spark.Spark.put;
+
+import org.json.JSONObject;
+
 import com.db4o.ObjectSet;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import models.entities.Customer;
 import models.entities.data.CustomerData;
 import models.enumerates.Scope;
 
-import org.json.JSONObject;
-import static spark.Spark.*;
-
 public class CustomerController {
 
-    public CustomerController() {
+    @SuppressWarnings("rawtypes")
+	public CustomerController() {
         // GET - index - return all customers
         get("/customers/", (req, res) -> {
             CustomerData customerData = new CustomerData();
@@ -22,7 +31,7 @@ public class CustomerController {
             } else if (req.queryParams("filter[cpfNumber]") != null) {
                 customers = customerData.findAllBy("cpfNumber", req.queryParams("filter[cpfNumber]"));
             } else {
-                customers = customerData.findAll();
+                customers = customerData.findAll(Scope.TESTE.toString());
             }
 
             JsonObject jsonResponse = new JsonObject();

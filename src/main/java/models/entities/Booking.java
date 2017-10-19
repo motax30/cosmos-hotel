@@ -1,17 +1,12 @@
 package models.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.uuid.Generators;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import models.enumerates.PaymentOptions;
-import models.enumerates.StatusBooking;
 
 @Data
 @NoArgsConstructor
@@ -33,7 +28,7 @@ public class Booking {
 	@NonNull private LocalDateTime createdAt;
 	@NonNull private LocalDateTime updatedAt;
 	 
-	 public Booking(Customer customer, Accommodation accommodation, Receptionist recepcionist, double dailyValue,
+	 public Booking(Customer customer, Accommodation accommodation, Receptionist recepcionist,
 				String status, LocalDateTime checkInDate, LocalDateTime checkOutDate, LocalDateTime bookinginitialdate,
 				LocalDateTime bookingfinaldate, double paymentValue, String conditionPayment, double paymentMade, LocalDateTime createdAt,
 				LocalDateTime updateAt) {

@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.db4o.ObjectServer;
 import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
-import com.db4o.foundation.io.File4;
 
 public class DatabaseServerTest {
 	private static ObjectServer server;

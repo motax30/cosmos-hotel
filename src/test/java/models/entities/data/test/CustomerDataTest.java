@@ -1,11 +1,7 @@
 package models.entities.data.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,18 +10,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.db4o.ObjectSet;
-import com.db4o.collections.ArrayList4;
 
 import models.entities.Address;
 import models.entities.Customer;
 import models.entities.Phone;
 import models.entities.data.CustomerData;
 import models.enumerates.PhoneType;
-import settings.DatabaseServerTest;
+import models.enumerates.Scope;
 
 public class CustomerDataTest {
 	
-	private static CustomerData customerData = new CustomerData(DatabaseServerTest.getServer().openClient());
+	private static CustomerData bd = new CustomerData(Scope.TESTE.toString());
 	private Customer customer;
 
 	//	private Customer customerComTodosOsDados;
@@ -134,7 +129,7 @@ public class CustomerDataTest {
 	@BeforeClass
 	public static void setUpClass() {
 		/* Delete All Customers */
-		customerData.deleteAll();
+		bd.deleteAll(Scope.TESTE.toString());
 	}
 
 	@Before
@@ -171,7 +166,7 @@ public class CustomerDataTest {
 	/* Test: test add method */
 	@Test
 	public void testAdd() {
-		boolean isSaved = customerData.create(this.customer);
+		boolean isSaved = bd.create(this.customer,Scope.TESTE.toString());
 		assertEquals(true, isSaved);
 	}
 
@@ -179,22 +174,22 @@ public class CustomerDataTest {
 	public void testUpdate() {
 		/* Avoid problem with test order */
 		setUp();
-		customerData.create(this.customer);
+		bd.create(this.customer,Scope.TESTE.toString());
 
-		Customer customer = customerData.findBy("cpfNumber", this.customer.getCpfNumber());
+		Customer customer = bd.findBy("cpfNumber", this.customer.getCpfNumber());
 		customer.setName("Dhaval Tighe Tower");
 		customer.setCpfNumber("954.504.632-51");
 		customer.setEmail("dhavaval@tighe.com");
 		customer.setNotes("Excellent customer!");
 
-		Customer updatedCustomer = customerData.update(customer);
+		Customer updatedCustomer = bd.update(customer,Scope.TESTE.toString());
 		assertEquals(customer, updatedCustomer);
 	}
 
 	@Test
 	public void testRemove() {
-		Customer customer = customerData.findBy("cpfNumber", this.customer.getCpfNumber());
-		boolean isRemoved = customerData.delete(customer);
+		Customer customer = bd.findBy("cpfNumber", this.customer.getCpfNumber());
+		boolean isRemoved = bd.delete(customer,Scope.TESTE.toString());
 		assertEquals(true, isRemoved);
 	}
 
@@ -202,37 +197,37 @@ public class CustomerDataTest {
 	public void testExists() {
 		/* Avoid problem with test order */
 		setUp();
-		customerData.create(this.customer);
+		bd.create(this.customer,Scope.TESTE.toString());
 
 		/* Need to get current UUID */
-		Customer customer = customerData.findBy("cpfNumber", this.customer.getCpfNumber());
+		Customer customer = bd.findBy("cpfNumber", this.customer.getCpfNumber());
 
-		assertEquals(true, customerData.exists("id", customer.getId()));
-		assertEquals(true, customerData.exists("cpfNumber", customer.getCpfNumber()));
-		assertEquals(true, customerData.exists("email", customer.getEmail()));
-		assertEquals(true, customerData.exists("name", customer.getName()));
+		assertEquals(true, bd.exists("id", customer.getId()));
+		assertEquals(true, bd.exists("cpfNumber", customer.getCpfNumber()));
+		assertEquals(true, bd.exists("email", customer.getEmail()));
+		assertEquals(true, bd.exists("name", customer.getName()));
 	}
 
 	@Test
 	public void testFindBy() {
 		/* Need to get current UUID */
-		Customer customer = customerData.findBy("cpfNumber", this.customer.getCpfNumber());
+		Customer customer = bd.findBy("cpfNumber", this.customer.getCpfNumber());
 
-		assertEquals(customer, customerData.findBy("id", customer.getId()));
-		assertEquals(customer, customerData.findBy("cpfNumber", customer.getCpfNumber()));
-		assertEquals(customer, customerData.findBy("email", customer.getEmail()));
-		assertEquals(customer, customerData.findBy("name", customer.getName()));
+		assertEquals(customer, bd.findBy("id", customer.getId()));
+		assertEquals(customer, bd.findBy("cpfNumber", customer.getCpfNumber()));
+		assertEquals(customer, bd.findBy("email", customer.getEmail()));
+		assertEquals(customer, bd.findBy("name", customer.getName()));
 	}
 
 	@Test
 	public void testFindAll() {
-		ObjectSet<Customer> customers = customerData.findAll();
+		ObjectSet<Customer> customers = bd.findAll(Scope.TESTE.toString());
 		assertEquals(true, customers.size() > 0);
 	}
 
 	@Test
 	public void testFindAllBy() {
-		ObjectSet<Customer> customers = customerData.findAllBy("email", this.customer.getEmail());
+		ObjectSet<Customer> customers = bd.findAllBy("email", this.customer.getEmail());
 		assertEquals(true, customers.size() > 0);
 		for (Customer customer : customers) {
 			assertEquals(this.customer.getEmail(), customer.getEmail());
