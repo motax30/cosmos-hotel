@@ -31,7 +31,7 @@ public class CustomerController {
             } else if (req.queryParams("filter[cpfNumber]") != null) {
                 customers = customerData.findAllBy("cpfNumber", req.queryParams("filter[cpfNumber]"));
             } else {
-                customers = customerData.findAll(Scope.TESTE.toString());
+                customers = customerData.findAll();
             }
 
             JsonObject jsonResponse = new JsonObject();
@@ -47,7 +47,7 @@ public class CustomerController {
             Customer customer = new Gson().fromJson(customerJsonObject.toString(), Customer.class);
 
             CustomerData customerData = new CustomerData();
-            customerData.create(customer,Scope.PRODUCAO.toString());
+            customerData.create(customer);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());
@@ -79,7 +79,7 @@ public class CustomerController {
             Customer customer = customerData.findBy("id", id);
 
             customerJson.setId(customer.getId());
-            customerData.update(customerJson,Scope.PRODUCAO.toString());
+            customerData.update(customerJson);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customerJson)).getAsJsonObject());
@@ -93,7 +93,7 @@ public class CustomerController {
             CustomerData customerData = new CustomerData();
             Customer customer = customerData.findBy("id", id);
 
-            customerData.delete(customer,Scope.PRODUCAO.toString());
+            customerData.delete(customer);
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("customer", new JsonParser().parse(new Gson().toJson(customer)).getAsJsonObject());

@@ -43,6 +43,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.18'
 
     compile group: 'org.springframework', name: 'spring-beans', version: '4.3.11.RELEASE'
+    compile 'com.github.stefanbirkner:system-rules:1.16.0'
 
     // Everything inside libs folder
     compile fileTree(dir: 'lib', include: '*.jar')

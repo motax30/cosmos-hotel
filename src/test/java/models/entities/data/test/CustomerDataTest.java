@@ -21,15 +21,18 @@ import models.entities.Customer;
 import models.entities.Phone;
 import models.entities.data.CustomerData;
 import models.enumerates.PhoneType;
+import settings.DatabaseServer;
 import settings.DatabaseServerTest;
 
 public class CustomerDataTest {
 	
-	private static CustomerData customerData = new CustomerData();
+	private static CustomerData customerData;
 	private Customer customer;
 
 	@BeforeClass
 	public static void setUpClass() {
+		customerData = new CustomerData();
+		customerData.setObjectContainer(DatabaseServerTest.getServer().openClient());
 		/* Delete All Customers */
 		customerData.deleteAll();
 	}
