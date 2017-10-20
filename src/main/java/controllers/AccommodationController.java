@@ -10,21 +10,22 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import models.entities.Accommodation;
 import models.entities.AccommodationTypeInformations;
 import models.entities.data.AccommodationData;
+import models.enumerates.Scope;
 public class AccommodationController {
+	@SuppressWarnings("unused")
 	public AccommodationController() {
 		 // GET - index - return all accommodations
 		get("/accommodations/",(req,res)->{
-			AccommodationData accommodationData = new AccommodationData();
+			AccommodationData accommodationData = new AccommodationData(Scope.PRODUCAO.toString());
 			
 			JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("accommodations", accommodationData.findAll());
+            jsonResponse.put("accommodations", accommodationData.findAll(Scope.TESTE.toString()));
 			return jsonResponse;
 		}
 		);
@@ -36,8 +37,8 @@ public class AccommodationController {
 
             Accommodation accommodation = new Gson().fromJson(accommodationJsonObject.toString(), Accommodation.class);
 
-            AccommodationData customerData = new AccommodationData();
-            customerData.create(accommodation);
+            AccommodationData customerData = new AccommodationData(Scope.PRODUCAO.toString());
+            customerData.create(accommodation,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
@@ -49,7 +50,7 @@ public class AccommodationController {
         get("/accommodations/:accommodation_id/", (req, res) -> {
             String id = req.params(":accommodation_id");
 
-            AccommodationData accommodationData = new AccommodationData();
+            AccommodationData accommodationData = new AccommodationData(Scope.PRODUCAO.toString());
             Accommodation accommodation = accommodationData.findBy("id",id);
 
             JsonObject jsonObject = new JsonObject();
@@ -63,18 +64,17 @@ public class AccommodationController {
             String id = req.params(":customer_id");
             JSONObject requestParams = new JSONObject(req.body());
 
-            AccommodationData accommodationData = new AccommodationData();
+            AccommodationData accommodationData = new AccommodationData(Scope.PRODUCAO.toString());
             Accommodation accommodation = accommodationData.findBy("id",id);
 
             String accommodationType = requestParams.getJSONObject("accommodation").getString("typeAccommodation");
             JSONArray typeInformations = requestParams.getJSONObject("accommodation").getJSONArray("accommodationTypeInformations");
 
-            AccommodationTypeInformations accommodationTypeInformations = new AccommodationTypeInformations(
-            		Double.valueOf(typeInformations.getString(1)),Integer.valueOf(typeInformations.getString(2)),typeInformations.getString(3));
+            AccommodationTypeInformations accommodationTypeInformations = new AccommodationTypeInformations(String.valueOf(typeInformations.getString(1)),
+            		String.valueOf(typeInformations.getString(2)),Double.valueOf(typeInformations.getString(3)),Integer.valueOf(typeInformations.getString(4)));
 			
             accommodation.setAccommodationTypeInformations(accommodationTypeInformations );
-			accommodation.setTypeAccommodation(accommodationType);
-            accommodationData.update(accommodation);
+            accommodationData.update(accommodation,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());
@@ -85,10 +85,10 @@ public class AccommodationController {
         delete("/accommodations/:accommodation_id/", (req, res) -> {
             String id = req.params(":accommodation_id");
 
-            AccommodationData accommodationData = new AccommodationData();
+            AccommodationData accommodationData = new AccommodationData(Scope.PRODUCAO.toString());
             Accommodation accommodation = accommodationData.findBy("id", id);
 
-            accommodationData.delete(accommodation);
+            accommodationData.delete(accommodation,Scope.PRODUCAO.toString());
 
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("accommodation", new JsonParser().parse(new Gson().toJson(accommodation)).getAsJsonObject());

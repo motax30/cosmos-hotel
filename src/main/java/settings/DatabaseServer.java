@@ -12,7 +12,6 @@ public class DatabaseServer {
 	public synchronized static ObjectServer getServer() {
 		if (server == null) {
 			ServerConfiguration config = new DatabaseConfiguration().getConfiguration();
-	        
 			server = Db4oClientServer.openServer(config,
 					 "database/main.odb", 0);
 		}

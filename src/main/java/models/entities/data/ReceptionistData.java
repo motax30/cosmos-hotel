@@ -1,82 +1,37 @@
 package models.entities.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
-import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Constraint;
+import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import models.entities.Receptionist;
 import models.entities.Receptionist;
-import models.entities.Receptionist;
-import settings.DatabaseServer;
+import models.util.GenericOperationsBdImpl;
 
-@Data
 @AllArgsConstructor
-public class ReceptionistData implements Datable<Receptionist, Receptionist,String>{
-	private ObjectContainer receptionistData;
+public class ReceptionistData extends GenericOperationsBdImpl implements Datable<Receptionist, Receptionist,String>{
 
-	public ReceptionistData() {
-		receptionistData = DatabaseServer.getServer().openClient();
+	public ReceptionistData(String escope) {
+		openBd(escope);
 	}
-
-	/*
-	 * Public Methods
-	 */
-	public boolean receptionistAdd(Receptionist receptionist) {
-		if(!receptionistExists(receptionist.getUserName())) {
-			receptionistData.store(receptionist);
-			receptionistData.commit();
-			return true;
+	
+	@Override
+	public void isBdNullOrClosed(String escope) {
+		if(bd==null||bd.ext().isClosed()) {
+			openBd(escope);
 		}
-		return false;
 	}
 	
-	public boolean receptionistRemove(Receptionist receptionist) {
-		if(receptionistExists(receptionist.getUserName())) {
-			receptionistData.delete(receptionist);
-			receptionistData.commit();
-			return true;
-		}
-		return false;
-	}
-
-	public boolean receptionistExists(String userName) {
-		return this.getReceptionistByReceptionistUserName(userName) != null;
-	}
-
-	public Receptionist getReceptionistById(String id) {
-		Query query = receptionistData.query();
-		query.constrain(Receptionist.class);
-		query.descend("id").constrain(id).equal();
-		ObjectSet<Receptionist> result = query.execute();
-		return result.hasNext() ? result.next() : null;
-	}
-
-	public Receptionist receptionistUpdate(Receptionist receptionist) {
-		Receptionist currentReceptionist = getReceptionistById(receptionist.getId());
-		currentReceptionist.setName(receptionist.getName());
-		currentReceptionist.setNotes(receptionist.getNotes());
-		receptionistData.store(currentReceptionist);
-		receptionistData.commit();
-		return currentReceptionist;
-	}
-	
-	public Receptionist getReceptionistByReceptionistUserName(String userName) {
-		Query query = receptionistData.query();
-		query.constrain(Receptionist.class);
-		query.descend("userName").constrain(userName).equal();
-		ObjectSet<Receptionist> result = query.execute();
-		return result.hasNext() ? result.next() : null;
-	}
-	
-	public boolean receptionistLogin(String userName, String password) {
-		Query query = receptionistData.query();
+	public boolean receptionistLogin(String userName, String password,String escope) {
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		Constraint constrain = query.descend("userName").constrain(userName);
 		query.descend("password").constrain(password).and(constrain);
@@ -84,40 +39,24 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 		ObjectSet<Receptionist> result = query.execute();
 		return result.hasNext();
 	}
-	
-	public ObjectSet<Receptionist> getReceptionists(){
-		Query query = receptionistData.query();
-		query.constrain(Receptionist.class);
-		return query.execute();
-	}
 
 	@Override
-	public boolean create(Receptionist recep) {
+	public boolean create(Receptionist recep,String escope) {
+		isBdNullOrClosed(escope);
 		if (exists("userName", recep.getUserName())||exists("password",recep.getPassword())) {
 			return false;
 		}
 		
 		recep.setCreatedAt(LocalDateTime.now());
 		recep.setUpdatedAt(LocalDateTime.now());
-		if (recep.getEmail()!=null) {
-			receptionistData.store(recep.getEmail());
-		}
-		if (recep.getName()!=null) {
-			receptionistData.store(recep.getName());
-		}
-		if (recep.getNotes()!=null) {
-			receptionistData.store(recep.getNotes());
-		}
-		if (recep.getUserName()!=null) {
-			receptionistData.store(recep.getUserName());
-		}
-		receptionistData.store(recep);
-		receptionistData.commit();
+		gravarBd(recep);
+		closeBd();
 		return true;
 	}
 
 	@Override
-	public Receptionist update(Receptionist recep) {
+	public Receptionist update(Receptionist recep, String escope) {
+		isBdNullOrClosed(escope);
 		Receptionist currentRecepcionist = findBy("id", recep.getId());
 		LocalDateTime createdAt = currentRecepcionist.getCreatedAt();
 
@@ -125,17 +64,18 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 		currentRecepcionist.setUpdatedAt(LocalDateTime.now());
 		currentRecepcionist.setCreatedAt(createdAt);
 
-		receptionistData.store(currentRecepcionist);
-		receptionistData.commit();
+		gravarBd(currentRecepcionist);
+		closeBd();
 
 		return currentRecepcionist;
 	}
 
 	@Override
-	public boolean delete(Receptionist rcp) {
+	public boolean delete(Receptionist rcp, String escope) {
+		isBdNullOrClosed(escope);
 		try {
-			receptionistData.delete(rcp);
-			receptionistData.commit();
+			delEntityToBd(rcp);
+			closeBd();
 			return true;
 		} catch (Exception error) {
 			return false;
@@ -143,39 +83,77 @@ public class ReceptionistData implements Datable<Receptionist, Receptionist,Stri
 	}
 
 	@Override
-	public void deleteAll() {
-		for(Receptionist reception : findAll()) {
-			receptionistData.delete(reception);
-			receptionistData.commit();
+	public void deleteAll(String escope) {
+		isBdNullOrClosed(escope);
+		for(Receptionist reception : findAll(escope)) {
+			delEntityToBd(reception);
 		}
+		closeBd();
 	}
 
 	@Override
-	public boolean exists(String key, String value) {
-		return findBy(key, value) != null;
+	public boolean exists(String recepId, String escope) {
+		return findBy(recepId, escope) != null;
 	}
-
+	
 	@Override
-	public Receptionist findBy(String key, String value) {
-		Query query = receptionistData.query();
+	public Receptionist findBy(String recepId, String escope) {
+		isBdNullOrClosed(escope);
+		List<Receptionist> res = bd.query(new Predicate<Receptionist>() {
+			private static final long serialVersionUID = 1L;
+
+			@SuppressWarnings("unlikely-arg-type")
+			@Override
+			public boolean match(Receptionist recepcionist) {
+				return recepcionist.getId().equals(recepId);
+			}
+		});
+		for (Receptionist recepcionist : res) {
+			return recepcionist;
+		}
+		return null;
+	}
+	
+	@Override
+	public boolean exists(String key, String value, String escope) {
+		return findBy(key, value,escope) != null;
+	}
+	
+	@Override
+	public Receptionist findBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
 		ObjectSet<Receptionist> result = query.execute();
+		closeBd();
 		return result.hasNext() ? result.next() : null;
 	}
 
 	@Override
-	public ObjectSet<Receptionist> findAll() {
-		Query query = receptionistData.query();
+	public ObjectSet<Receptionist> findAll(String escope) {
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
-		return query.execute();
+		ObjectSet<Receptionist> res = query.execute();
+		closeBd();
+		return res;
 	}
 
 	@Override
-	public ObjectSet<Receptionist> findAllBy(String key, String value) {
-		Query query = receptionistData.query();
+	public ObjectSet<Receptionist> findAllBy(String key, String value,String escope) {
+		isBdNullOrClosed(escope);
+		Query query = bd.query();
 		query.constrain(Receptionist.class);
 		query.descend(key).constrain(value).equal();
-		return query.execute();
+		ObjectSet<Receptionist> res = query.execute();
+		return res;
 	}
+
+	@Override
+	public ObjectSet<Receptionist> findAllBy(String value, String escope) {
+		return null;
+	}
+
+	
 }

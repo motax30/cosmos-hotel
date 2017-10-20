@@ -8,10 +8,10 @@ import controllers.CustomerController;
 import controllers.IndexController;
 import controllers.LoginController;
 import controllers.ReceptionistController;
-import models.entities.Customer;
 import models.entities.Receptionist;
 import models.entities.data.CustomerData;
 import models.entities.data.ReceptionistData;
+import models.enumerates.Scope;
 
 public class Server {
     /*
@@ -51,9 +51,10 @@ public class Server {
         receptionist.setUserName("admin");
         receptionist.setPassword("admin");
         ReceptionistData receptionistData = new ReceptionistData();
-        receptionistData.receptionistAdd(receptionist);
+        receptionistData.create(receptionist,Scope.PRODUCAO.toString());
 
-        CustomerData customerData = new CustomerData();
+        @SuppressWarnings("unused")
+		CustomerData customerData = new CustomerData();
 //        customerData.get
 
         // Controllers (routes)

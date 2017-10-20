@@ -4,7 +4,6 @@ import com.db4o.cs.Db4oClientServer;
 import com.db4o.cs.config.ServerConfiguration;
 
 import models.entities.Customer;
-import models.entities.Receptionist;
 
 public class DatabaseConfiguration {
 	
