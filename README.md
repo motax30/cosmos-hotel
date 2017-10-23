@@ -30,10 +30,11 @@ Para rodar a aplicação é necessário:
 ### Instalando o EmberJS e Bower
 - `npm install -g ember-cli`
 - `npm install -g bower`
+- `npm install -g yarn`
 
 ### Configuração Inicial
 Na pasta do projeto, faça:
 - `cd frontend`
-- `npm install` (baixa os arquivos necessários do Ember)
+- `yarn install` (baixa os arquivos necessários do Ember)
 - `bower install` (baixa os arquivos do front-end)
 - `ember s` (inicia o servidor EmberJS no endereço http://localhost:4200)
