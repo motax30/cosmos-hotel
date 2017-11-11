@@ -19,6 +19,10 @@ Router.map(function() {
 			this.route('edit', {path: ':id/edit'});
 			this.route('destroy', {path: ':id/destroy'});
 		});
+		this.route('receptionists', function() {
+			this.route('index',{path: '/'});
+			this.route('new');
+		});
 	});
 
 	// Not Found Route
