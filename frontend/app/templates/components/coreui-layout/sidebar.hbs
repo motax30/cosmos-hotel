@@ -45,6 +45,23 @@
         </ul>
       </li>
 
+	  <li class="nav-item nav-dropdown">
+      	<a class="nav-link nav-dropdown-toggle">
+          {{fa-icon 'users'}} Acomodações
+        </a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            {{#link-to "app.accommodations.index" class="nav-link"}}
+              {{fa-icon 'list'}} Listar
+            {{/link-to}}
+          </li>
+          <li class="nav-item">
+            {{#link-to "app.accommodations.new" class="nav-link"}}
+              {{fa-icon 'plus'}} Cadastrar
+            {{/link-to}}
+          </li>
+        </ul>
+      </li>
       <li class="nav-title">ConfiguraÃ§Ãµes</li>
 
       <li class="nav-item">

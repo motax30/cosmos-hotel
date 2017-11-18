@@ -1,0 +1,9 @@
+{{#card-block cardClass="card-accent-secondary" as |card|}}
+  {{#card.header}}
+    {{fa-icon "pencil"}}<strong>Editar</strong>: {{#link-to "app.accommodations.show" model}}{{model.acmTypeInformations}}{{/link-to}}
+  {{/card.header}}
+
+  {{#card.body}}
+    {{model-form/accommodation model=model action=(action "save" model)}}
+  {{/card.body}}
+{{/card-block}}

@@ -1,0 +1,40 @@
+{{#card-block cardClass="" as |card|}}
+  {{#card.header}}
+    {{fa-icon "user"}}Acomodação: {{model.name}}
+  {{/card.header}}
+
+  {{#card.body}}
+    <!-- Customer -->
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead">{{fa-icon "user" class="text-danger"}} Cliente</p>
+        <table class="table table-responsive table-bordered table-show table-condensed">
+          <tbody>
+          <tr>
+            <th>{{fa-icon "user"}} Informações da Acomodação:</th>
+            <td>{{model.acmTypeInformations}}</td>
+            <th>{{fa-icon "envelope"}} Está ocupado?:</th>
+            <td>{{model.isOcupied}}</td>
+          </tr>
+          <tr>
+            <th>{{fa-icon "calendar-plus-o"}} Criado em:</th>
+            <td>{{model.createdAt}}</td>
+            <th>{{fa-icon "calendar-check-o"}} Atualizado em:</th>
+            <td>{{model.updatedAt}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {{/card.body}}
+
+  {{#card.footer}}
+    {{#link-to "app.accommodations.edit" model class="btn btn-primary"}}
+      Editar
+    {{/link-to}}
+
+    {{#link-to "app.accommodations" class="btn btn-secondary"}}
+      Cancelar
+    {{/link-to}}
+  {{/card.footer}}
+{{/card-block}}

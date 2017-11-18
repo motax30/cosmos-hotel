@@ -1,0 +1,22 @@
+{{#form-for accommodation as |f|}}
+  <div class="row">
+    <div class="col-md-12">
+      {{f.text-field "acmTypeInformations" label="Informações de Acomodação" required=true}}
+    </div>
+
+    <div class="col-md-6">
+      {{f.text-field "isOcupied" label="Está Ocupado" required=true}}
+    </div>
+  </div>
+
+  <button class="btn btn-primary" {{ action "submit" accommodation }}>
+    {{ if model.isNew "Cadastrar Acomodação" "Editar Acomodação" }}
+  </button>
+  {{#link-to "app.accommodations" class="btn btn-secondary"}}
+    Cancelar
+  {{/link-to}}
+
+{{/form-for}}
+
+<!-- Events -->
+{{input-mask-settings}}

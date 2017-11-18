@@ -1,0 +1,9 @@
+{{#card-block cardClass="card-accent-secondary" as |card|}}
+  {{#card.header}}
+    {{fa-icon "plus"}}<strong>Cadastrar</strong>
+  {{/card.header}}
+
+  {{#card.body}}
+    {{model-form/accommodation model=model action=(action "save" model)}}
+  {{/card.body}}
+{{/card-block}}

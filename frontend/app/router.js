@@ -19,6 +19,13 @@ Router.map(function() {
 			this.route('edit', {path: ':id/edit'});
 			this.route('destroy', {path: ':id/destroy'});
 		});
+		this.route('accommodations', function() {
+			this.route('index', {path: '/'});
+			this.route('new');
+			this.route('show', {path: ':id'});
+			this.route('edit', {path: ':id/edit'});
+			this.route('destroy', {path: ':id/destroy'});
+		});
 		this.route('receptionists', function() {
 			this.route('index',{path: '/'});
 			this.route('new');
