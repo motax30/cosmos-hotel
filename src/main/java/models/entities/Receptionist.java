@@ -17,15 +17,12 @@ import models.enumerates.ReceptionistType;
 public class Receptionist {
 	/* UUID */
     private String id = Generators.timeBasedGenerator().generate().toString();
-
-	@SerializedName("user_name")
 	private String userName;
-
 	private String email;
 	private String password;
 	private ReceptionistType userType;
 	private String name;
 	private String notes;
 	private LocalDateTime createdAt;
-	private LocalDateTime UpdatedAt;
+	private LocalDateTime updatedAt;
 }

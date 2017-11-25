@@ -1,10 +1,63 @@
 {{#card-block cardClass="card-accent-secondary" as |card|}}
   {{#card.header}}
-    {{fa-icon "photo"}}<strong>Lista</strong>
+    {{fa-icon "list"}}<strong>Listar</strong>
   {{/card.header}}
-  
+
   {{#card.body}}
-   <h1> Adriano </h1>
-   <button id="#asd" {{ action "denis" }}>Denis</button>
+    <table class="table table-responsive table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Usuário</th>
+        <th>E-mail</th>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each model as |receptionist|}}
+        <tr>
+          <td>{{#link-to "app.receptionists.show" receptionist.id}}{{receptionist.userName}}{{/link-to}}</td>
+          <td>{{receptionist.email}}</td>
+          <td>{{receptionist.name}}</td>
+          <td>
+            {{#link-to "app.receptionists.edit" receptionist.id class="btn btn-primary"}}<i class="icon icon-pencil"></i> Editar{{/link-to}}
+
+            {{#bs-button class="btn-danger" onClick=(action (mut receptionist_destroy) receptionist)}}
+              <i class="icon icon-minus"></i> Excluir
+            {{/bs-button}}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
   {{/card.body}}
 {{/card-block}}
+
+{{#bs-modal open=receptionist_destroy onHidden=(action (mut receptionist_destroy) false) as |modal|}}
+  {{#modal.header}}
+    <h4 class="modal-title">
+      Excluir Recepcionista?
+    </h4>
+  {{/modal.header}}
+
+  {{#modal.body}}
+    <dl class="row">
+      <dt class="col-sm-3">Nome:</dt>
+      <dd class="col-sm-9">{{receptionist_destroy.userName}}</dd>
+
+      <dt class="col-sm-3">CPF:</dt>
+      <dd class="col-sm-9">{{receptionist_destroy.name}}</dd>
+
+      <dt class="col-sm-3">E-mail:</dt>
+      <dd class="col-sm-9">{{receptionist_destroy.email}}</dd>
+    </dl>
+
+    <p>Gostaria de excluir o(a) recepcionista <strong>{{receptionist_destroy.name}}</strong>?</p>
+    <strong><span class="text-danger">Cuidado: está ação não poderá ser revertida.</span></strong>
+  {{/modal.body}}
+
+  {{#modal.footer}}
+    {{#bs-button onClick=(action "destroy" receptionist_destroy) class="btn btn-danger"}}Excluir{{/bs-button}}
+    {{#bs-button onClick=(action modal.close)}}Cancelar{{/bs-button}}
+  {{/modal.footer}}
+{{/bs-modal}}

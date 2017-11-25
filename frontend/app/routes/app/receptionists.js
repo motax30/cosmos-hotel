@@ -5,7 +5,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 	titleToken: "Recepcionistas",
 	breadCrumb: {
 		title: 'Recepcionistas',
-		icon: 'motorcycle'
+		icon: 'handshake-o'
 	}
 
 });

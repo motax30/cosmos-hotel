@@ -3,13 +3,13 @@ package models.util;
 import java.util.EnumMap;
 import java.util.Map;
 
-import models.enumerates.TypeAccommodation;
+import models.enumerates.AccommodationType;
 
 public class TableDayleValue {
-	public static Map<TypeAccommodation, Double> table;
+	public static Map<AccommodationType, Double> table;
 	public TableDayleValue() {
-		 table = new EnumMap<>(TypeAccommodation.class);
-		 table.put(TypeAccommodation.SIMPLES, (double) 90);
-		 table.put(TypeAccommodation.DUPLO, (double) 120);
+		 table = new EnumMap<>(AccommodationType.class);
+		 table.put(AccommodationType.SINGLE, (double) 90);
+		 table.put(AccommodationType.DOUBLE, (double) 120);
 	}
 }

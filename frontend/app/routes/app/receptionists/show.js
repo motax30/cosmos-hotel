@@ -3,10 +3,10 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model(params) {
-    return this.store.findRecord('accommodation', params.id);
+    return this.store.findRecord('receptionist', params.id);
   },
   titleToken: function (model) {
-    return model.get('name');
+    return model.get('userName');
   },
   breadCrumb: {
     title: 'Editar'

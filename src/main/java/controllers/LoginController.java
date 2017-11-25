@@ -24,7 +24,7 @@ public class LoginController {
 					String password = requestParams.getString("password");
 
 					ReceptionistData userData = new ReceptionistData();
-					if (userData.receptionistLogin(userName, password,Scope.PRODUCAO.toString())) {
+					if (userData.receptionistLogin(userName, password)) {
 						claims.put("username", userName);
 						String token = JWTKey.getToken(claims);
 						jsonResponse.put("token", token);

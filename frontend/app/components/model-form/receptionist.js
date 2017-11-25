@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   },
   actions: {
     submit: function (receptionist) {
-      this.get('receptionist').validate();   
+      this.get('receptionist').validate();
 
       this.$("input[invalid]").first().focus();
 
@@ -21,7 +21,7 @@ export default Ember.Component.extend({
         return false;
       }
 
-      /* Only in case of has many */
+      this.get('receptionist').execute();
       this.sendAction('action', receptionist);
     }
   }

@@ -93,7 +93,6 @@ public class BookingData extends GenericOperationsBdImpl implements Datable<Book
 			@Override
 			public boolean match(Booking booking) {
 				return booking.getStatus().equals(StatusBooking.RESERVED)&&
-						booking.getAccommodation().isOcupied()==false&&
 						booking.getAccommodation().getId().equals(idAccommodation);
 			}
 		});

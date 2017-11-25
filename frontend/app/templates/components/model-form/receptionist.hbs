@@ -1,25 +1,25 @@
 {{#form-for receptionist as |f|}}
   <div class="row">
-  
+
     <div class="col-md-6">
       {{f.text-field "name" label="Nome" placeholder="Ex.: João" required=true}}
     </div>
-  
+
     <div class="col-md-6">
       {{f.text-field "email" label="E-mail" placeholder="Ex.: cosmos@exemplo.com" required=true}}
     </div>
-    
+
     <div class="col-md-6">
       {{f.text-field "userName" label="Usuário" placeholder="Ex.: usuario" required=true}}
     </div>
-    
+
      <div class="col-md-6">
-      {{f.text-field "password" label="Senha" placeholder="Ex.: 1234" required=true}}
+      {{f.password-field "password" label="Senha" placeholder="Ex.: 1234" required=true}}
     </div>
-    
+
     <div class="col-md-12">
       {{f.textarea-field "notes" label="Anotações" placeholder="Digite quaisquer anotações pertinentes ao recepcionista"}}
-    </div>    
+    </div>
 </div>
 
     <button class="btn btn-primary" {{ action "submit" receptionist }}>

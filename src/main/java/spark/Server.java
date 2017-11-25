@@ -4,10 +4,7 @@ import static spark.Spark.before;
 import static spark.Spark.path;
 import static spark.Spark.port;
 
-import controllers.CustomerController;
-import controllers.IndexController;
-import controllers.LoginController;
-import controllers.ReceptionistController;
+import controllers.*;
 import models.entities.Receptionist;
 import models.entities.data.CustomerData;
 import models.entities.data.ReceptionistData;
@@ -51,7 +48,7 @@ public class Server {
         receptionist.setUserName("admin");
         receptionist.setPassword("admin");
         ReceptionistData receptionistData = new ReceptionistData();
-        receptionistData.create(receptionist,Scope.PRODUCAO.toString());
+        receptionistData.create(receptionist);
 
         @SuppressWarnings("unused")
 		CustomerData customerData = new CustomerData();
@@ -63,6 +60,7 @@ public class Server {
             new ReceptionistController();
             new CustomerController();
             new LoginController();
+            new AccommodationController();
         });
     }
 }

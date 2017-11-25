@@ -1,7 +1,5 @@
 import Ember from 'ember';
-import CustomerValidations from '../../validations/customer';
-import AddressValidations from '../../validations/address';
-import PhoneValidations from '../../validations/phone';
+import AccommodationValidations from '../../validations/accommodation';
 import lookupValidator from 'ember-changeset-validations';
 import Changeset from 'ember-changeset';
 
@@ -11,17 +9,19 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     let model = this.get('model');
+    this.accommodation = new Changeset(model, lookupValidator(AccommodationValidations), AccommodationValidations);
   },
   actions: {
 	  submit: function (accommodation) {
-	      this.get('accommodation').validate();   
+	      this.get('accommodation').validate();
 
 	      this.$("input[invalid]").first().focus();
 
-	      if (!this.get('receptionist').get('isValid')) {
+	      if (!this.get('accommodation').get('isValid')) {
 	        return false;
 	      }
 
+        this.get('accommodation').execute();
 	      /* Only in case of has many */
 	      this.sendAction('action', accommodation);
 	    }

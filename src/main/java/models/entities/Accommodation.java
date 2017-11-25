@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import models.enumerates.AccommodationType;
 
 @Data
 @NoArgsConstructor
@@ -16,21 +17,15 @@ import lombok.NoArgsConstructor;
 public class Accommodation {
 	/* UUID */
 	private String id = Generators.timeBasedGenerator().generate().toString();
-	
-	private AccommodationTypeInformations accommodationTypeInformations;
-	private boolean isOcupied;
+
+	private String name;
+
+	private AccommodationType type;
+
+	private double dailyPrice = 0;
+	private int numberOfBeds = 0;
+
 	private LocalDateTime createdAt;
-	private LocalDateTime UpdatedAt;
-	
-	public Accommodation(AccommodationTypeInformations accommodationTypeInformations,
-			boolean isOcupied, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super();
-		//this.typeAccommodation = typeAccommodation;
-		this.accommodationTypeInformations = accommodationTypeInformations;
-		this.isOcupied = isOcupied;
-		this.createdAt = createdAt;
-		UpdatedAt = updatedAt;
-	}
-	
+	private LocalDateTime updatedAt;
 	
 }

@@ -1,0 +1,9 @@
+{{#card-block cardClass="card-accent-secondary" as |card|}}
+  {{#card.header}}
+    {{fa-icon "pencil"}}<strong>Editar</strong>: {{#link-to "app.receptionists.show" model}}{{model.userName}}{{/link-to}}
+  {{/card.header}}
+
+  {{#card.body}}
+    {{model-form/receptionist model=model action=(action "save" model)}}
+  {{/card.body}}
+{{/card-block}}

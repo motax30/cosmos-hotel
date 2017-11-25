@@ -12,18 +12,17 @@ import org.junit.Test;
 import com.db4o.ObjectSet;
 
 import models.entities.Accommodation;
-import models.entities.AccommodationTypeInformations;
 import models.entities.data.AccommodationData;
 import models.enumerates.Scope;
-import models.enumerates.TypeAccommodation;
+import models.enumerates.AccommodationType;
 import models.util.TableDayleValue;
 
 public class AccommodationDataTest{
 	private AccommodationData accommodationData = new AccommodationData(Scope.TESTE.toString());
 	private Accommodation accommodation;
 	private Accommodation accommodation2;
-	private AccommodationTypeInformations accommodationTypeInformations;
-	private AccommodationTypeInformations accommodationTypeInformations2;
+	private AccommodationTypeInformation accommodationTypeInformations;
+	private AccommodationTypeInformation accommodationTypeInformations2;
 	
 	
 	@SuppressWarnings("static-access")
@@ -31,7 +30,7 @@ public class AccommodationDataTest{
 	public void setUp() {
 		accommodation = new Accommodation();
 		accommodation2 = new Accommodation();
-		accommodationTypeInformations = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1);
+		accommodationTypeInformations = new AccommodationTypeInformation(AccommodationType.SIMPLES,new TableDayleValue().table.get(AccommodationType.SIMPLES), 1);
 		accommodation.setAccommodationTypeInformations(accommodationTypeInformations);
 	}
 
@@ -69,8 +68,8 @@ public class AccommodationDataTest{
 	public void testRemoveAllAccommodation() {
 		accommodationData.create(accommodation, Scope.TESTE.toString());
 		accommodation2.setId("2");
-		accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
-				new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1);
+		accommodationTypeInformations2 = new AccommodationTypeInformation(AccommodationType.SIMPLES,
+				new TableDayleValue().table.get(AccommodationType.SIMPLES), 1);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
 		accommodationData.create(accommodation2, Scope.TESTE.toString());
 		accommodationData.deleteAll(Scope.TESTE.toString());getClass();
@@ -82,8 +81,8 @@ public class AccommodationDataTest{
 	@Test
 	public void testGetAccommodations() {
 		accommodation2.setId("2");
-		accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
-				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
+		accommodationTypeInformations2 = new AccommodationTypeInformation(AccommodationType.SIMPLES,
+				new TableDayleValue().table.get(AccommodationType.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
 		accommodationData.create(accommodation2, Scope.TESTE.toString());
 		ObjectSet<Accommodation>accommodations = accommodationData.findAll(Scope.TESTE.toString());
@@ -99,14 +98,14 @@ public class AccommodationDataTest{
 		accommodationData.create(accommodation, Scope.TESTE.toString());
 		accommodation2.setId("2");
 		@SuppressWarnings("static-access")
-		AccommodationTypeInformations accommodationTypeInformations2 = new AccommodationTypeInformations(TypeAccommodation.SIMPLES,
-				new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2);
+        AccommodationTypeInformation accommodationTypeInformations2 = new AccommodationTypeInformation(AccommodationType.SIMPLES,
+				new TableDayleValue().table.get(AccommodationType.DUPLO), 2);
 		accommodation2.setAccommodationTypeInformations(accommodationTypeInformations2);
 		accommodationData.create(accommodation2, Scope.TESTE.toString());
-		ObjectSet<Accommodation>res = accommodationData.findAllBy("typeAccommodation", TypeAccommodation.DUPLO.toString());
+		ObjectSet<Accommodation>res = accommodationData.findAllBy("typeAccommodation", AccommodationType.DUPLO.toString());
 		while (res.hasNext()) {
 			Accommodation acc = res.next();
-			assertTrue("Não foram retornadas as Accommodations cadastradas.",acc.equals(accommodation) || acc.equals(accommodation2));
+			assertTrue("Nï¿½o foram retornadas as Accommodations cadastradas.",acc.equals(accommodation) || acc.equals(accommodation2));
 		}
 		accommodationData.delete(accommodation2, Scope.TESTE.toString());	
 	}

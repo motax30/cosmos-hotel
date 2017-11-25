@@ -1,10 +1,64 @@
 {{#card-block cardClass="card-accent-secondary" as |card|}}
   {{#card.header}}
-    {{fa-icon "photo"}}<strong>Lista</strong>
+    {{fa-icon "list"}}<strong>Listar</strong>
   {{/card.header}}
-  
+
   {{#card.body}}
-   <h1> Adriano </h1>
-   <button id="#asd" {{ action "denis" }}>Denis</button>
+    <table class="table table-responsive table-bordered table-striped">
+      <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Tipo de Acomodação</th>
+        <th>Preço da diária</th>
+        <th>Número de camas</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each model as |accommodation|}}
+        <tr>
+          <td>{{#link-to "app.accommodations.show" accommodation.id}}{{accommodation.name}}{{/link-to}}</td>
+          <td>{{accommodation.typeShow}}</td>
+          <td>{{accommodation.dailyPrice}}</td>
+          <td>{{accommodation.numberOfBeds}}</td>
+          <td>
+            {{#link-to "app.accommodations.edit" accommodation.id class="btn btn-primary"}}<i class="icon icon-pencil"></i> Editar{{/link-to}}
+
+            {{#bs-button class="btn-danger" onClick=(action (mut accommodation_destroy) accommodation)}}
+              <i class="icon icon-minus"></i> Excluir
+            {{/bs-button}}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
   {{/card.body}}
 {{/card-block}}
+
+{{#bs-modal open=accommodation_destroy onHidden=(action (mut accommodation_destroy) false) as |modal|}}
+  {{#modal.header}}
+    <h4 class="modal-title">
+      Excluir Acomodação?
+    </h4>
+  {{/modal.header}}
+
+  {{#modal.body}}
+    <dl class="row">
+      <dt class="col-sm-3">Nome:</dt>
+      <dd class="col-sm-9">{{accommodation_destroy.name}}</dd>
+    </dl>
+
+    <dl class="row">
+      <dt class="col-sm-3">Tipo:</dt>
+      <dd class="col-sm-9">{{accommodation_destroy.typeShow}}</dd>
+    </dl>
+
+    <p>Gostaria de excluir a acomodação <strong>{{accommodation_destroy.name}}</strong>?</p>
+    <strong><span class="text-danger">Cuidado: está ação não poderá ser revertida.</span></strong>
+  {{/modal.body}}
+
+  {{#modal.footer}}
+    {{#bs-button onClick=(action "destroy" accommodation_destroy) class="btn btn-danger"}}Excluir{{/bs-button}}
+    {{#bs-button onClick=(action modal.close)}}Cancelar{{/bs-button}}
+  {{/modal.footer}}
+{{/bs-modal}}

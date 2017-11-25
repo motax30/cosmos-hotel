@@ -1,29 +1,23 @@
 {{#card-block cardClass="" as |card|}}
   {{#card.header}}
-    {{fa-icon "bed"}}Acomodação: {{model.name}}
+    {{fa-icon "user"}}Recepcionista: {{model.userName}}
   {{/card.header}}
 
   {{#card.body}}
     <!-- Customer -->
     <div class="row">
       <div class="col-md-12">
-        <p class="lead">{{fa-icon "bed" class="text-danger"}} Acomodação</p>
+        <p class="lead">{{fa-icon "user" class="text-danger"}} Cliente</p>
         <table class="table table-responsive table-bordered table-show table-condensed">
           <tbody>
           <tr>
-            <th>{{fa-icon "bed"}} Nome:</th>
+            <th>{{fa-icon "user"}} Usuário:</th>
+            <td>{{model.userName}}</td>
+            <th>{{fa-icon "envelope"}} E-mail:</th>
+            <td>{{model.email}}</td>
+            <th>{{fa-icon "user"}} Nome:</th>
             <td>{{model.name}}</td>
-            <th>{{fa-icon "envelope"}} Tipo:</th>
-            <td>{{model.typeShow}}</td>
           </tr>
-
-          <tr>
-            <th>{{fa-icon "money"}} Preço da Diária:</th>
-            <td>{{model.dailyPrice}}</td>
-            <th>{{fa-icon "times"}} Quantidade de Camas:</th>
-            <td>{{model.numberOfBeds}}</td>
-          </tr>
-
           <tr>
             <th>{{fa-icon "calendar-plus-o"}} Criado em:</th>
             <td>{{model.createdAt}}</td>
@@ -37,11 +31,11 @@
   {{/card.body}}
 
   {{#card.footer}}
-    {{#link-to "app.accommodations.edit" model class="btn btn-primary"}}
+    {{#link-to "app.receptionists.edit" model class="btn btn-primary"}}
       Editar
     {{/link-to}}
 
-    {{#link-to "app.accommodations" class="btn btn-secondary"}}
+    {{#link-to "app.receptionists" class="btn btn-secondary"}}
       Cancelar
     {{/link-to}}
   {{/card.footer}}

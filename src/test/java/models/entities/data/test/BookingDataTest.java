@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import models.entities.Accommodation;
-import models.entities.AccommodationTypeInformations;
 import models.entities.Address;
 import models.entities.Booking;
 import models.entities.Customer;
@@ -25,7 +24,7 @@ import models.enumerates.PhoneType;
 import models.enumerates.ReceptionistType;
 import models.enumerates.Scope;
 import models.enumerates.StatusBooking;
-import models.enumerates.TypeAccommodation;
+import models.enumerates.AccommodationType;
 import models.util.TableDayleValue;
 
 public class BookingDataTest {
@@ -52,18 +51,18 @@ public class BookingDataTest {
 		phones.add(new Phone<Customer>("1", PhoneType.HOME, "30987877", customer1,LocalDateTime.now(),LocalDateTime.now()));
 		phones.add(new Phone<Customer>("2", PhoneType.CELLULAR, "987651238", customer1,LocalDateTime.now(),LocalDateTime.now()));
 		phones.add(new Phone<Customer>("", PhoneType.HOME, "32345432", customer1,LocalDateTime.now(),LocalDateTime.now()));
-		address = new Address("1", "Rua 1", "123","home", "jardim Americado", "123345678", "São Jose dos Campos", "sp", "Brasil");
+		address = new Address("1", "Rua 1", "123","home", "jardim Americado", "123345678", "Sï¿½o Jose dos Campos", "sp", "Brasil");
 		customer1 = new Customer("1", "15287269951", "joao", "joaopedro@email.com", phones, address, "cliente vip", LocalDateTime.now(),LocalDateTime.now(),LocalDateTime.now());
 		customer1 = new Customer("2", "22222222222", "pedro", "pedro@email.com", phones, address, "cliente vip", LocalDateTime.now(),LocalDateTime.now(),LocalDateTime.now());
 		accommodation1 = new Accommodation(
-							new AccommodationTypeInformations(
-									TypeAccommodation.DUPLO,
-									new TableDayleValue().table.get(TypeAccommodation.DUPLO), 2), 
+							new AccommodationTypeInformation(
+									AccommodationType.DUPLO,
+									new TableDayleValue().table.get(AccommodationType.DUPLO), 2),
 							true, LocalDateTime.now(),LocalDateTime.now());
 		accommodation2 = new Accommodation(
-							new AccommodationTypeInformations(
-									TypeAccommodation.SIMPLES,
-									new TableDayleValue().table.get(TypeAccommodation.SIMPLES), 1), 
+							new AccommodationTypeInformation(
+									AccommodationType.SIMPLES,
+									new TableDayleValue().table.get(AccommodationType.SIMPLES), 1),
 							true, LocalDateTime.now(),LocalDateTime.now());
 		recepcionist = new Receptionist("1", "admin", "admin@fatec.br", "admin", ReceptionistType.RECEPCIONIST, "Joana", "notes", LocalDateTime.now(),LocalDateTime.now());
 	}

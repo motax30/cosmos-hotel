@@ -1,16 +1,32 @@
 {{#form-for accommodation as |f|}}
   <div class="row">
-    <div class="col-md-12">
-      {{f.text-field "acmTypeInformations" label="Informações de Acomodação" required=true}}
+    <div class="col-md-6">
+      {{f.text-field "name" label="Nome" required=true}}
     </div>
 
     <div class="col-md-6">
-      {{f.text-field "isOcupied" label="Está Ocupado" required=true}}
+      {{f.select-field "type"
+                        promptIsSelectable=false
+                        includeBlank=true
+                        options=accommodation.typeSelect
+                        optionTargetPath="id"
+                        optionLabelPath="label"
+                        prompt="Escolha um Tipo"
+                        label="Tipo de AcomodaÃ§Ã£o" required=true}}
     </div>
+
+    <div class="col-md-6">
+      {{f.text-field "dailyPrice" label="PreÃ§o da DiÃ¡ria" required=true}}
+    </div>
+
+    <div class="col-md-6">
+      {{f.text-field "numberOfBeds" label="NÃºmero de Camas" required=true}}
+    </div>
+
   </div>
 
   <button class="btn btn-primary" {{ action "submit" accommodation }}>
-    {{ if model.isNew "Cadastrar Acomodação" "Editar Acomodação" }}
+    {{ if model.isNew "Cadastrar AcomodaÃ§Ã£o" "Editar AcomodaÃ§Ã£o" }}
   </button>
   {{#link-to "app.accommodations" class="btn btn-secondary"}}
     Cancelar

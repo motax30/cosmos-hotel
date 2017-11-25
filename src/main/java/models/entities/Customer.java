@@ -15,19 +15,19 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class Customer {
 	/* UUID */
-	@NonNull private String id = Generators.timeBasedGenerator().generate().toString();
+	private String id = Generators.timeBasedGenerator().generate().toString();
 
-	@NonNull private String cpfNumber;
-	@NonNull private String name;
+	private String cpfNumber;
+	private String name;
 	private String email;
-	@NonNull private List<Phone<Customer>> phones;
-	@NonNull private Address address;
+	private List<Phone<Customer>> phones;
+	private Address address;
 
 	private String notes;
 	private LocalDateTime birthday;
 
-	@NonNull private LocalDateTime createdAt;
-	@NonNull private LocalDateTime updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	
 }

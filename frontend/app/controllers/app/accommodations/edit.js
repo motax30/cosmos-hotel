@@ -6,7 +6,8 @@ export default Ember.Controller.extend({
       const flashMessages = Ember.get(this, 'flashMessages');
 			let self = this;
 			record.save().then(function() {
-        flashMessages.success(`Acomodação editada com sucesso em ${record.get('updatedAt')}!`);
+        let datetime = new Date().toLocaleString('pt-br');
+        flashMessages.success(`Acomodação editada com sucesso em ${datetime}!`);
 				self.transitionToRoute('app.accommodations.show', record.id);
 			});
 		}
