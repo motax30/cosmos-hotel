@@ -43,7 +43,9 @@ Na pasta do projeto, faça:
 
 Editar o arquivo .bowerrcc, caso não exista, criá-lo na pasta frontend do projeto onde o bower foi instalado:
 Inserir os dados correspondentes ao proxy, coforme abaixo
+  
   - Com dados de servidor e porta
+  
   {
   "proxy": "http://<url>:<port>",
   "https-proxy": "http://<url>:<port>"
@@ -55,6 +57,8 @@ Inserir os dados correspondentes ao proxy, coforme abaixo
   }
   --------------------------------------------------------------------------------------------------------------
   - Com dados de usuário,senha, servidor e porta
+  
+  {
   "proxy": "http://<username>:<password>@<url>:<port>",
   "https-proxy": "http://<username>:<password>@<url>:<port>"
   }
@@ -63,4 +67,3 @@ Inserir os dados correspondentes ao proxy, coforme abaixo
     "proxy": "http://adrianoams:123456789@192.168.132.55:8080",
   "https-proxy": "http://adrianoams:123456789@192.168.132.55:8080"
   }
-http://laurenthinoul.com/how-to-enable-bower-to-work-behind-a-proxy/
