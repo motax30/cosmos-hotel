@@ -17,9 +17,6 @@ import models.enumerates.AccommodationType;
 public class Accommodation {
 	/* UUID */
 	private String id = Generators.timeBasedGenerator().generate().toString();
-
-	private String name;
-
 	private AccommodationType type;
 
 	private double dailyPrice = 0;

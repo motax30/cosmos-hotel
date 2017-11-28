@@ -12,6 +12,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.uuid.Generators;
+
 import models.entities.Accommodation;
 import models.entities.Address;
 import models.entities.Booking;
@@ -55,15 +57,15 @@ public class BookingDataTest {
 		customer1 = new Customer("1", "15287269951", "joao", "joaopedro@email.com", phones, address, "cliente vip", LocalDateTime.now(),LocalDateTime.now(),LocalDateTime.now());
 		customer1 = new Customer("2", "22222222222", "pedro", "pedro@email.com", phones, address, "cliente vip", LocalDateTime.now(),LocalDateTime.now(),LocalDateTime.now());
 		accommodation1 = new Accommodation(
-							new AccommodationTypeInformation(
-									AccommodationType.DUPLO,
-									new TableDayleValue().table.get(AccommodationType.DUPLO), 2),
-							true, LocalDateTime.now(),LocalDateTime.now());
+									Generators.timeBasedGenerator().generate().toString(),
+									AccommodationType.DOUBLE,
+									new TableDayleValue().table.get(AccommodationType.DOUBLE),
+									2,LocalDateTime.now(),LocalDateTime.now());
 		accommodation2 = new Accommodation(
-							new AccommodationTypeInformation(
-									AccommodationType.SIMPLES,
-									new TableDayleValue().table.get(AccommodationType.SIMPLES), 1),
-							true, LocalDateTime.now(),LocalDateTime.now());
+								Generators.timeBasedGenerator().generate().toString(),
+								AccommodationType.SINGLE,
+								new TableDayleValue().table.get(AccommodationType.SINGLE),
+								2,LocalDateTime.now(),LocalDateTime.now());
 		recepcionist = new Receptionist("1", "admin", "admin@fatec.br", "admin", ReceptionistType.RECEPCIONIST, "Joana", "notes", LocalDateTime.now(),LocalDateTime.now());
 	}
 
