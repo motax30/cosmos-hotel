@@ -45,25 +45,26 @@ Editar o arquivo .bowerrcc, caso não exista, criá-lo na pasta frontend do proj
 Inserir os dados correspondentes ao proxy, coforme abaixo
   
   - Com dados de servidor e porta
-  
   {
-  "proxy": "http://<url>:<port>",
-  "https-proxy": "http://<url>:<port>"
+      "proxy": "http://<url>:<port>",
+      "https-proxy": "http://<url>:<port>"
   }
+  
   Exemplo:
   {
-  "proxy": "http://proxy.adrianomota.com:1234",
-  "https-proxy": "http://proxy.adrianomota.com:1234"
+      "proxy": "http://proxy.adrianomota.com:1234",
+      "https-proxy": "http://proxy.adrianomota.com:1234"
   }
   --------------------------------------------------------------------------------------------------------------
   - Com dados de usuário,senha, servidor e porta
   
   {
-  "proxy": "http://<username>:<password>@<url>:<port>",
-  "https-proxy": "http://<username>:<password>@<url>:<port>"
+      "proxy": "http://<username>:<password>@<url>:<port>",
+     "https-proxy": "http://<username>:<password>@<url>:<port>"
   }
+  
   Exemplo:
   {
-    "proxy": "http://adrianoams:123456789@192.168.132.55:8080",
-  "https-proxy": "http://adrianoams:123456789@192.168.132.55:8080"
+      "proxy": "http://adrianoams:123456789@192.168.132.55:8080",
+      "https-proxy": "http://adrianoams:123456789@192.168.132.55:8080"
   }
